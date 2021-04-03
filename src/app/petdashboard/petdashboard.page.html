@@ -1,0 +1,101 @@
+
+
+  <title>ADMIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ 
+        <nav  class="navbar navbar-expand-xl navbar-light bg-light">
+          <a routerLink='/admin' class="navbar-brand">
+            <img alt="logo" height="40"   src="assets/images/logo.png" > 
+            
+            FURCARE<b>  System</b></a>
+         
+       
+          
+            <div class="navbar-nav ml-auto">
+              <a routerLink='/admin' class="nav-item nav-link notifications"><i class="fas fa-arrow-left"> BACK</i></a>
+            
+            </div>
+          
+        </nav>
+ 
+<ion-content>
+
+ 
+  
+  
+ 
+  
+
+  
+  <div class="w3-container">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1.5"></ion-col>
+  
+ 
+  <div style="margin-bottom: 100px;" class="w3-center">
+    <div style="margin: 20px; margin-bottom: 50px;" class="zxc">
+      <ion-searchbar class="searchbar" onkeyup="myFunction()"style="width: 400px; display: inline; float: left;"></ion-searchbar>
+   
+        <button (click)="openadd()" class="btn btn-success" style="margin-top: 11px; display: inline; ">ADD</button>
+      </div>
+      <list>
+        <div *ngFor="let data of patients">
+          <ion-card class="patients">  
+            <div style="text-align: left !important;">
+              
+              <button (click)="gotopet(data.client_id)" class="patientname" style="justify-content: left;"><i *ngIf="data.species=='canine'" class="fas fa-dog"></i>
+                <i *ngIf="data.species=='feline'" class="fas fa-cat"></i>
+                &nbsp;{{data.name}}</button>
+            </div>
+            <div style="vertical-align: middle; margin: 10px;">
+              <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
+              <label style="display: block;"><i class="fas fa-at"></i>&nbsp;{{data.email}}</label>
+              <label style="display: block;"><i class="fas fa-mobile-alt"></i>&nbsp;{{data.mobile_number}}</label>
+            </div>
+          </ion-card>
+  
+  
+  
+  
+        
+        </div>
+  
+  </list>
+ 
+  
+  
+  
+  </div>
+ 
+  <ion-col size="1.5"></ion-col>
+
+</ion-row>
+
+  
+
+       
+  <div class="w3-center">
+    <div class="w3-container1" style="overflow-x:auto;">
+      
+    
+     
+    </div>  
+  </div>   
+  
+  
+
+ 
+</ion-grid>
+  
+  
+
+  </div>
+ 
+  
+  
+ 
+  
+</ion-content>

@@ -9,10 +9,10 @@ const routes: Routes = [
     loadChildren: () => import('../admin/admin.module').then( m => m.AdminPageModule)
   },
 
-  // {
-  //   path: 'petdashboard',
-  //   loadChildren: () => import('../petdashboard/petdashboard.module').then( m => m.PetdashboardPageModule)
-  // },
+  {
+    path: 'petdashboard',
+    loadChildren: () => import('../petdashboard/petdashboard.module').then( m => m.PetdashboardPageModule)
+  },
 
  
   

@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
       message: 'Invalid Credentials',
       duration: 2000
     });
+    
     const errortoast = await this.toastController.create({
       message: 'Error, Pleas Check your connection',
       duration: 2000
@@ -106,7 +107,7 @@ export class LoginPage implements OnInit {
          })
       }
       
-      
+    
       
     }, (error) => {
       console.log("Catch error ", error)

@@ -3,20 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { NgCalendarModule  } from 'ionic2-calendar';
 
-import { AdminPageRoutingModule } from './admin-routing.module';
+import { PetdashboardPageRoutingModule } from './petdashboard-routing.module';
 
-import { AdminPage } from './admin.page';
+import { PetdashboardPage } from './petdashboard.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminPageRoutingModule,
-    NgCalendarModule,
+    PetdashboardPageRoutingModule
   ],
-  declarations: [AdminPage]
+  declarations: [PetdashboardPage]
 })
-export class AdminPageModule {}
+export class PetdashboardPageModule {}

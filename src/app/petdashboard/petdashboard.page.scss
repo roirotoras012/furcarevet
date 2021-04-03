@@ -74,7 +74,6 @@
 	font-size: 20px;
 	margin-right: 5px;
 }
-
 .search-box {
 	position: relative;
 }	
@@ -83,17 +82,6 @@
 	padding-right: 35px;
 	border-radius: 3px !important;
 }
-nav{
-    
-    
-        transition: all 0.5s;
-        z-index: 997;
-       
-        box-shadow: 0px 2px 15px rgba(17, 112, 190, 0.932) !important;
-      
-
-}
-
 .search-box .input-group-addon {
 	min-width: 35px;
 	border: none;
@@ -110,7 +98,6 @@ nav{
 }
 .navbar .nav-item i {
 	font-size: 18px;
-    
 }
 .navbar .dropdown-item i {
 	font-size: 16px;
@@ -175,8 +162,21 @@ nav{
 		width: 100%;
 	}
 }
+@media (max-width: 1050px){
+	.btn{
+        margin: auto !important;
 
+        
+    }
+}
 
+@media (max-width: 768px){
+	.patients{
+        width: 100% !important;
+
+        
+    }
+}
 
 
 
@@ -512,6 +512,7 @@ hr {
 }
 
 @media only screen and (max-width: 600px) {
+   
     .doc {
         text-align: center !important;
         margin-left: 0px !important;
@@ -526,12 +527,17 @@ hr {
         float: none !important;
 
     }
-    .clients{
+    .patients{
         width: 100% !important;
         margin: auto !important;
         margin-bottom: 10px !important;
        
         
+
+    }
+    
+    .navbar-brand, .navbar-nav{
+        margin: auto;
 
     }
     
@@ -542,12 +548,12 @@ hr {
   
     
 }
-.searchbar{
+        .searchbar{
 
-    width: 100% !important;
+            width: auto !important;
 
-    
-}
+            
+        }
 
 
 .input_class{
@@ -710,6 +716,16 @@ table.table .avatar {
     vertical-align: middle;
     margin-right: 10px;
 }
+nav{
+    
+    
+    transition: all 0.5s;
+    z-index: 997;
+   
+    box-shadow: 0px 2px 15px rgba(17, 112, 190, 0.932) !important;
+  
+
+}
 .filter{
     margin-top: 26px;
     background-color: #008CBA; 
@@ -745,7 +761,7 @@ table.table .avatar {
 
     background-color: #247cf0;
     border-color: #247cf0;
-  
+    margin-left: 400px;
 
    
     
@@ -755,40 +771,29 @@ table.table .avatar {
 }
 
 
-.clients{
-   border-color: #555;
-    border-width: 1px;
-    border-radius: 7px;
-    width: 95%;
-    height: 200px;
-    padding: 10px;
-    font-size: 20px;
-    margin: 20px;
-    
 
-
-}
-
-.clientname{
-
-    border-bottom: solid #555;
-    margin: 10px;
-    height: 30px;
-    border-width: 1px;
-    
-
-
-
-}
-.information{
-    border: solid black;
-   
-    border-width: 1px;
-    border-radius: 7px;
-    
-    padding: 10px;
-    font-size: 20px;
-    background-color: #b3d1ff;
-
-}
-
+.patients{
+     border-color: #555;
+     border-width: 1px;
+     border-radius: 7px;
+     width: 1000px;
+     height: 200px;
+     padding: 10px;
+     font-size: 20px;
+     margin: 20px;
+     
+ 
+ 
+ }
+ 
+ .patientname{
+ 
+     border-bottom: solid #555;
+     margin: 10px;
+     height: 30px;
+     border-width: 1px;
+     
+ 
+ 
+ 
+ }

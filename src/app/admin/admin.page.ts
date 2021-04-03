@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject, LOCALE_ID } from '@angular/core'
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { CalendarComponent } from 'ionic2-calendar/';
 import { AuthenticationService } from './../services/authentication.service';
 import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddclientmodalComponent } from './addclientmodal/addclientmodal.component';
 import { ApiService } from '../services/api.service';
+import { formatDate } from '@angular/common';
+import { AlertController } from '@ionic/angular';
 declare var myFunction;
 @Component({
   selector: 'app-admin',
@@ -14,7 +17,17 @@ declare var myFunction;
 })
 export class AdminPage implements OnInit {
 clients: any = []
-  constructor(private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
+
+eventSource = [];
+  viewTitle: string;
+  calendar = {
+    mode: 'month',
+    currentDate: new Date(),
+  };
+  selectedDate: Date;
+  @ViewChild(CalendarComponent) myCal: CalendarComponent;
+ 
+  constructor(private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
 
     this.getclients()
     
@@ -22,6 +35,36 @@ clients: any = []
 
   ngOnInit() {
   }
+  next() {
+    this.myCal.slideNext();
+  }
+ 
+  back() {
+    this.myCal.slidePrev();
+  }
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
+  }
+  async onEventSelected(event) {
+    // Use Angular date pipe for conversion
+    let start = formatDate(event.startTime, 'medium', this.locale);
+    let end = formatDate(event.endTime, 'medium', this.locale);
+ 
+    const alert = await this.alertCtrl.create({
+      header: event.title,
+      subHeader: event.desc,
+      message: 'From: ' + start + '<br><br>To: ' + end,
+      buttons: ['OK'],
+    });
+    alert.present();
+  }
+  removeEvents() {
+    this.eventSource = [];
+  }
+
+
+
+  // <----->
   async logout() {
     
     this.authService.logout();
@@ -46,6 +89,14 @@ clients: any = []
    })
   
     
+  }
+
+  gotopet(client){
+    this.router.navigate(['/petdashboard',{client_id:client}])
+    
+   
+
+
   }
 
   getclients(){

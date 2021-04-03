@@ -18,7 +18,7 @@
           <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
             
             <div class="navbar-nav ml-auto" style="margin-right: 20px;">
-              <a routerLink='/admin' class="nav-item nav-link active" style="background-color:#b3d1ff; border-radius: 7px;">Home</a>
+              <a routerLink='/admin' class="nav-item nav-link active">Home</a>
               <a routerLink='/admin/schedules' class="nav-item nav-link">Schedules</a>
               
               <a routerLink='/admin/documents' class="nav-item nav-link">Reports</a>
@@ -53,21 +53,27 @@
     <ion-row>
       <ion-col size="1.5"></ion-col>
   
- 
+ <ion-col>
   <div style="margin-bottom: 100px;" class="w3-center">
     
     <div style="margin: 20px; margin-bottom: 50px;" class="zxc">
     <ion-searchbar class="searchbar" onkeyup="myFunction()"style="width: 400px; display: inline; float: left;"></ion-searchbar>
  
       <button (click)="openadd()" class="btn btn-success" style="margin-top: 11px; display: inline; ">ADD</button>
+      
     </div>
+ 
+    
     <div>
+      
+
+  <div class="information">
    <list>
       <div *ngFor="let data of clients">
         <ion-card class="clients">  
           <div style="text-align: left !important;">
             
-            <button class="clientname" style="justify-content: left;"><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
+            <button (click)="gotopet(data.client_id)" class="clientname" style="justify-content: left;"><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
           </div>
           <div style="vertical-align: middle; margin: 10px;">
             <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
@@ -83,14 +89,28 @@
       </div>
 
 </list>
-  
+</div>    
 </div>
   
   
   
   </div>
+</ion-col>
  
-  <ion-col size="1.5"></ion-col>
+  <ion-col size="1.5">
+    <div padding style="width: 40vh;"> <calendar
+      [eventSource]="eventSource"
+      [calendarMode]="calendar.mode"
+      [currentDate]="calendar.currentDate"
+      (onEventSelected)="onEventSelected($event)"
+      (onTitleChanged)="onViewTitleChanged($event)"
+      startHour="6"
+      endHour="20"
+      step="30"
+      startingDayWeek="1"
+    >
+    </calendar></div>
+  </ion-col>
 
 </ion-row>
 
