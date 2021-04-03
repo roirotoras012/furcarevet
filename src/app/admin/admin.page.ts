@@ -46,6 +46,7 @@ eventSource = [];
     this.viewTitle = title;
   }
   async onEventSelected(event) {
+    
     // Use Angular date pipe for conversion
     let start = formatDate(event.startTime, 'medium', this.locale);
     let end = formatDate(event.endTime, 'medium', this.locale);
@@ -60,6 +61,10 @@ eventSource = [];
   }
   removeEvents() {
     this.eventSource = [];
+  }
+
+  onTimeSelected(ev) {    
+    console.log(ev)
   }
 
 

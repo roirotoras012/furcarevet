@@ -51,10 +51,10 @@
   <div class="w3-container">
   <ion-grid>
     <ion-row>
-      <ion-col size="1.5"></ion-col>
+      
   
- <ion-col>
-  <div style="margin-bottom: 100px;" class="w3-center">
+ 
+  <div style="margin-bottom: 100px; margin-left: auto;" class="w3-center">
     
     <div style="margin: 20px; margin-bottom: 50px;" class="zxc">
     <ion-searchbar class="searchbar" onkeyup="myFunction()"style="width: 400px; display: inline; float: left;"></ion-searchbar>
@@ -95,22 +95,31 @@
   
   
   </div>
-</ion-col>
  
-  <ion-col size="1.5">
-    <div padding style="width: 40vh;"> <calendar
+  
+    <div style="width: 50vh; margin: 20px; margin-right: 100px; margin-left: auto; ">
+      <button fill="clear" (click)="back()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </button>
+      <button style="float: right;" fill="clear" (click)="next()">
+        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+      </button>
+      <h2 style="text-align: center;">{{ viewTitle }}</h2>
+     
+     
+      
+      <calendar
       [eventSource]="eventSource"
       [calendarMode]="calendar.mode"
       [currentDate]="calendar.currentDate"
       (onEventSelected)="onEventSelected($event)"
       (onTitleChanged)="onViewTitleChanged($event)"
-      startHour="6"
-      endHour="20"
-      step="30"
-      startingDayWeek="1"
+      (onTimeSelected)="onTimeSelected($event)"
+      
     >
     </calendar></div>
-  </ion-col>
+
+ 
 
 </ion-row>
 
