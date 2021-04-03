@@ -1,0 +1,121 @@
+
+
+  <title>ADMIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ 
+        <nav class="navbar navbar-expand-xl navbar-light bg-light">
+          <a routerLink='/admin' class="navbar-brand">
+            <img alt="logo" height="40"   src="assets/images/logo.png" > 
+            
+            FURCARE<b>  System</b></a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+       
+          <!-- Collection of nav links, forms, and other content for toggling -->
+          <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+            
+            <div class="navbar-nav ml-auto" style="margin-right: 20px;">
+              <a routerLink='/admin' class="nav-item nav-link active" style="background-color:#b3d1ff; border-radius: 7px;">Home</a>
+              <a routerLink='/admin/schedules' class="nav-item nav-link">Schedules</a>
+              
+              <a routerLink='/admin/documents' class="nav-item nav-link">Reports</a>
+              <a routerLink='/admin/manage-users' class="nav-item nav-link">Manage Users</a>
+            </div>
+           
+            <div class="navbar-nav">
+              <a href="#" class="nav-item nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a>
+              <a href="#" class="nav-item nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a>
+              <div class="nav-item dropdown">
+                <a 
+                
+                (click)="logout()"
+                class="nav-link dropdown-toggle user-action"><button> </button></a>
+                <!-- (click)="acc_popover($event)" -->
+              </div>
+            </div>
+          </div>
+        </nav>
+ 
+<ion-content>
+
+ 
+  
+  
+ 
+  
+
+  
+  <div class="w3-container">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1.5"></ion-col>
+  
+ 
+  <div style="margin-bottom: 100px;" class="w3-center">
+    
+    <div style="margin: 20px; margin-bottom: 50px;" class="zxc">
+    <ion-searchbar class="searchbar" onkeyup="myFunction()"style="width: 400px; display: inline; float: left;"></ion-searchbar>
+ 
+      <button (click)="openadd()" class="btn btn-success" style="margin-top: 11px; display: inline; ">ADD</button>
+    </div>
+    <div>
+   <list>
+      <div *ngFor="let data of clients">
+        <ion-card class="clients">  
+          <div style="text-align: left !important;">
+            
+            <button class="clientname" style="justify-content: left;"><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
+          </div>
+          <div style="vertical-align: middle; margin: 10px;">
+            <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
+            <label style="display: block;"><i class="fas fa-at"></i>&nbsp;{{data.email}}</label>
+            <label style="display: block;"><i class="fas fa-mobile-alt"></i>&nbsp;{{data.mobile_number}}</label>
+          </div>
+        </ion-card>
+
+
+
+
+      
+      </div>
+
+</list>
+  
+</div>
+  
+  
+  
+  </div>
+ 
+  <ion-col size="1.5"></ion-col>
+
+</ion-row>
+
+  
+
+       
+  <div class="w3-center">
+    <div class="w3-container1" style="overflow-x:auto;">
+      
+    
+     
+    </div>  
+  </div>   
+  
+  
+
+ 
+</ion-grid>
+  
+  
+
+  </div>
+ 
+  
+  
+ 
+  
+</ion-content>
