@@ -24,6 +24,10 @@ export class AddpetmodalComponent implements OnInit {
   constructor(private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { }
 
   ngOnInit() {}
+  dismissModal(){
+    this.modalCtrl.dismiss();
+   
+  }
   async add_client(){
 
     this.client_id = this.navParams.get('client_id');
@@ -39,10 +43,15 @@ export class AddpetmodalComponent implements OnInit {
  });
 
 
- if(this.name && this.species && this.birth && this.color && this.breed && this.gender && this.microchip && this.dateofimplant){
+ if(this.name && this.species && this.birth && this.color && this.breed && this.gender ){
    this.api.userinfo().then((user)=>{
      
-
+      if(this.microchip == undefined){
+        this.microchip = ""
+      }
+      if(this.dateofimplant == undefined){
+        this.dateofimplant = ""
+      }
      
      const formData: FormData = new FormData();
      formData.append('name', this.name)
@@ -62,18 +71,11 @@ export class AddpetmodalComponent implements OnInit {
        patientadded.present();
        this.modalCtrl.dismiss({
          'dismissed': true
-       });;
+       });
       }
       if(res == "error"){
        patientnotadded.present();
-       this.name= ""
-       this.species= ""
-       this.birth=""
-       this.color=""
-       this.dateofimplant= ""
-       this.breed= ""
-       this.microchip=""
-       this.gender=""
+     
    
    
       }

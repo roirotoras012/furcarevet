@@ -9,6 +9,9 @@ import { AddclientmodalComponent } from './addclientmodal/addclientmodal.compone
 import { ApiService } from '../services/api.service';
 import { formatDate } from '@angular/common';
 import { AlertController } from '@ionic/angular';
+import { ServicepopComponent } from '../components/servicepop/servicepop.component';
+import { PopoverController } from '@ionic/angular';
+
 declare var myFunction;
 @Component({
   selector: 'app-admin',
@@ -17,22 +20,34 @@ declare var myFunction;
 })
 export class AdminPage implements OnInit {
 clients: any = []
-
+event = [];
 eventSource = [];
+event1 = {
+  title: '',
+  desc: '',
+  startTime: null,
+  endTime: null,
+  allDay: true
+};
   viewTitle: string;
   calendar = {
     mode: 'month',
     currentDate: new Date(),
   };
+
+  
   selectedDate: Date;
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
-  constructor(private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
-
+  constructor(private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
+    
     this.getclients()
     
   }
-
+  ionViewWillEnter() {
+   
+    this.getschedule()
+  }
   ngOnInit() {
   }
   next() {
@@ -64,7 +79,7 @@ eventSource = [];
   }
 
   onTimeSelected(ev) {    
-    console.log(ev)
+    
   }
 
 
@@ -96,6 +111,51 @@ eventSource = [];
     
   }
 
+  
+getschedule(){
+
+
+  this.api.get("https://localhost/furcare/user/getschedule").subscribe((sched)=>{
+   
+  
+   
+  for(let data of Object.values(sched)){
+  
+    this.event1.title = data.title
+    this.event1.desc = data.description
+    this.event1.startTime = new Date(data.startTime)
+    this.event1.endTime = new Date(data.endTime)
+    if(data.allDay == 1){
+      this.event1.allDay = true
+
+    }else{
+      this.event1.allDay = false
+    }
+    
+    this.eventSource.push(this.event1)
+    
+    this.event1 = {
+      title: '',
+      desc: '',
+      startTime: null,
+      endTime: null,
+      allDay: true
+    };
+    this.myCal.loadEvents();
+
+    
+  }
+ 
+   
+  
+    
+
+  })
+
+
+
+}
+
   gotopet(client){
     this.router.navigate(['/petdashboard',{client_id:client}])
     
@@ -106,10 +166,10 @@ eventSource = [];
 
   getclients(){
       this.api.get("https://localhost/furcare/user/getclients").subscribe(res => {
-        console.log(res)
+   
        
           this.clients = res;
-          console.log(res)
+         
         
         
       

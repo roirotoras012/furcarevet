@@ -68,12 +68,12 @@
       
 
   <div class="information">
-   <list>
+   <ion-list style="background-color: #b3d1ff;">
       <div *ngFor="let data of clients">
         <ion-card class="clients">  
           <div style="text-align: left !important;">
             
-            <button (click)="gotopet(data.client_id)" class="clientname" style="justify-content: left;"><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
+            <button (click)="gotopet(data.client_id)" class="clientname" ><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
           </div>
           <div style="vertical-align: middle; margin: 10px;">
             <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
@@ -88,7 +88,7 @@
       
       </div>
 
-</list>
+</ion-list>
 </div>    
 </div>
   

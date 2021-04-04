@@ -4,6 +4,12 @@ import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddpetmodalComponent } from './addpetmodal/addpetmodal.component';
 import { ApiService } from '../services/api.service';
+import { ServicepopComponent } from '../components/servicepop/servicepop.component';
+import { PopoverController } from '@ionic/angular';
+import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
+
+
+
 declare var myFunction;
 @Component({
   selector: 'app-petdashboard',
@@ -13,7 +19,7 @@ declare var myFunction;
 export class PetdashboardPage implements OnInit {
   client_id: any;
   patients: any = []
-  constructor(private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
+  constructor(private popover: PopoverController,private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
 
     this.getpatients();
    }
@@ -37,6 +43,18 @@ export class PetdashboardPage implements OnInit {
     this.getpatients();
     
   }
+  async servicepop(ev:any){
+
+    const popover = await this.popover.create({
+      event: ev,
+      component: ServicepopComponent,
+      cssClass: 'service-popover'
+      
+    })
+    return await popover.present()
+
+
+  }
 
   getpatients(){
     this.client_id = this.route.snapshot.params['client_id']
@@ -57,6 +75,28 @@ export class PetdashboardPage implements OnInit {
 
 
 
+}
+
+async schedule(patient_id){
+
+  const modal = await this.modalCtrl.create({
+    component: ScheduleModalPage,
+    cssClass: 'cal-modal',
+    componentProps: {
+      client_id : this.client_id,
+      patient_id: patient_id
+
+
+
+    }
+    
+
+  });
+  
+  await modal.present();
+  await modal.onWillDismiss();
+
+  
 }
 
 }

@@ -24,3 +24,16 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+.service-popover .popover-content{ width: 150px; 
+
+    border: solid green;
+    border-width: 1px;
+}
+
+.cal-modal {
+
+    --height: 80%;
+    --border-radius: 10px   ;
+    padding: 25px;
+   
+}

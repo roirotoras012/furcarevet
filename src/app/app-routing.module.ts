@@ -22,6 +22,10 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
     loadChildren: () => import('./members/member-routing.module').then( m => m.MemberRoutingModule)
   },
+  {
+    path: 'schedule-modal',
+    loadChildren: () => import('./components/schedule-modal/schedule-modal.module').then( m => m.ScheduleModalPageModule)
+  },
   
   
   

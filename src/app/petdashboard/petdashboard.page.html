@@ -41,20 +41,45 @@
    
         <button (click)="openadd()" class="btn btn-success" style="margin-top: 11px; display: inline; ">ADD</button>
       </div>
-      <list>
+      <div class="information">
+      <ion-list>
         <div *ngFor="let data of patients">
           <ion-card class="patients">  
-            <div style="text-align: left !important;">
+            <div style="text-align: left !important; margin: 5px;border-bottom: solid black; border-width: 1px;border-color: #555;">
               
               <button (click)="gotopet(data.client_id)" class="patientname" style="justify-content: left;"><i *ngIf="data.species=='canine'" class="fas fa-dog"></i>
                 <i *ngIf="data.species=='feline'" class="fas fa-cat"></i>
                 &nbsp;{{data.name}}</button>
+                <div class="micro">
+                <label class="micro" style="display: block; text-align: right; margin: 5px;"><b>Microchip:</b> &nbsp;{{data.microchip}}</label>
+                <label class="micro" style="display: block; text-align: right; margin: 5px;"><b>Date Implanted:</b>&nbsp;{{data.dateofimplant}}</label>
+              </div>
+              </div>
+            <div style="vertical-align: middle; margin: 10px; text-align: left;">
+              <div class="petbut" style="float: right; margin: 10px; padding: 10px;">
+                <button style="display: block; margin: auto; border-radius: 4px;" (click)="openadd()" class="btn1 btn-success"  >Medical History</button>
+                
+                <button style="margin: 10px; border-radius: 4px;"  class="btn1 btn-success" (click)="servicepop($event)" >Service</button>
+                <button style="border-radius: 4px;" (click)="schedule(data.patient_id)" class="btn1 btn-success"  >Add Schedule</button>
+    
+              </div>
+              <div class="zxczxc1" style="float: left;">
+                <label style="display: block;"><b>Species:</b> &nbsp;{{data.species}}</label>
+                <label style="display: block;"><b>Breed</b>: &nbsp;{{data.breed}}</label>
+                <label style="display: block;"><b>Color</b>: &nbsp;{{data.color}}</label>
+                
+              </div>
+            
+           
+            
+            <div class="zxczxc" style="text-align: right; margin-right: 50vh;">
+              <label style="display: block;"><b>Birth:</b> &nbsp;{{data.birth}}</label>
+              <label style="display: block;"><b>Gender</b>: &nbsp;{{data.gender}}</label>
+              
             </div>
-            <div style="vertical-align: middle; margin: 10px;">
-              <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
-              <label style="display: block;"><i class="fas fa-at"></i>&nbsp;{{data.email}}</label>
-              <label style="display: block;"><i class="fas fa-mobile-alt"></i>&nbsp;{{data.mobile_number}}</label>
+            
             </div>
+           
           </ion-card>
   
   
@@ -63,8 +88,8 @@
         
         </div>
   
-  </list>
- 
+      </ion-list>
+ </div>
   
   
   

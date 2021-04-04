@@ -173,7 +173,9 @@
 @media (max-width: 768px){
 	.patients{
         width: 100% !important;
-
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
+    
         
     }
 }
@@ -527,14 +529,46 @@ hr {
         float: none !important;
 
     }
-    .patients{
-        width: 100% !important;
+    .petbut{
+        float: none !important;
+        display: block !important;
+
+
+    }
+    .patientname{
+
+        float: none !important;
+    }
+    .micro {
+
+        text-align: left !important;    
+        
+    }
+    .zxczxc{
+        text-align: left !important;
         margin: auto !important;
-        margin-bottom: 10px !important;
-       
+    }
+    .zxczxc1{
+        float: none !important;
+
+    }
+    .patients{
+        width: auto !important;
+        margin: auto !important;
+        margin-bottom: 40px !important;
+        
+      
+        
         
 
     }
+   
+    .btn{
+        display: block !important;
+
+
+    }
+    
     
     .navbar-brand, .navbar-nav{
         margin: auto;
@@ -788,11 +822,12 @@ nav{
  
  .patientname{
  
-     border-bottom: solid #555;
-     margin: 10px;
+     border: solid #555;
+     border-radius: 5px;
      height: 30px;
-     border-width: 1px;
-     
+     border-width: 2px;
+     background-color: white;
+     float: left;
  
  
  

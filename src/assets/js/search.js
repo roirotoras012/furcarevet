@@ -1,6 +1,6 @@
 function myFunction() {
   const searchbar = document.querySelector('ion-searchbar');
-  const items = Array.from(document.querySelector('list').children);
+  const items = Array.from(document.querySelector('ion-list').children);
   
   searchbar.addEventListener('ionInput', handleInput);
   
