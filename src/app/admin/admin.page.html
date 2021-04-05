@@ -17,7 +17,7 @@
           <!-- Collection of nav links, forms, and other content for toggling -->
           <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
             
-            <div class="navbar-nav ml-auto" style="margin-right: 20px;">
+            <div class="navbar-nav ml-auto" style="margin-right: 40px;">
               <a routerLink='/admin' class="nav-item nav-link active">Home</a>
               <a routerLink='/admin/schedules' class="nav-item nav-link">Schedules</a>
               
@@ -25,18 +25,19 @@
               <a routerLink='/admin/manage-users' class="nav-item nav-link">Manage Users</a>
             </div>
            
-            <div class="navbar-nav">
-              <a href="#" class="nav-item nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a>
-              <a href="#" class="nav-item nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a>
-              <div class="nav-item dropdown">
-                <a 
-                
-                (click)="logout()"
-                class="nav-link dropdown-toggle user-action"><button> </button></a>
-                <!-- (click)="acc_popover($event)" -->
-              </div>
-            </div>
+        
           </div>
+        
+            <a href="#" class="nav-item nav-link notifications" style="margin: auto; color: black;"><i class="fa fa-bell-o" ></i><span class="badge">1</span></a>
+          
+          
+              <a style="margin: auto;"
+              
+              (click)="logout()"
+              class="nav-link dropdown-toggle user-action"><button> </button></a>
+              <!-- (click)="acc_popover($event)" -->
+          
+          
         </nav>
  
 <ion-content>

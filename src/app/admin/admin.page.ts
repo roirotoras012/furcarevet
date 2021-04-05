@@ -20,9 +20,11 @@ declare var myFunction;
 })
 export class AdminPage implements OnInit {
 clients: any = []
+asd = new Date
 event = [];
 eventSource = [];
 event1 = {
+  schedule_id : '',
   title: '',
   desc: '',
   startTime: null,
@@ -40,8 +42,10 @@ event1 = {
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
   constructor(private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
-    
+    console.log(this.eventSource)
     this.getclients()
+    let asd: any = new Date
+   
     
   }
   ionViewWillEnter() {
@@ -49,6 +53,7 @@ event1 = {
     this.getschedule()
   }
   ngOnInit() {
+   
   }
   next() {
     this.myCal.slideNext();
@@ -120,7 +125,7 @@ getschedule(){
   
    
   for(let data of Object.values(sched)){
-  
+    this.event1.schedule_id = data.schedule_id
     this.event1.title = data.title
     this.event1.desc = data.description
     this.event1.startTime = new Date(data.startTime)
@@ -135,6 +140,7 @@ getschedule(){
     this.eventSource.push(this.event1)
     
     this.event1 = {
+      schedule_id:'',
       title: '',
       desc: '',
       startTime: null,
@@ -145,7 +151,10 @@ getschedule(){
 
     
   }
- 
+    //--- compare date interval in days ---//
+  // let asd: any = new Date
+  // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
+  // console.log(zxc)
    
   
     
