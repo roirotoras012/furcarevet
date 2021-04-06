@@ -11,7 +11,23 @@ import { formatDate } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { ServicepopComponent } from '../components/servicepop/servicepop.component';
 import { PopoverController } from '@ionic/angular';
+import { observable, Observable, Subscription, interval } from 'rxjs';
+import { webSocket } from 'rxjs/webSocket'
+import { switchMap, map} from 'rxjs/operators';
+import { LoadingController } from '@ionic/angular';
+import { ScheduleService } from '../services/schedule.service'
+import { NotificationPage } from '../components/notification/notification.page';
+export interface Clients {
 
+  client_id: any;
+  address: string;
+  adder: any;
+  email: string;
+  mobile_number: string;
+  name: string;
+  subject:any;
+}
+ 
 declare var myFunction;
 @Component({
   selector: 'app-admin',
@@ -19,10 +35,14 @@ declare var myFunction;
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  notifydata2: any = []
+  notifydata: any = []
 clients: any = []
+clients2 : Observable<Clients[]>
 asd = new Date
-event = [];
+event: any = [];
 eventSource = [];
+subscription: Subscription;
 event1 = {
   schedule_id : '',
   title: '',
@@ -37,22 +57,36 @@ event1 = {
     currentDate: new Date(),
   };
 
+
   
   selectedDate: Date;
+  
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
-  constructor(private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
-    console.log(this.eventSource)
-    this.getclients()
+  constructor(private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
+    this.notif()
+
     let asd: any = new Date
-   
+    
+    this.getclients()
+    interval(500)
+    
+    .subscribe(() => {
+      // place you code here
+
+    });
     
   }
   ionViewWillEnter() {
    
     this.getschedule()
+    this.notif()
   }
   ngOnInit() {
+   
+//     const source = interval(10000);
+
+// this.subscription = source.subscribe(val => this.getclients());
    
   }
   next() {
@@ -74,17 +108,69 @@ event1 = {
     const alert = await this.alertCtrl.create({
       header: event.title,
       subHeader: event.desc,
-      message: 'From: ' + start + '<br><br>To: ' + end,
-      buttons: ['OK'],
+      message: start.slice(0,12), 
+      // message: 'From: ' + start + '<br><br>To: ' + end,
+      buttons: ['OK', {
+
+        text: 'Delete',
+        handler: (evemt)=>{
+          
+          this.deleteconfirm(event);
+
+        }
+
+      }],
     });
     alert.present();
   }
+  
+
+  
   removeEvents() {
     this.eventSource = [];
   }
 
+
   onTimeSelected(ev) {    
     
+  }
+
+  async deleteconfirm(event){
+    let ev = event
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure you want to delete this shedule?',
+      message: ev.title+'<br>'+ev.description,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.deletesched(ev);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+     
+
+
+  }
+  
+  async deletesched(ev){
+    this.api.get("https://localhost/furcare/user/deletesched?schedule_id="+ev.schedule_id).subscribe((res)=>{
+
+      this.getschedule()
+      this.notif()
+    
+    })
+
   }
 
 
@@ -118,7 +204,7 @@ event1 = {
 
   
 getschedule(){
-
+  this.eventSource = [];
 
   this.api.get("https://localhost/furcare/user/getschedule").subscribe((sched)=>{
    
@@ -165,7 +251,10 @@ getschedule(){
 
 }
 
-  gotopet(client){
+
+
+  async gotopet(client){
+   
     this.router.navigate(['/petdashboard',{client_id:client}])
     
    
@@ -173,25 +262,30 @@ getschedule(){
 
   }
 
+
   getclients(){
+
+    
       this.api.get("https://localhost/furcare/user/getclients").subscribe(res => {
    
        
           this.clients = res;
+      
+        
          
         
+       
         
+       
       
     }, err => {
       
     console.log(err);
     });
 
-      
-
-
-
   }
+  
+  
 
   async openadd(){
     const modal = await this.modalCtrl.create({
@@ -205,5 +299,70 @@ getschedule(){
     await modal.onWillDismiss();
     this.getclients();
     
+  }
+
+  
+  notif(){
+    this.event = []
+    this.notifydata = []
+    this.notifydata2 = []
+    let asd = new Date
+    // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
+    // console.log(zxc)
+    this.sched.notification().subscribe((res)=>{
+
+      this.event = res
+     
+      for(let i = 0 ; i < this.event.length; i++){
+        let startTime = new Date(this.event[i].startTime)
+       
+       let daysleft = (Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))
+        // if((Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))>=3){
+
+        //   this.notifydata.push(this.event[i])
+
+        // }  
+
+        if(daysleft <= 3 && daysleft >= 0){
+
+          this.notifydata.push(this.event[i])
+        this.notifydata2.push({
+            'schedule_id': this.event[i].schedule_id,
+            'daysleft': daysleft
+
+        })
+         
+        }
+        
+      
+      }
+    
+      
+       
+
+
+      
+    
+    })
+
+  }
+  async notifypop(ev:any){
+
+    const popover = await this.popover.create({
+      event: ev,
+      component: NotificationPage,
+      cssClass: 'notify-popover',
+      componentProps: {
+        notify: this.notifydata,
+        notify2: this.notifydata2
+
+
+      }
+      
+      
+    })
+    return await popover.present()
+
+
   }
 }

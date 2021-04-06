@@ -1,0 +1,31 @@
+
+  <div class="notification" *ngFor="let data of notif; let i = index">
+    <ion-list>
+      <li>  
+        <p><b>
+          You have a schedule <strong *ngIf="data.days == 0; else isZero">today</strong><ng-template #isZero>in {{data.days}}  day/s </ng-template> added by {{data.name}}
+        </b>
+        </p>
+        <p>
+          <b>Title: </b>{{data.title}}<br>
+          <b>Description: </b>{{data.desc}}<br>
+          <b>Schedule Date: </b>{{data.startTime.slice(0,16)}}
+
+        </p>
+
+
+      </li>
+
+
+
+
+
+
+    </ion-list>
+  </div>
+
+
+
+
+
+

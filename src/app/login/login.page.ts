@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
-
+import { LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/Storage'
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
 
 
  
-  constructor(private toastController: ToastController,private platform: Platform,private router: Router, private http: HttpClient,private storage: Storage,private authService: AuthenticationService) { 
+  constructor(private loading : LoadingController,private toastController: ToastController,private platform: Platform,private router: Router, private http: HttpClient,private storage: Storage,private authService: AuthenticationService) { 
 
     
     
@@ -58,7 +58,15 @@ export class LoginPage implements OnInit {
       message: 'Error, Pleas Check your connection',
       duration: 2000
     });
-   
+    const loading = await this.loading.create({
+      cssClass: 'my-custom-class',
+      message: 'Loading..',
+      duration: 200,
+ 
+      
+    });
+     await loading.present();
+     await loading.onDidDismiss();
 
     const formData: FormData = new FormData();
     formData.append('username', this.username)

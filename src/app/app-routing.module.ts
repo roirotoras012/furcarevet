@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'schedule-modal',
     loadChildren: () => import('./components/schedule-modal/schedule-modal.module').then( m => m.ScheduleModalPageModule)
   },
+  {
+    path: 'notification',
+    loadChildren: () => import('./components/notification/notification.module').then( m => m.NotificationPageModule)
+  },
   
   
   

@@ -17,6 +17,7 @@ export class ScheduleModalPage implements OnInit {
   patient_id: any;
   client_id : any;
   user_id: any;
+  
   viewTitle: string;
   calendar = {
     mode: 'month',
@@ -148,6 +149,7 @@ export class ScheduleModalPage implements OnInit {
   
   
   }
+  
 
 
 }

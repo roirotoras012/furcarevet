@@ -13,9 +13,10 @@
           <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
           </button>
+          
        
           <!-- Collection of nav links, forms, and other content for toggling -->
-          <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+          <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start" style="margin-right: 50px;">
             
             <div class="navbar-nav ml-auto" style="margin-right: 40px;">
               <a routerLink='/admin' class="nav-item nav-link active">Home</a>
@@ -28,7 +29,7 @@
         
           </div>
         
-            <a href="#" class="nav-item nav-link notifications" style="margin: auto; color: black;"><i class="fa fa-bell-o" ></i><span class="badge">1</span></a>
+            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
           
           
               <a style="margin: auto;"
@@ -98,7 +99,8 @@
   </div>
  
   
-    <div style="width: 50vh; margin: 20px; margin-right: 100px; margin-left: auto; ">
+    <div style="width: 50vh; margin: 20px; margin-right: 100px; margin-left: auto; margin-top: 40px; ">
+
       <button fill="clear" (click)="back()">
         <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
       </button>
