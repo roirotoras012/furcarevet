@@ -2,6 +2,11 @@
     padding: 7px;
     border-bottom: solid black;
     border-width: 1px;
+    
 
 
 }
+.ion-content::-webkit-scrollbar {
+    display: none;
+  }
+  

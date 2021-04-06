@@ -29,7 +29,7 @@ export class NotificationPage implements OnInit {
         startTime: this.notify[i].startTime,
         description: this.notify[i].description,
         name: this.notify[i].name,
-
+        title: this.notify[i].title,
         days: this.notify2[i].daysleft
 
 
