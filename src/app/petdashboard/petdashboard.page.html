@@ -37,13 +37,13 @@
  
   <div style="margin-bottom: 100px;" class="w3-center">
     <div style="margin: 20px; margin-bottom: 50px;" class="zxc">
-      <ion-searchbar class="searchbar" onkeyup="myFunction()"style="width: 400px; display: inline; float: left;"></ion-searchbar>
+      <ion-searchbar class="searchbar" #search debounce="500" (ionChange)="_ionChange($event)"style="width: 400px; display: inline; float: left;"></ion-searchbar>
    
         <button (click)="openadd()" class="btn btn-success" style="margin-top: 11px; display: inline; ">ADD</button>
       </div>
       <div class="information">
       <ion-list>
-        <ion-list *ngFor="let data of patients">
+        <ion-list *ngFor="let data of patientsfilter">
           <ion-card class="patients">  
             <div style="text-align: left !important; margin: 5px;border-bottom: solid black; border-width: 1px;border-color: #555;">
               
@@ -57,6 +57,7 @@
               </div>
             <div style="vertical-align: middle; margin: 10px; text-align: left;">
               <div class="petbut" style="float: right; margin: 10px; padding: 10px;">
+                <button style="display: block; margin: auto; border-radius: 4px; margin-bottom: 5px   ;" (click)="treatment(data)" class="btn1 btn-success"  >Treatment Sheet</button>
                 <button style="display: block; margin: auto; border-radius: 4px;" (click)="openadd()" class="btn1 btn-success"  >Medical History</button>
                 
                 <button style="margin: 10px; border-radius: 4px;"  class="btn1 btn-success" (click)="servicepop($event)" >Service</button>

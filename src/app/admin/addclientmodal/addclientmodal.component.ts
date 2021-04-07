@@ -34,6 +34,11 @@ export class AddclientmodalComponent implements OnInit {
     duration: 2000
     
   });
+  const error = await this.toastController.create({
+    message: 'Connection Error',
+    duration: 2000
+    
+  });
 
 
   if(this.name && this.email && this.mobilenumber && this.address){
@@ -69,7 +74,7 @@ export class AddclientmodalComponent implements OnInit {
       
     }, err => {
       
-    console.log(err);
+      error.present();
     });
   
 

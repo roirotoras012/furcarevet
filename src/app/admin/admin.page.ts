@@ -64,21 +64,16 @@ event1 = {
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
   constructor(private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
-    this.notif()
+    
 
     let asd: any = new Date
     
-    this.getclients()
-    interval(500)
     
-    .subscribe(() => {
-      // place you code here
-
-    });
+  
     
   }
   ionViewWillEnter() {
-   
+    this.getclients()
     this.getschedule()
     this.notif()
   }
@@ -113,7 +108,7 @@ event1 = {
       buttons: ['OK', {
 
         text: 'Delete',
-        handler: (evemt)=>{
+        handler: ()=>{
           
           this.deleteconfirm(event);
 

@@ -30,6 +30,10 @@ const routes: Routes = [
     path: 'notification',
     loadChildren: () => import('./components/notification/notification.module').then( m => m.NotificationPageModule)
   },
+  {
+    path: 'treatmentsheet',
+    loadChildren: () => import('./components/treatmentsheet/treatmentsheet.module').then( m => m.TreatmentsheetPageModule)
+  },
   
   
   

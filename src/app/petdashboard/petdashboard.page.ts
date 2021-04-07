@@ -7,7 +7,7 @@ import { ApiService } from '../services/api.service';
 import { ServicepopComponent } from '../components/servicepop/servicepop.component';
 import { PopoverController } from '@ionic/angular';
 import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
-
+import { TreatmentsheetPage } from '../components/treatmentsheet/treatmentsheet.page';
 
 
 declare var myFunction;
@@ -19,6 +19,7 @@ declare var myFunction;
 export class PetdashboardPage implements OnInit {
   client_id: any;
   patients: any = []
+  patientsfilter: any = []
   constructor(private popover: PopoverController,private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
 
     this.getpatients();
@@ -55,6 +56,19 @@ export class PetdashboardPage implements OnInit {
 
 
   }
+  _ionChange(event) {
+    const val = event.target.value;
+
+    this.patientsfilter = this.patients;
+    if (val && val.trim() != '') {
+      this.patientsfilter = this.patientsfilter.filter((item: any) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+  
+    }
+    console.log(this.patientsfilter)
+    // this.search.getInputElement().then(item => console.log(item))
+  }
 
   getpatients(){
     this.client_id = this.route.snapshot.params['client_id']
@@ -62,6 +76,7 @@ export class PetdashboardPage implements OnInit {
       console.log(res)
      
         this.patients = res;
+        this.patientsfilter = this.patients
         console.log(res)
       
       
@@ -85,6 +100,29 @@ async schedule(patient_id){
     componentProps: {
       client_id : this.client_id,
       patient_id: patient_id
+
+
+
+    }
+    
+
+  });
+  
+  await modal.present();
+  await modal.onWillDismiss();
+
+  
+}
+
+
+async treatment(data){
+
+  const modal = await this.modalCtrl.create({
+    component: TreatmentsheetPage,
+   
+    componentProps: {
+      client_id : this.client_id,
+      patient: data
 
 
 
