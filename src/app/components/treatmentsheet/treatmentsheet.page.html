@@ -1,6 +1,6 @@
 
  
-    <ion-content>
+    <div id="content" #content>
       
       <div class="modal-header">						
         <h4 class="modal-title">Treatment Sheet</h4>
@@ -10,7 +10,7 @@
         <div class="form-group">
          
           <label><b>Diagnosis/Findings: </b></label>
-          <input type="text" class="form-control" (input)="diagnosis = $event.target.value;" required>
+          <ion-textarea type="text" class="form-control" (input)="diagnosis = $event.target.value;" required></ion-textarea>
           
           
        <div class="row">  
@@ -121,9 +121,10 @@
       </div>
       
       <div class="modal-footer">
+        <input type="button" class="btn btn-default" (click)="makePDF()"  value="Export">
         <input type="button" class="btn btn-default" (click)="dismissModal()"  value="Cancel">
         <input type="submit" class="btn btn-success" (click)="addsheet()" value="Add">
       </div>
     
  
-    </ion-content>
+    </div>

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { ToastController, NavParams } from '@ionic/angular';
-
+import { jsPDF } from 'jspdf'
+import html2canvas from 'html2canvas'
+import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
+import { ParsedVariable } from '@angular/compiler';
 @Component({
   selector: 'app-treatmentsheet',
   templateUrl: './treatmentsheet.page.html',
@@ -10,7 +13,7 @@ import { ToastController, NavParams } from '@ionic/angular';
 })
 export class TreatmentsheetPage implements OnInit {
   patient: any = []
-
+  title = 'SADASDASD'
   diagnosis: any;
   bw: any;
   hr: any;
@@ -28,7 +31,7 @@ export class TreatmentsheetPage implements OnInit {
   pm: any;
   user_Id: any;
   client_id: any;
-  
+  @ViewChild('content', {static: false}) el!: ElementRef;
 
   constructor(private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { 
 
@@ -40,8 +43,61 @@ export class TreatmentsheetPage implements OnInit {
 
   }
 
+
+
   ngOnInit() {
   }
+  makePDF(){
+    let pdf = new jsPDF('p', 'mm', [297, 210]);
+    pdf.text("FURCARE VETERINARY CLINIC", 65, 10)
+    pdf.text("______________________________________________________________", 10, 12)
+    pdf.text("TREATMENT SHEET", 10, 20)
+    pdf.text("Date/Day: "+ new Date().toISOString().slice(0,10), 130, 20)
+    pdf.text("Diagnosis/Findings: "+ this.diagnosis, 15, 30)
+  
+    pdf.text("Patient Name: "+ this.patient.name, 15, 40)
+    pdf.text("Breed: "+ this.patient.breed, 110, 40)
+    
+    pdf.text("BW: "+ this.bw, 15, 50)
+    pdf.text("HR: "+ this.hr, 15, 60)
+    pdf.text("MM: "+ this.mm, 15, 70)
+    pdf.text("PR: "+ this.pr, 15, 80)
+
+    pdf.text("Temp: "+ this.bw, 110, 50)
+    pdf.text("RR: "+ this.hr, 110, 60)
+    pdf.text("CRT: "+ this.mm, 110, 70)
+    pdf.text("BCS: "+ this.pr, 110, 80)
+    
+    
+    pdf.text("AM: "+ this.am, 15, 100)
+    pdf.text("PM: "+ this.pm, 15, 110)
+    
+    pdf.text("Fluid/Rate: "+ this.fluid, 15, 140)
+
+    pdf.text("Medication: "+ this.medication, 15, 160)
+    pdf.text("Comments: "+ this.comments, 15, 230)
+    pdf.save('Treatment Sheet.pdf');
+    // let data = document.getElementById("content")
+
+    // this.generatePDF(data)
+  }
+
+  // generatePDF(htmlContent){
+  //   html2canvas(htmlContent).then(canvas=>{
+
+  //     let imgWidth = 290;
+  //     let imgHeight = (canvas.height * imgWidth/ canvas.width)
+  //     const contentDataURL = canvas.toDataURL('image/pdf')
+  //     let pdf = new jsPDF('l','mm','a4');
+  //     var position = 10;
+  //     pdf.addImage(contentDataURL, 'PNG', 0 , position, imgWidth, imgHeight);
+  //     pdf.save('Treatment Sheet.pdf');
+  //   })
+
+
+
+  // }
+ 
   dismissModal(){
     this.modalCtrl.dismiss();
    
