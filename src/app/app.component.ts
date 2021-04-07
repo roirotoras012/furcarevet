@@ -36,6 +36,7 @@ export class AppComponent {
 
    
   }
+  
 
   initializeApp(){
     // if(this.router['routerState'].snapshot.url== ""){
