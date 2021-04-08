@@ -76,7 +76,9 @@ export class TreatmentsheetPage implements OnInit {
 
     pdf.text("Medication: "+ this.medication, 15, 160)
     pdf.text("Comments: "+ this.comments, 15, 230)
-    pdf.save('Treatment Sheet.pdf');
+    pdf.autoPrint();
+    pdf.output('dataurlnewwindow');
+    // pdf.save('Treatment Sheet.pdf');
     // let data = document.getElementById("content")
 
     // this.generatePDF(data)
