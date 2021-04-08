@@ -1,0 +1,50 @@
+
+ 
+    <ion-content>
+      
+        <div class="modal-header">						
+          <h4 class="modal-title">FURCARE VETERINARY CLINIC</h4>
+          <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">					
+         <div class="row" style="border-bottom: solid black; border-width: 1px; margin-bottom: 10px;">
+           <div class="col">
+            <label style="display: block; margin-bottom: 20px"><b>Name of Owner: </b>{{client.name}} </label>
+            <label style="display: block; margin-bottom: 20px"><b>Pet's Name: </b>{{patient.name}} </label>
+            <label style="display: block; margin-bottom: 20px"><b>Cellphone No.: </b>{{client.mobile_number}} </label> 
+            <label style="display: block; margin-bottom: 20px"><b>Address: </b>{{client.address}} </label>
+          
+          </div>
+          <div class="col">
+            <label style="display: block; margin-bottom: 20px"><b>Date: </b>{{date}} </label>
+            <label style="display: block; margin-bottom: 20px"><b>Breed: </b>{{patient.breed}}</label>
+            <label style="display: block; margin-bottom: 20px"><b>DOB: </b>{{patient.birth}} </label> 
+          </div>
+        
+          </div>
+      <div class="row" style="margin: auto;">
+
+          <label style="display: block; margin-bottom: 20px"><b>Medical History: </b> </label>
+        
+        </div>
+
+        <div class="row" style="margin: auto; overflow: auto; scroll-behavior: auto;">
+          <ion-grid>
+          <ion-row *ngFor="let data of medicalhistory" style="border-bottom: solid black; border-width: 1px;">
+            
+            <pre class="desc">{{data.description}}</pre>
+
+          </ion-row>
+        </ion-grid>
+        </div>
+        </div>
+        
+        
+      
+   
+      
+      </ion-content>
+      <div class="modal-footer">
+        <ion-textarea autoGrow="true" type="text" class="form-control"[(ngModel)]="description" required></ion-textarea>
+        <input type="submit" class="btn btn-success" (click)="addmedhis()" value="Add">
+      </div>

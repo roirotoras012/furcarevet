@@ -49,6 +49,8 @@ export class TreatmentsheetPage implements OnInit {
   }
   makePDF(){
     let pdf = new jsPDF('p', 'mm', [297, 210]);
+    pdf.setFont("Times-Roman")
+    
     pdf.text("FURCARE VETERINARY CLINIC", 65, 10)
     pdf.text("______________________________________________________________", 10, 12)
     pdf.text("TREATMENT SHEET", 10, 20)

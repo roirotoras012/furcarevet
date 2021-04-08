@@ -8,6 +8,7 @@ import { ServicepopComponent } from '../components/servicepop/servicepop.compone
 import { PopoverController } from '@ionic/angular';
 import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
 import { TreatmentsheetPage } from '../components/treatmentsheet/treatmentsheet.page';
+import { MedicalhistoryPage } from '../components/medicalhistory/medicalhistory.page';
 
 
 declare var myFunction;
@@ -113,6 +114,31 @@ async schedule(patient_id){
 
   
 }
+
+async medhistory(data){
+  const modal = await this.modalCtrl.create({
+    component: MedicalhistoryPage,
+    cssClass: 'med-modal',
+    componentProps: {
+      client_id : this.client_id,
+      patient: data
+
+
+
+    }
+    
+
+  });
+  
+  await modal.present();
+  await modal.onWillDismiss();
+
+
+
+
+}
+
+
 
 
 async treatment(data){
