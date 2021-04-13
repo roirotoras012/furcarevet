@@ -66,12 +66,12 @@ export class AuthenticationService {
         this.authenticationState.next(true);
         this.notloggedin.next(false);
        
-        this.router.navigate(['admin'])
+        // this.router.navigate(['admin'])
         
          
       }
       else{
-        this.router.navigate(['login'])
+        // this.router.navigate(['login'])
       }
 
 

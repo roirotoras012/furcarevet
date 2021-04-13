@@ -17,17 +17,9 @@ import { switchMap, map} from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import { ScheduleService } from '../services/schedule.service'
 import { NotificationPage } from '../components/notification/notification.page';
-export interface Clients {
 
-  client_id: any;
-  address: string;
-  adder: any;
-  email: string;
-  mobile_number: string;
-  name: string;
-  subject:any;
-}
- 
+import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
+
 declare var myFunction;
 @Component({
   selector: 'app-admin',
@@ -38,7 +30,8 @@ export class AdminPage implements OnInit {
   notifydata2: any = []
   notifydata: any = []
 clients: any = []
-clients2 : Observable<Clients[]>
+currentuser: any = []
+
 asd = new Date
 event: any = [];
 eventSource = [];
@@ -67,7 +60,7 @@ event1 = {
     
 
     let asd: any = new Date
-    
+   
     
   
     
@@ -76,6 +69,14 @@ event1 = {
     this.getclients()
     this.getschedule()
     this.notif()
+    this.api.userinfo().then((data)=>{
+
+      this.currentuser = data;
+      
+
+
+
+    })
   }
   ngOnInit() {
    
@@ -203,7 +204,7 @@ getschedule(){
 
   this.api.get("https://localhost/furcare/user/getschedule").subscribe((sched)=>{
    
-  
+  console.log(sched)
    
   for(let data of Object.values(sched)){
     this.event1.schedule_id = data.schedule_id
@@ -360,4 +361,33 @@ getschedule(){
 
 
   }
+
+
+  async schedule(){
+
+    const modal = await this.modalCtrl.create({
+      component: ScheduleModalPage,
+      cssClass: 'cal-modal',
+      componentProps: {
+       
+      
+  
+  
+  
+      }
+      
+  
+    });
+    
+    await modal.present();
+    await modal.onDidDismiss().then(()=>{
+      this.getschedule()
+      this.notif();
+      
+
+    });
+  
+    
+  }
 }
+

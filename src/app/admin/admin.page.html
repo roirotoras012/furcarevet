@@ -6,7 +6,7 @@
   
  
         <nav class="navbar navbar-expand-xl navbar-light bg-light">
-          <a routerLink='/admin' class="navbar-brand">
+          <a href='#/admin' class="navbar-brand">
             <img alt="logo" height="40"   src="assets/images/logo.png" > 
             
             FURCARE<b>  System</b></a>
@@ -19,11 +19,13 @@
           <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start" style="margin-right: 50px;">
             
             <div class="navbar-nav ml-auto" style="margin-right: 40px;">
-              <a routerLink='/admin' class="nav-item nav-link active">Home</a>
+              <a href='#/admin' class="nav-item nav-link active">Home</a>
      
               
-              <a routerLink='/admin/documents' class="nav-item nav-link">Reports</a>
-              <a routerLink='/admin/manage-users' class="nav-item nav-link">Manage Users</a>
+              <a href='#/admin/documents' class="nav-item nav-link">Reports</a>
+              <div *ngIf="currentuser.usertype == 'admin'"  >
+              <a href='#/manage-users' class="nav-item nav-link">Manage Users</a>
+            </div>
             </div>
            
         
@@ -100,7 +102,7 @@
  
   
     <div style="width: 50vh; margin: 20px; margin-right: 100px; margin-left: auto; margin-top: 40px; ">
-
+<div style="text-align: center;"> <button style="border-radius: 4px;" (click)="schedule()" class="btn1 btn-success"  >Add Schedule</button></div>
       <button fill="clear" (click)="back()">
         <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
       </button>

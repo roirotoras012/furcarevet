@@ -1,0 +1,120 @@
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ 
+        <nav class="navbar navbar-expand-xl navbar-light bg-light">
+          <a href='#/admin' class="navbar-brand">
+            <img alt="logo" height="40"   src="assets/images/logo.png" > 
+            
+            FURCARE<b>  System</b></a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+       
+          <!-- Collection of nav links, forms, and other content for toggling -->
+          <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start" style="margin-right: 50px;">
+            
+            <div class="navbar-nav ml-auto" style="margin-right: 40px;">
+              <a href='#/admin' class="nav-item nav-link">Home</a>
+     
+              
+              <a href='#/admin/documents' class="nav-item nav-link">Reports</a>
+              <a href='#/manage-users' class="nav-item nav-link active">Manage Users</a>
+            </div>
+           
+        
+          </div>
+        
+            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
+          
+          
+              <a style="margin: auto;"
+              
+              (click)="logout()"
+              class="nav-link dropdown-toggle user-action"><button> </button></a>
+              <!-- (click)="acc_popover($event)" -->
+          
+          
+        </nav>
+
+
+
+
+        <ion-content *ngIf="currentuser.usertype == 'admin'">
+          <div>
+          <div class="table-responsive">
+            <div class="table-wrapper">
+              <div class="table-title">
+                <div class="row" style="margin: auto;">
+              
+                    <h2>Manage <b>Users</b></h2>
+                 
+                 
+                  <button (click)="opendelete()" class="btn btn-danger" data-toggle="modal" ><i class="fas fa-trash-alt"></i> <span>Delete</span></button>	
+                    <button (click)="openadd()" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus"></i><span>Add New Employee</span></button>
+                    					
+                
+                </div>
+                
+                
+              </div>
+              <div class="row">
+        
+                <div class="col-xs-12">
+                  <input autocomplete="off" type="text" id="myInput" onkeyup="myFunction2()" placeholder="Search" title="Type">
+                </div>
+              </div>
+              <table class="table table-striped table-hover" id="myTable">
+                <thead>
+                  <tr>
+                    <th>
+                      <ion-checkbox
+                      [(ngModel)]="masterCheck"
+                      [indeterminate]="isIndeterminate"
+                        (click)="checkMaster($event)"></ion-checkbox>
+                    </th>
+                    <th (click)="sortBy('name')">Name</th>
+                    <th (click)="sortBy('user_id')">User ID</th>
+                    <th (click)="sortBy('username')">Username</th>
+                   
+                
+                    <th (click)="sortBy('usertype')">Usertype</th>
+                    <th >Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of datauser">
+                    <td>
+                      <ion-checkbox slot="start" 
+              [(ngModel)]="data.isChecked" 
+              (ionChange)="checkEvent()"></ion-checkbox>
+                    </td>
+                    <td>{{data.name}}</td>
+                    <td>{{data.user_id}}</td>
+                    <td>{{data.username}}</td>
+                    
+              
+                    <td>{{data.usertype}}</td>
+                    
+                    <td>
+                      <a (click)="openedit(data)" style="cursor: pointer;"><i class="fas fa-edit"></i></a>
+                      <a (click)="opendelete1(data.user_id)" style="cursor: pointer;"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                  </tr>
+                
+                 
+                  
+                  
+                </tbody>
+              </table>
+              
+            </div>
+          </div>        
+          </div>
+        
+        
+        
+        </ion-content>
+        

@@ -38,7 +38,7 @@ export class ScheduleModalPage implements OnInit {
   constructor(public toastController: ToastController, private navParams: NavParams,private api: ApiService,private modalCtrl: ModalController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string) {
    
     this.minDate = this.minDate.slice(0,16)
-    console.log(this.minDate)
+  
     
     
    }
@@ -146,7 +146,7 @@ export class ScheduleModalPage implements OnInit {
   onTimeSelected(ev) { 
     this.event.startTime = new Date(ev.selectedTime); 
     this.event.endTime = new Date(ev.selectedTime); 
-  
+
   
   }
   
