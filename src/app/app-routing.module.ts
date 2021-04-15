@@ -22,6 +22,10 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
     loadChildren: () => import('./members/member-routing.module').then( m => m.MemberRoutingModule)
   },
+  {
+    path: 'service-modal',
+    loadChildren: () => import('./components/service-modal/service-modal.module').then( m => m.ServiceModalPageModule)
+  },
   
   
   

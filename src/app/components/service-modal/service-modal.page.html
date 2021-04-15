@@ -1,0 +1,132 @@
+
+
+<ion-content>
+<div *ngIf="x == 'Vaccination'">
+  <div class="modal-header">						
+    <h4 class="modal-title">{{x}}</h4>
+    <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body" style="border-bottom: solid black; border-width: 1px;">					
+    <div class="form-group">
+      
+      <label>Weight (in kg.)</label>
+      <input type="text" class="form-control" (input)="weight = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      <label>AGAINST</label>
+      <input type="text" class="form-control"(input)="against = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      
+      <label>Veterinarian</label>
+      <input class="form-control"(input)="veterinarian = $event.target.value;" required>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="x == 'Deworming'">
+  <div class="modal-header">						
+    <h4 class="modal-title">{{x}}</h4>
+    <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body" style="border-bottom: solid black; border-width: 1px;">					
+    <div class="form-group">
+      
+      <label>Weight (in kg.)</label>
+      <input type="text" class="form-control" (input)="weight = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      <label>AGAINST</label>
+      <input type="text" class="form-control"(input)="against = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      
+      <label>Veterinarian</label>
+      <input class="form-control"(input)="veterinarian = $event.target.value;" required>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="x == 'others'">
+  <div class="modal-header">						
+    <h4 class="modal-title">{{x}}</h4>
+    <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body" style="border-bottom: solid black; border-width: 1px;">	
+    <div class="form-group">
+      
+      <label>Service Type</label>
+      <input type="text" class="form-control" (input)="service = $event.target.value;" required>
+    </div>				
+    <div class="form-group">
+      
+      <label>Weight (in kg.)</label>
+      <input type="text" class="form-control" (input)="weight = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      <label>AGAINST</label>
+      <input type="text" class="form-control"(input)="against = $event.target.value;" required>
+    </div>
+    <div class="form-group">
+      
+      <label>Veterinarian</label>
+      <input class="form-control"(input)="veterinarian = $event.target.value;" required>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin: auto; overflow: auto; scroll-behavior: auto;">
+  
+  <div class="table-wrapper" >
+    <div class="table-responsive">
+     
+       
+        <table class="table table-striped table-hover" id="myTable">
+          <thead>
+            <tr  style="text-align: center;">
+              <th >DATE</th>
+              <th *ngIf="this.x =='others'" >SERVICE</th>
+              
+              <th >WEIGHT (in kg.)</th>
+              <th>AGAINST</th>
+             
+          
+              <th >VETERINARIAN</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of services">
+              <td><b *ngIf="mobile">DATE: </b>{{data.service_date}}</td>
+              <td *ngIf="this.x =='others'"><b *ngIf="mobile">SERVICE: </b>{{data.service_type}}</td>
+             
+              <td><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
+              <td><b *ngIf="mobile">AGAINST: </b>{{data.against}}</td>
+              
+        
+              <td><b *ngIf="mobile">VETERINARIAN: </b>{{data.veterinarian}}</td>
+              
+              
+            </tr>
+          
+           
+            
+            
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    </div>
+
+ 
+
+
+
+</ion-content>
+
+<div class="modal-footer">
+  <input type="button" class="btn btn-default" (click)="dismissModal()"  value="Cancel">
+  <input type="submit" class="btn btn-success" (click)="serve()" value="Serve">
+</div>

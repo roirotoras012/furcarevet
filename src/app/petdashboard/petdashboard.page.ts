@@ -45,12 +45,18 @@ export class PetdashboardPage implements OnInit {
     this.getpatients();
     
   }
-  async servicepop(ev:any){
-
+  async servicepop(ev:any, data){
+  
     const popover = await this.popover.create({
       event: ev,
       component: ServicepopComponent,
-      cssClass: 'service-popover'
+      cssClass: 'service-popover',
+      componentProps: {
+        client_id: this.client_id,
+        patient_id:  data.patient_id
+
+
+      }
       
     })
     return await popover.present()
@@ -137,6 +143,8 @@ async medhistory(data){
 
 
 }
+
+
 
 
 

@@ -27,6 +27,8 @@ declare var myFunction;
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  schedpatient: any = []
+  schedclient: any = []
   notifydata2: any = []
   notifydata: any = []
 clients: any = []
@@ -40,6 +42,8 @@ event1 = {
   schedule_id : '',
   title: '',
   desc: '',
+  patient: '',
+  client: '',
   startTime: null,
   endTime: null,
   allDay: true
@@ -55,6 +59,7 @@ event1 = {
   selectedDate: Date;
   
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
+
  
   constructor(private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
     
@@ -95,29 +100,82 @@ event1 = {
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
-  async onEventSelected(event) {
-    
-    // Use Angular date pipe for conversion
-    let start = formatDate(event.startTime, 'medium', this.locale);
-    let end = formatDate(event.endTime, 'medium', this.locale);
+
+async qwe(event){
+ // Use Angular date pipe for conversion
+ if(this.schedclient){
+
+  let start = formatDate(event.startTime, 'medium', this.locale);
+ let end = formatDate(event.endTime, 'medium', this.locale);
+
+ const alert = await this.alertCtrl.create({
+   
+   header: event.title,
+   subHeader: event.desc,
+   message: start.slice(0,12)+'<br>Patient: '+ this.schedpatient.name+'<br>Client: '+ this.schedclient.name, 
+   // message: 'From: ' + start + '<br><br>To: ' + end,
+   buttons: ['OK', {
+
+     text: 'Delete',
+     handler: ()=>{
+       
+       this.deleteconfirm(event);
+
+     }
+
+   }],
+ });
+ alert.present();
+ }
+ else{
+  let start = formatDate(event.startTime, 'medium', this.locale);
+  let end = formatDate(event.endTime, 'medium', this.locale);
  
-    const alert = await this.alertCtrl.create({
-      header: event.title,
-      subHeader: event.desc,
-      message: start.slice(0,12), 
-      // message: 'From: ' + start + '<br><br>To: ' + end,
-      buttons: ['OK', {
+  const alert = await this.alertCtrl.create({
+    
+    header: event.title,
+    subHeader: event.desc,
+    message: start.slice(0,12), 
+    // message: 'From: ' + start + '<br><br>To: ' + end,
+    buttons: ['OK', {
+ 
+      text: 'Delete',
+      handler: ()=>{
+        
+        this.deleteconfirm(event);
+ 
+      }
+ 
+    }],
+  });
+  alert.present();
 
-        text: 'Delete',
-        handler: ()=>{
-          
-          this.deleteconfirm(event);
 
-        }
+ }
+    
+ 
 
-      }],
-    });
-    alert.present();
+
+}
+  
+  async onEventSelected(event) {
+    console.log(event)
+    this.api.get("https://localhost/furcare/user/getpatientsched?patient_id="+event.patient).subscribe((data)=>{
+
+      this.schedpatient = data[0]
+     
+
+      this.api.get("https://localhost/furcare/user/getclientsched?client_id="+event.client).subscribe((data1)=>{
+
+      this.schedclient = data1[0]
+      console.log(this.schedpatient)
+      this.qwe(event)
+
+    })
+
+    })
+    
+   
   }
   
 
@@ -210,6 +268,8 @@ getschedule(){
     this.event1.schedule_id = data.schedule_id
     this.event1.title = data.title
     this.event1.desc = data.description
+    this.event1.patient = data.patient
+    this.event1.client = data.client
     this.event1.startTime = new Date(data.startTime)
     this.event1.endTime = new Date(data.endTime)
     if(data.allDay == 1){
@@ -225,6 +285,8 @@ getschedule(){
       schedule_id:'',
       title: '',
       desc: '',
+      patient: '',
+      client: '',
       startTime: null,
       endTime: null,
       allDay: true
