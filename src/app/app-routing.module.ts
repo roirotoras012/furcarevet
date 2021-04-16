@@ -26,6 +26,7 @@ const routes: Routes = [
     path: 'service-modal',
     loadChildren: () => import('./components/service-modal/service-modal.module').then( m => m.ServiceModalPageModule)
   },
+ 
   
   
   
