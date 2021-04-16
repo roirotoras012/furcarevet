@@ -28,11 +28,20 @@
         
         </div>
 
-        <div class="row" style="margin: auto; overflow: auto; scroll-behavior: auto;">
+        <div *ngFor="let data of medicalhistory" class="row" style="margin: auto; overflow: auto; scroll-behavior: auto;border-bottom: solid black; border-width: 1px;">
           <ion-grid>
-          <ion-row *ngFor="let data of medicalhistory" style="border-bottom: solid black; border-width: 1px;">
-            
-            <pre class="desc">{{data.description}}</pre>
+          <ion-row >
+           
+            <div ><sup><b>{{data.date}}</b></sup></div>
+           
+           
+
+          </ion-row>
+          <ion-row>
+           
+           
+            <pre class="desc"  style="margin-left: 10px ">{{data.description}}</pre>
+           
 
           </ion-row>
         </ion-grid>

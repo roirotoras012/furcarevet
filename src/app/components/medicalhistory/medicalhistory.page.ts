@@ -102,6 +102,13 @@ if(this.description){
   getmedhis(){
         this.api.get("https://localhost/furcare/user/medhis?patient_id="+this.patient.patient_id).subscribe((res)=>{
                       this.medicalhistory = res;
+                     for(let i =0 ; i < this.medicalhistory.length; i++){
+                          this.medicalhistory[i].date = new Date(this.medicalhistory[i].date)
+                          this.medicalhistory[i].date= this.medicalhistory[i].date.toString().slice(0,24)
+                          
+
+
+                     }
 
                  
 

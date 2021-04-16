@@ -1,0 +1,42 @@
+<title>ADMIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ 
+        <nav class="navbar navbar-expand-xl navbar-light bg-light">
+          <a href='#/admin' class="navbar-brand">
+            <img alt="logo" height="40"   src="assets/images/logo.png" > 
+            
+            FURCARE<b>  System</b></a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+       
+          <!-- Collection of nav links, forms, and other content for toggling -->
+          <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start" style="margin-right: 50px;">
+            
+            <div class="navbar-nav ml-auto" style="margin-right: 40px;">
+              <a href='#/admin' class="nav-item nav-link active">Home</a>
+     
+              
+              <a href='#/reports' class="nav-item nav-link">Reports</a>
+              <div *ngIf="currentuser.usertype == 'admin'"  >
+              <a href='#/manage-users' class="nav-item nav-link">Manage Users</a>
+            </div>
+            </div>
+           
+        
+          </div>
+        
+            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
+          
+          
+              <a style="margin: auto;"
+              
+              (click)="logout()"
+              class="nav-link dropdown-toggle user-action"><button> </button></a>
+              <!-- (click)="acc_popover($event)" -->
+          
+          
+        </nav>

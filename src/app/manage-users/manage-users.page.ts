@@ -8,6 +8,9 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { Delete1ModalComponent } from './delete1-modal/delete1-modal.component';
 import { PopoverComponent } from './../components/popover/popover.component';
 import { AddModalComponent } from './add-modal/add-modal.component';
+import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
+import { AuthenticationService } from './../services/authentication.service';
 
 declare var myFunction2
 
@@ -28,7 +31,7 @@ export class ManageUsersPage implements OnInit {
   checkedUsers: any = [];
   sortDirection = 0 
   sortKey = null
-  constructor(private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService) { 
+  constructor(private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private platform: Platform, private authService: AuthenticationService) { 
 
     this.api.userinfo().then((data)=>{
       this.currentuser = data
@@ -42,6 +45,34 @@ export class ManageUsersPage implements OnInit {
   }
   ngOnInit() {
   }
+  async logout() {
+    
+    this.authService.logout();
+    this.platform.ready().then(()=>{
+          
+      this.authService.authenticationState.subscribe((state)=>{
+        console.log(state);
+        if(state){
+          
+         
+        }else{
+            this.router.navigate(['login'])
+        }
+
+      })
+      this.authService.notloggedin.subscribe((state)=>{
+        console.log(state);
+        
+
+      })
+
+   })
+  
+    
+  }
+
+
+
   notif(){
     this.event = []
     this.notifydata = []
@@ -183,6 +214,7 @@ sort(){
     });
     
   }
+  
   
   async opendelete(){
     this.checkedUsers = []

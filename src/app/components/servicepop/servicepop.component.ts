@@ -68,5 +68,23 @@ export class ServicepopComponent implements OnInit {
   
   }
 
+  async all(x){
+    const modal = await this.modalCtrl.create({
+      component: ServiceModalPage,
+      componentProps: {
+
+        x: x,
+        client_id: this.client_id,
+        patient_id:  this.patient_id,
+      }
+    
+  
+    });
+    
+    await modal.present();
+    await modal.onWillDismiss();
+  
+  }
+
 }
 

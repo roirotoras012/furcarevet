@@ -70,9 +70,11 @@ export class PetdashboardPage implements OnInit {
     if (val && val.trim() != '') {
       this.patientsfilter = this.patientsfilter.filter((item: any) => {
         return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        
       })
   
     }
+    
     console.log(this.patientsfilter)
     // this.search.getInputElement().then(item => console.log(item))
   }

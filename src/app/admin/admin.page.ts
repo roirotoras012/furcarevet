@@ -84,7 +84,7 @@ event1 = {
     })
   }
   ngOnInit() {
-   
+
 //     const source = interval(10000);
 
 // this.subscription = source.subscribe(val => this.getclients());
@@ -106,6 +106,7 @@ async qwe(event){
  if(this.schedclient){
 
   let start = formatDate(event.startTime, 'medium', this.locale);
+
  let end = formatDate(event.endTime, 'medium', this.locale);
 
  const alert = await this.alertCtrl.create({

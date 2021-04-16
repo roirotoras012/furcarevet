@@ -17,6 +17,7 @@ export class ServiceModalPage implements OnInit {
   veterinarian: any;
   against: any;
   services: any = []
+  allservices: any = []
   mobile: any
   constructor(private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) { 
    
@@ -24,6 +25,7 @@ export class ServiceModalPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getall()
     this. getservice()
     this.x = this.navParams.get('x');
     this.client_id = this.navParams.get('client_id');
@@ -38,66 +40,99 @@ export class ServiceModalPage implements OnInit {
 
 
   async serve(){
-
-    console.log(this.x)
-    if(this.x == "others"){
-
-      this.api.userinfo().then((user)=>{
-
-        const formData: FormData = new FormData();
-        formData.append('service', this.service)
-        formData.append('weight', this.weight)
-        formData.append('veterinarian', this.veterinarian)
-        formData.append('against', this.against)
-        formData.append('client_id', this.client_id)
-        formData.append('patient_id', this.patient_id)
-        formData.append('user', user.user_id)
-        this.api.add("https://localhost/furcare/user/serve", formData).subscribe((res)=>{
   
-          if(res == "1"){
-            this.dismissModal();
 
-          }
+ if(this.x == "others"){
+      if(this.service && this.veterinarian && this.against){
+        this.api.userinfo().then((user)=>{
+
+          const formData: FormData = new FormData();
+          formData.append('service', this.service)
+          formData.append('weight', this.weight)
+          formData.append('veterinarian', this.veterinarian)
+          formData.append('against', this.against)
+          formData.append('client_id', this.client_id)
+          formData.append('patient_id', this.patient_id)
+          formData.append('user', user.user_id)
+          this.api.add("https://localhost/furcare/user/serve", formData).subscribe((res)=>{
+    
+            if(res == "1"){
+              this.service = ''
+              this.weight= ''
+              this.veterinarian= ''
+              this.against= ''
+              this. getservice()
+            }
+            else{
   
-          
+              console.log("error")
+            }
+    
+            
+          }, err => {
+        
+            console.log(err);
+            })
+  
+  
+  
         })
-
-
-
-      })
+      }
+     
     
     
 
     }
 
     else{
-      this.api.userinfo().then((user)=>{
 
-        const formData: FormData = new FormData();
-        formData.append('service', this.x.toLowerCase())
-        formData.append('weight', this.weight)
-        formData.append('veterinarian', this.veterinarian)
-        formData.append('against', this.against)
-        formData.append('client_id', this.client_id)
-        formData.append('patient_id', this.patient_id)
-        formData.append('user', user.user_id)
-        this.api.add("https://localhost/furcare/user/serve", formData).subscribe((res)=>{
-              if(res == "1"){
-                this.dismissModal();
+      if(this.veterinarian && this.against){
+        this.api.userinfo().then((user)=>{
 
-              }
-
+          const formData: FormData = new FormData();
+          formData.append('service', this.x.toLowerCase())
+          formData.append('weight', this.weight)
+          formData.append('veterinarian', this.veterinarian)
+          formData.append('against', this.against)
+          formData.append('client_id', this.client_id)
+          formData.append('patient_id', this.patient_id)
+          formData.append('user', user.user_id)
+          this.api.add("https://localhost/furcare/user/serve", formData).subscribe((res)=>{
+                if(res == "1"){
+                 
+              this.weight= ''
+              this.veterinarian= ''
+              this.against= ''
+              this.getservice()
   
-          
+                }
+                else{
+  
+                  console.log("error")
+                }
+  
+    
+            
+          }, err => {
+        
+            console.log(err);
+            })
+  
+  
+  
         })
+  
 
-
-
-      })
-
+      }
+     
 
       
+    
+
+
     }
+   
+   
 
 
 
@@ -110,6 +145,19 @@ export class ServiceModalPage implements OnInit {
    
   }
 
+
+  getall(){
+
+      this.api.get("https://localhost/furcare/user/getall?patient="+this.patient_id).subscribe((res)=>{
+
+
+      console.log(res)
+      this.allservices = res
+      })
+
+
+
+  }
 
   getservice(){
     if(this.x == "others"){

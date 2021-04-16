@@ -6,7 +6,7 @@
   
  
         <nav  class="navbar navbar-expand-xl navbar-light bg-light">
-          <a routerLink='/admin' class="navbar-brand">
+          <a href='#/admin' class="navbar-brand">
             <img alt="logo" height="40"   src="assets/images/logo.png" > 
             
             FURCARE<b>  System</b></a>
@@ -14,7 +14,7 @@
        
           
             <div class="navbar-nav ml-auto">
-              <a routerLink='/admin' class="nav-item nav-link notifications"><i class="fas fa-arrow-left"> BACK</i></a>
+              <a href='#/admin' class="nav-item nav-link notifications"><i class="fas fa-arrow-left"> BACK</i></a>
             
             </div>
           
@@ -47,7 +47,7 @@
           <ion-card class="patients">  
             <div style="text-align: left !important; margin: 5px;border-bottom: solid black; border-width: 1px;border-color: #555;">
               
-              <button (click)="gotopet(data.client_id)" class="patientname" style="justify-content: left;"><i *ngIf="data.species=='canine'" class="fas fa-dog"></i>
+              <button  class="patientname" style="justify-content: left;"><i *ngIf="data.species=='canine'" class="fas fa-dog"></i>
                 <i *ngIf="data.species=='feline'" class="fas fa-cat"></i>
                 &nbsp;{{data.name}}</button>
                 <div class="micro">

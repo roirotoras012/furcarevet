@@ -33,7 +33,10 @@ const routes: Routes = [
     path: 'manage-users',
     loadChildren: () => import('../manage-users/manage-users.module').then( m => m.ManageUsersPageModule)
   },
-  
+  {
+    path: 'reports',
+    loadChildren: () => import('../reports/reports.module').then( m => m.ReportsPageModule)
+  },
  
   
 
