@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ServiceModalPageRoutingModule } from './service-modal-routing.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
 
 import { ServiceModalPage } from './service-modal.page';
 
@@ -13,7 +14,8 @@ import { ServiceModalPage } from './service-modal.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ServiceModalPageRoutingModule
+    ServiceModalPageRoutingModule,
+    Ng2SearchPipeModule
   ],
   declarations: [ServiceModalPage]
 })

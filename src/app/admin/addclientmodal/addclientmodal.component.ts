@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { ToastController, NavParams } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
 @Component({
   selector: 'app-addclientmodal',
   templateUrl: './addclientmodal.component.html',
@@ -53,7 +55,7 @@ export class AddclientmodalComponent implements OnInit {
       formData.append('email', this.email)
       formData.append('currentuser', user.user_id)
   
-      this.api.add("https://localhost/furcare/user/addclient",formData).subscribe(res => {
+      this.api.add(API_URL+"user/addclient",formData).subscribe(res => {
         console.log(res)
        if(res == "success"){
         clientadded.present();

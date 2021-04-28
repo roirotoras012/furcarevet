@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
+import { DatePipe } from '@angular/common'
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { NgCalendarModule  } from 'ionic2-calendar';
 import { AppComponent } from './app.component';
@@ -14,7 +14,7 @@ import { IonicStorageModule } from '@ionic/storage'
   declarations: [AppComponent],
   entryComponents: [],
   imports: [NgCalendarModule,BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, {provide : LocationStrategy , useClass: HashLocationStrategy}],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, {provide : LocationStrategy , useClass: HashLocationStrategy}, DatePipe],
   bootstrap: [AppComponent],
   
 })

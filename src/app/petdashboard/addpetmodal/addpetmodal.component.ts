@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { ToastController, NavParams } from '@ionic/angular';
-
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
 @Component({
   selector: 'app-addpetmodal',
   templateUrl: './addpetmodal.component.html',
@@ -65,7 +66,7 @@ export class AddpetmodalComponent implements OnInit {
      formData.append('currentuser', user.user_id)
      formData.append('client_id', this.client_id)
  
-     this.api.add("https://localhost/furcare/user/addpatient",formData).subscribe(res => {
+     this.api.add(API_URL+"user/addpatient",formData).subscribe(res => {
        console.log(res)
       if(res == "success"){
        patientadded.present();

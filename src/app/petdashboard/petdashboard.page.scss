@@ -535,6 +535,7 @@ hr {
 
 
     }
+
     .patientname{
 
         float: none !important;
@@ -606,6 +607,12 @@ hr {
     font-size: 20px;
    
   
+}
+ion-content{
+
+    --background: url('./../../assets/images/furcare.png') 0 0/100% auto no-repeat !important;
+
+    
 }
 .input_class{
 
@@ -800,6 +807,10 @@ nav{
    
     
 }
+.btn1{
+   font-size: 25px;
+
+}
 .btn:hover{
     background-color: #333333;
 }
@@ -810,7 +821,7 @@ nav{
      border-color: #555;
      border-width: 1px;
      border-radius: 7px;
-     width: 1000px;
+     width: auto;
      height: 200px;
      padding: 10px;
      font-size: 20px;

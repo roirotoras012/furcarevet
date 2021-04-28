@@ -11,6 +11,8 @@ import { AddModalComponent } from './add-modal/add-modal.component';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from './../services/authentication.service';
+import { environment } from '../../environments/environment';
+const API_URL = environment.API_URL
 
 declare var myFunction2
 
@@ -94,7 +96,7 @@ export class ManageUsersPage implements OnInit {
 
         // }  
 
-        if(daysleft <= 3 && daysleft >= 0){
+        if(daysleft <= 2 && daysleft >= 0){
 
           this.notifydata.push(this.event[i])
         this.notifydata2.push({
@@ -275,7 +277,7 @@ sort(){
   }
   async getUsers() {
  
-    this.api.get("https://localhost/furcare/user/getuser") 
+    this.api.get(API_URL+"user/getuser") 
       .subscribe(res => {
         console.log(res);
         this.datauser = res;

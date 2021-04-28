@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { ToastController, NavParams } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
 @Component({
   selector: 'app-medicalhistory',
   templateUrl: './medicalhistory.page.html',
@@ -36,7 +38,7 @@ export class MedicalhistoryPage implements OnInit {
 
 
   getcurrclient(){
-    this.api.get("https://localhost/furcare/user/getcurrclient?client_id="+this.client_id).subscribe((res)=>{
+    this.api.get(API_URL+"user/getcurrclient?client_id="+this.client_id).subscribe((res)=>{
 
         this.client = res[0];
         
@@ -69,7 +71,7 @@ if(this.description){
     formData.append('patient', this.patient.patient_id)
     formData.append('client', this.client.client_id)
    
-        this.api.add("https://localhost/furcare/user/addmedhis", formData).subscribe((res)=>{
+        this.api.add(API_URL+"user/addmedhis", formData).subscribe((res)=>{
 
 
                  if(res == 1){
@@ -100,7 +102,7 @@ if(this.description){
  }
 
   getmedhis(){
-        this.api.get("https://localhost/furcare/user/medhis?patient_id="+this.patient.patient_id).subscribe((res)=>{
+        this.api.get(API_URL+"user/medhis?patient_id="+this.patient.patient_id).subscribe((res)=>{
                       this.medicalhistory = res;
                      for(let i =0 ; i < this.medicalhistory.length; i++){
                           this.medicalhistory[i].date = new Date(this.medicalhistory[i].date)

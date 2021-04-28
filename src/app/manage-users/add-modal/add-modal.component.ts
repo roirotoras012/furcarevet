@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastController, NavParams } from '@ionic/angular';
-
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
  
 @Component({
   selector: 'app-add-modal',
@@ -70,7 +71,7 @@ export class AddModalComponent implements OnInit {
     message: 'Username is already taken',
     duration: 2000
   });
-      this.http.post("https://localhost/furcare/user/add_account", formData) 
+      this.http.post(API_URL+"user/add_account", formData) 
         .subscribe(res => {
          
           console.log(res);

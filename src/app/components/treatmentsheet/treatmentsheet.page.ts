@@ -6,12 +6,16 @@ import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 import { ParsedVariable } from '@angular/compiler';
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
 @Component({
   selector: 'app-treatmentsheet',
   templateUrl: './treatmentsheet.page.html',
   styleUrls: ['./treatmentsheet.page.scss'],
 })
 export class TreatmentsheetPage implements OnInit {
+  veterinarian: any;
+  treatment: any = []
   patient: any = []
   title = 'SADASDASD'
   diagnosis: any;
@@ -26,7 +30,7 @@ export class TreatmentsheetPage implements OnInit {
   fluid: any;
   medication: any;
   comments: any;
-  
+  status = "on"
   am: any;
   pm: any;
   user_Id: any;
@@ -38,12 +42,12 @@ export class TreatmentsheetPage implements OnInit {
     
     this.patient = this.navParams.get('patient');
     this.client_id =  this.navParams.get('client_id');
-
+this.getservices()
   
 
   }
 
-
+ 
 
   ngOnInit() {
   }
@@ -168,8 +172,9 @@ export class TreatmentsheetPage implements OnInit {
             formData.append('patient', this.patient.patient_id)
             formData.append('user', user.user_id)
             formData.append('client', this.client_id)
+            formData.append('veterinarian', this.veterinarian)
     
-            this.api.add("https://localhost/furcare/user/addsheet",formData).subscribe((res)=>{
+            this.api.add(API_URL+"user/addsheet",formData).subscribe((res)=>{
     
     
     
@@ -220,6 +225,23 @@ export class TreatmentsheetPage implements OnInit {
       }
     
       // console.log(this.pm.join(', '))
+
+
+
+  }
+
+
+  getservices(){
+    this.api.get(API_URL+"user/gettreatmentsheet?patient="+this.patient.patient_id).subscribe((res)=>{
+            this.treatment = res
+            console.log(this.treatment)
+           
+         
+
+
+
+
+    })
 
 
 

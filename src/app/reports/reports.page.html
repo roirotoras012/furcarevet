@@ -31,12 +31,22 @@
         
             <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
           
-          
+            <button (click)="logout()" style="background: none;"> Sign out</button>
               <a style="margin: auto;"
               
               (click)="logout()"
-              class="nav-link dropdown-toggle user-action"><button> </button></a>
+              class="nav-link dropdown-toggle user-action"></a>
               <!-- (click)="acc_popover($event)" -->
           
           
         </nav>
+
+
+        <ion-content>
+        <div class="wrapper" style="border: solid black; margin-left: 200px; margin-right: 200px; margin-top: 50px; border-radius: 5px; border-width: 1px; background: white; min-height: 700px;">
+
+          <label style="display: block; font-size: 25px;"><b>Clients this day:</b></label>
+
+</div>
+
+        </ion-content>

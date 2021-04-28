@@ -21,7 +21,7 @@
         </nav>
  
 <ion-content>
-
+  <div class="wrapper" style="border: solid black; margin-left: 200px; margin-right: 200px; margin-top: 50px; border-radius: 5px; border-width: 1px; background: white; min-height: 700px;">
  
   
   
@@ -30,6 +30,7 @@
 
   
   <div class="w3-container">
+    <label style="display: block; font-size: 25px;"><b>Client:</b> &nbsp;{{currclient.name}}</label>
   <ion-grid>
     <ion-row>
       <ion-col size="1.5"></ion-col>
@@ -55,9 +56,9 @@
                 <label class="micro" style="display: block; text-align: right; margin: 5px;"><b>Date Implanted:</b>&nbsp;{{data.dateofimplant}}</label>
               </div>
               </div>
-            <div style="vertical-align: middle; margin: 10px; text-align: left;">
-              <div class="petbut" style="float: right; margin: 10px; padding: 10px;">
-                <button style="display: block; margin: auto; border-radius: 4px; margin-bottom: 5px   ;" (click)="treatment(data)" class="btn1 btn-success"  >Treatment Sheet</button>
+            <div style="vertical-align: middle;text-align: left;">
+              <div class="petbut" style="float: right; padding: 10px;">
+                <button style="display: block; margin: auto; border-radius: 4px; margin-bottom: 5px;" (click)="treatment(data)" class="btn1 btn-success"  >Treatment Sheet</button>
                 <button style="display: block; margin: auto; border-radius: 4px;" (click)="medhistory(data)" class="btn1 btn-success"  >Medical History</button>
                 
                 <button style="margin: 10px; border-radius: 4px;"  class="btn1 btn-success" (click)="servicepop($event, data)" >Service</button>
@@ -73,7 +74,7 @@
             
            
             
-            <div class="zxczxc" style="text-align: right; margin-right: 50vh;">
+            <div class="zxczxc" style="text-align: right; margin-right: auto;">
               <label style="display: block;"><b>Birth:</b> &nbsp;{{data.birth}}</label>
               <label style="display: block;"><b>Gender</b>: &nbsp;{{data.gender}}</label>
               
@@ -122,6 +123,6 @@
  
   
   
- 
+ </div>
   
 </ion-content>

@@ -29,6 +29,18 @@
     border: solid green;
     border-width: 1px;
 }
+
+.servicemodal {
+    --width: 850px
+
+
+}
+
+.servicemodal1 {
+    --width: 1100px
+
+
+}
 .notify-popover .popover-content{ height: 500px; 
 
     border-radius: 7px;
@@ -61,7 +73,25 @@
     
     }
 
-  
+    .servicemodal {
+        --width: 100%;
+    
+    
+    }
+
+
+
+}
+
+@media only screen and (max-width: 600px) {
+
+
+    .wrapper{
+
+        margin: auto !important;
+    }
+    
+
 
 
 

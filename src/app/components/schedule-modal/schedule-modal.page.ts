@@ -7,6 +7,8 @@ import { ModalController } from '@ionic/angular';
 import { ToastController, NavParams } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 
+import { environment } from '../../../environments/environment';
+const API_URL = environment.API_URL
 @Component({
   selector: 'app-schedule-modal',
   templateUrl: './schedule-modal.page.html',
@@ -43,7 +45,8 @@ export class ScheduleModalPage implements OnInit {
     client: '',
     startTime: null,
     endTime: null,
-    allDay: true
+    allDay: true,
+    session: ''
   };
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
   constructor(public toastController: ToastController, private navParams: NavParams,private api: ApiService,private modalCtrl: ModalController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string) {
@@ -73,12 +76,13 @@ export class ScheduleModalPage implements OnInit {
   getschedule(){
     this.eventSource = [];
   
-    this.api.get("https://localhost/furcare/user/getschedule3?patient="+this.patient_id).subscribe((sched)=>{
+    this.api.get(API_URL+"user/getschedule3?patient="+this.patient_id).subscribe((sched)=>{
      
     console.log(sched)
      
     for(let data of Object.values(sched)){
       this.event1.schedule_id = data.schedule_id
+      this.event1.session = data.session
       this.event1.title = data.title
       this.event1.desc = data.description
       this.event1.patient = data.patient
@@ -102,7 +106,8 @@ export class ScheduleModalPage implements OnInit {
         client: '',
         startTime: null,
         endTime: null,
-        allDay: true
+        allDay: true,
+        session: ''
       };
       this.myCal.loadEvents();
   
@@ -141,7 +146,7 @@ export class ScheduleModalPage implements OnInit {
     formData.append('patient', this.patient_id)
     formData.append('client', this.client_id)
    console.log(this.event.allDay)
-    this.api.add("https://localhost/furcare/user/addsched", formData).subscribe((data)=>{
+    this.api.add(API_URL+"user/addsched", formData).subscribe((data)=>{
     
       if(data == "success"){
      
@@ -194,7 +199,7 @@ export class ScheduleModalPage implements OnInit {
     let end = formatDate(event.endTime, 'medium', this.locale);
  
     const alert = await this.alertCtrl.create({
-      header: event.title,
+      header: event.title+" (session "+ event.session+")",
       subHeader: event.desc,
       message: start.slice(0,12),
       buttons: ['OK'],

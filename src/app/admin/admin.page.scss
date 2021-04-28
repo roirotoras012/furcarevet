@@ -523,12 +523,52 @@ hr {
     margin-left: 190px;
     margin-bottom: 200px;
 }
+:host ::ng-deep{
+
+    @media only screen and (max-width: 600px) {
+
+    
+    
+            .swiper-slide{
+                          font-size: 17px !important;
+                
+                    }
+  
+    
+    }    
+}
+
 
 @media only screen and (max-width: 600px) {
+
+    // :host ::ng-deep{
+
+    //     .swiper-slide{
+    //                   font-size: 10px !important;
+            
+    //             }
+    // }
+
+    .calendar{
+        width: 50vh !important;
+
+    }
+    .wrapper{
+
+        margin: auto !important;
+    }
+    
+    
+    
+    
+    
+    
     .doc {
         text-align: center !important;
         margin-left: 0px !important;
     }
+
+    
     .keyword{
         width: 250px !important;
 
@@ -547,6 +587,7 @@ hr {
         
 
     }
+    
     .information{
 
             padding-right: 10px !important;
@@ -805,7 +846,7 @@ table.table .avatar {
     
     padding: 10px;
     font-size: 20px;
-    background-color: #b3d1ff;  
+   
     padding-right: 20px;
     
 }
@@ -822,4 +863,11 @@ table.table .avatar {
 
 
 
+}
+
+ion-content{
+
+    --background: url('./../../assets/images/furcare.png') 0 0/100% auto no-repeat !important;
+
+    
 }

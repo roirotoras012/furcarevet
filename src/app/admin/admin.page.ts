@@ -19,7 +19,8 @@ import { ScheduleService } from '../services/schedule.service'
 import { NotificationPage } from '../components/notification/notification.page';
 
 import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
-
+import { environment } from '../../environments/environment';
+const API_URL = environment.API_URL
 declare var myFunction;
 @Component({
   selector: 'app-admin',
@@ -27,6 +28,12 @@ declare var myFunction;
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  page = 1;
+  count = 0;
+  tableSize = 5 ;
+
+
+
   schedpatient: any = []
   schedclient: any = []
   notifydata2: any = []
@@ -101,6 +108,10 @@ event1 = {
     this.viewTitle = title;
   }
 
+  onTableDataChange(event){
+    this.page = event;
+    this.getclients();
+  } 
 async qwe(event){
  // Use Angular date pipe for conversion
  if(this.schedclient){
@@ -161,12 +172,12 @@ async qwe(event){
   
   async onEventSelected(event) {
     console.log(event)
-    this.api.get("https://localhost/furcare/user/getpatientsched?patient_id="+event.patient).subscribe((data)=>{
+    this.api.get(API_URL+"user/getpatientsched?patient_id="+event.patient).subscribe((data)=>{
 
       this.schedpatient = data[0]
      
 
-      this.api.get("https://localhost/furcare/user/getclientsched?client_id="+event.client).subscribe((data1)=>{
+      this.api.get(API_URL+"user/getclientsched?client_id="+event.client).subscribe((data1)=>{
 
       this.schedclient = data1[0]
       console.log(this.schedpatient)
@@ -219,7 +230,7 @@ async qwe(event){
   }
   
   async deletesched(ev){
-    this.api.get("https://localhost/furcare/user/deletesched?schedule_id="+ev.schedule_id).subscribe((res)=>{
+    this.api.get(API_URL+"user/deletesched?schedule_id="+ev.schedule_id).subscribe((res)=>{
 
       this.getschedule()
       this.notif()
@@ -256,12 +267,16 @@ async qwe(event){
   
     
   }
-
+  get sortClients(){
+    return this.clients.sort((a, b) => {
+      return <any>new Date(b.date_added) - <any>new Date(a.date_added);
+    });
+  }
   
 getschedule(){
   this.eventSource = [];
 
-  this.api.get("https://localhost/furcare/user/getschedule").subscribe((sched)=>{
+  this.api.get(API_URL+"user/getschedule").subscribe((sched)=>{
    
   console.log(sched)
    
@@ -325,10 +340,11 @@ getschedule(){
   getclients(){
 
     
-      this.api.get("https://localhost/furcare/user/getclients").subscribe(res => {
+      this.api.get(API_URL+"user/getclients").subscribe(res => {
    
        
           this.clients = res;
+          this.count = this.clients.length
       
         
          
@@ -382,7 +398,7 @@ getschedule(){
 
         // }  
 
-        if(daysleft <= 3 && daysleft >= 0){
+        if(daysleft <= 2 && daysleft >= 0){
 
           this.notifydata.push(this.event[i])
         this.notifydata2.push({

@@ -2,13 +2,36 @@
  
     <div id="content" #content>
       
+    
+
+
       <div class="modal-header">						
         <h4 class="modal-title">Treatment Sheet</h4>
         <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
       </div>
+
+      <div class="treatment-switch">
+        <ion-segment [(ngModel)]="status">
+            <ion-segment-button class="sss" value="on">
+                <ion-label>Add</ion-label>
+            </ion-segment-button>
+            <ion-segment-button class="sss" value="up">
+                <ion-label>View</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div [hidden]="status != 'on'">
       <div class="modal-body">					
         <div class="form-group">
          
+
+         
+  
+
+
+
+
           <label><b>Diagnosis/Findings: </b></label>
           <ion-textarea type="text" class="form-control" (input)="diagnosis = $event.target.value;" required></ion-textarea>
           
@@ -116,7 +139,11 @@
           <ion-textarea autoGrow="true"  type="text" class="form-control"(input)="comments = $event.target.value;" required></ion-textarea>
         </div>
             
-            
+        <div class="form-group" style="margin-top: 10px;">
+          
+          <label><b>Veterinarian: </b></label>
+          <input class="form-control"(input)="veterinarian = $event.target.value;" required>
+        </div>
            
       </div>
       
@@ -125,6 +152,141 @@
         <input type="button" class="btn btn-default" (click)="dismissModal()"  value="Cancel">
         <input type="submit" class="btn btn-success" (click)="addsheet()" value="Add">
       </div>
+     
+  </div>
+
+
+  <div [hidden]="status != 'up'">
+      <div *ngFor="let data of treatment" style="border: solid black; border-width: 1px; margin: 5px; border-radius: 5px;">
+        <label>Date: {{data.date | date: 'MMM d, y, h:mm a'}}</label>
+
+        <label style="display: block;"><b>Veterinarian: </b>{{data.veterinarian}}</label>
+        <div class="modal-body">					
+          <div class="form-group">
+           
+            
+  
+  
+  
+  
+            <label><b>Diagnosis/Findings: </b></label>
+       
+            
+            
+         <div class="row">  
+           <div class="col"><b>Patient Name: </b><u>{{data.name}}</u></div>
+           <div class="col"> <label><b>Breed: </b><u>{{data.breed}}</u></label></div>
+            
+            
+          </div> 
+         
+          </div>
+          <div class="form-group">
+  
+          
+        <div class="row">
+          <div class="col">
+            <b>BW: </b><u>{{data.bw}}</u>
+           
+   
+          </div> 
+          <div class="col">
+            <b>HR: </b><u>{{data.hr}}</u>
+    
+          </div> 
+            <div class="col">
+            <b>MM: </b><u>{{data.mm}}</u>
+          
+       
+          </div> 
+          </div>
+          <div class="row">
+            <div class="col">
+              <b>PR: </b><u>{{data.pr}}</u>
+             
+          
+            </div> 
+            <div class="col">
+              <b>Temp: </b><u>{{data.temp}}</u>
+          
+            </div> 
+              <div class="col">
+              <b>RR: </b><u>{{data.rr}}</u>
+            
+           
+            </div> 
+            </div>
+            <div class="row">
+              <div class="col">
+                <b>CRT: </b><u>{{data.crt}}</u>
+               
+            
+              </div> 
+              <div class="col">
+                <b>BCS: </b><u>{{data.bcs}}</u>
+           
+              </div> 
+               
+              </div>
+  
+  
+  
+          </div>
+  
+          <div class="row">
+            <div class="col">
+                        <ion-label><b>AM: </b><u>{{data.am}}</u></ion-label>
+                        
+                        
+                      </div>
+          
+            <div class="col">
+                        <ion-label><b>PM : </b><u>{{data.pm}}</u></ion-label>
+                       
+                      
+          
+                      
+                    </div>
+  
+  
+         
+        
+              
+              
+             
+        </div>
+        <div class="row" style="margin-left: 1px">
+ <div class="form-group" style="margin-top: 10px;">
+            
+            <label><b>Fluid/Rate: </b><u>{{data.fluid}}</u></label>
+         
+          </div>
+
+          
+        </div>
+        <div class="row" style="margin-left: 1px">
+          <label style="white-space: nowrap; display: block;"><b>Medication</b> <pre>{{data.medication}}</pre></label>
+
+          
+        </div>
+        <div class="row" style="margin-left: 1px">
+
+          <label style="white-space: nowrap; display: block;"><b>Comments</b> <pre>{{data.comments}}</pre></label>
+          
+        </div>
+
+
+
+
+
+
+      </div>
+
+      
+  </div>
+
+
+      
     
  
     </div>
