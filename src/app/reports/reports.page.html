@@ -44,9 +44,249 @@
 
         <ion-content>
         <div class="wrapper" style="border: solid black; margin-left: 200px; margin-right: 200px; margin-top: 50px; border-radius: 5px; border-width: 1px; background: white; min-height: 700px;">
+         
+         <div class="w3-center">
+          <div style="display: inline;">
+          <label>Filter:&nbsp;</label>
+          <select name="usertype" id= "service" [(ngModel)]="choice">
+            <option></option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+         
+            
+            
+          </select>
+         </div>
+          <div *ngIf="choice == 'daily'" style="display: inline;">
+          <label>Choose day</label>
+          <input type="date" [(ngModel)]="dailychoice">
+        </div>
 
-          <label style="display: block; font-size: 25px;"><b>Clients this day:</b></label>
+        <div *ngIf="choice == 'weekly'" style="display: inline;">
+          <label>Choose any day of the week</label>
+          <input type="date" [(ngModel)]="weeklychoice">
+        </div>
 
+        <div *ngIf="choice == 'monthly'" style="display: inline;">
+          <label>Choose month</label>
+          <input type="month" [(ngModel)]="monthlychoice">
+        </div>
+        <input type="button" class="btn btn-success" (click)="submit()"  value="Filter" style="margin: 20px;">
+      
+      
+        <div class="confine-switch">
+          <ion-segment [(ngModel)]="status">
+              <ion-segment-button class="sss" value="Clients">
+                  <ion-label>Clients</ion-label>
+              </ion-segment-button>
+              <ion-segment-button class="sss" value="Patients">
+                  <ion-label>Patients</ion-label>
+              </ion-segment-button>
+              <ion-segment-button class="sss" value="Services">
+                <ion-label>Services</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+      </div>
+      
+
+      <div [hidden]="status != 'Clients'">
+        <div><b>result count: {{sortClients.length}}</b></div>
+        <div class="table-wrapper" >
+        
+           
+            <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+              <table class="table" id="myTable" >
+                <thead>
+                  <tr  style="text-align: center;">
+                    <th >Name</th>
+                    
+                    <th >Address</th>
+                    <th >Mobile number</th>
+                    <th>Email</th>
+                   
+                
+                    <th >Adder</th>
+                    <th >Date added</th>
+                   
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of sortClients | filter : filter | paginate : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };" >
+                    <td><b *ngIf="mobile">Name: </b>{{data.name}}</td>
+                    <td><b *ngIf="mobile">Address: </b>{{data.address}}</td>
+                    <td><b *ngIf="mobile">Mobile number: </b>{{data.mobile_number}}</td>
+                    <td><b *ngIf="mobile">Email: </b>{{data.email}}</td>
+                    <td><b *ngIf="mobile">Adder: </b>{{data.adder}}</td>
+                    <td><b *ngIf="mobile">Date added: </b>{{data.date_added | date}}</td>
+                    
+              
+                    
+                    
+                    
+                  </tr>
+                
+                 
+                  
+                  
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center">
+                <pagination-controls 
+                  responsive="true" 
+                  previousLabel="Prev" 
+                  nextLabel="Next" 
+                  (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+              </div>
+              
+              </div>
+         
+
+      </div>
+      <div [hidden]="status != 'Patients'">
+        <div><b>result count: {{sortPatients.length}}</b></div>
+        <div class="table-wrapper" >
+        
+           
+          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+            <table class="table" id="myTable" >
+              <thead>
+                <tr  style="text-align: center;">
+                  <th >Name</th>
+                  
+                  <th >Species</th>
+                  <th >Birth</th>
+                  <th>Color</th>
+                 
+              
+                  <th >Breed</th>
+                  <th >Gender</th>
+                  <th >Microchip</th>
+                  <th >Dateofimplant</th>
+                  <th >Owner</th>
+                 
+                
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of sortPatients | filter : filter | paginate : {
+                  itemsPerPage: tableSize,
+                  currentPage: page,
+                  totalItems: count
+                };" >
+                  <td>{{data.name}}</td>
+                  <td>{{data.species}}</td>
+                  <td>{{data.birth | date}}</td>
+                  <td>{{data.color}}</td>
+                  <td>{{data.breed}}</td>
+                  <td>{{data.gender}}</td>
+                  <td>{{data.microchip}}</td>
+                  <td>{{data.dateofimplant}}</td>
+                  <td>{{data.name1}}</td>
+                  
+                  
+            
+                  
+                  
+                  
+                </tr>
+              
+               
+                
+                
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+              <pagination-controls 
+                responsive="true" 
+                previousLabel="Prev" 
+                nextLabel="Next" 
+                (pageChange)="onTableDataChange($event)">
+              </pagination-controls>
+            </div>
+            
+            </div>
+
+      </div>
+      <div [hidden]="status != 'Services'">
+        <div><b>result count: {{sortService.length}}</b></div>
+    
+        <div class="table-wrapper" >
+        
+         
+          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+            <table class="table" id="myTable" >
+              <thead>
+                <tr  style="text-align: center;">
+                  <th >Patient</th>
+                  <th >Service Type</th>
+                  
+                  <th >Weight</th>
+                  <th >Against</th>
+                  <th>Veterinarian</th>
+                 
+              
+                  
+                  <th >Client</th>
+                  <th >Session</th>
+                  <th >Date of Service</th>
+                  
+                 
+                
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of sortService  | paginate : {
+                  itemsPerPage: tableSize,
+                  currentPage: page,
+                  totalItems: count
+                } | filter : filter">
+            
+                  <td><b>{{data.patientname}}</b></td>
+                  <td>{{data.service_type}}</td>
+                  <td>{{data.weight}}</td>
+                  <td>{{data.against}}</td>
+                  <td>{{data.veterinarian}}</td>
+                  
+                  <td>{{data.clientname}}</td>
+                  <td>{{data.session}}</td>
+                  <td>{{data.service_date | date}}</td>
+                  
+                  
+                  
+            
+                  
+                  
+                  
+                </tr>
+              
+               
+                
+                
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+              <pagination-controls 
+                responsive="true" 
+                previousLabel="Prev" 
+                nextLabel="Next" 
+                (pageChange)="onTableDataChange($event)">
+              </pagination-controls>
+            </div>
+            
+            </div>
+
+      </div>
+
+
+
+      </div>
 </div>
 
         </ion-content>

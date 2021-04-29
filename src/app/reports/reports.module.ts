@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -14,7 +16,9 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule,
     IonicModule,
     ReportsPageRoutingModule,
-    ChartsModule
+    ChartsModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   declarations: [ReportsPage]
 })

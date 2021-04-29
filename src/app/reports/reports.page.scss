@@ -1,3 +1,6 @@
+
+
+
 .form-inline {
 	display: inline-block;
 }
@@ -155,7 +158,7 @@ ion-content {
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
+    width: 90%;
 }
 .table-title {        
     padding-bottom: 15px;
@@ -1177,6 +1180,20 @@ ion-content{
     --background: url('./../../assets/images/furcare.png') 0 0/100% auto no-repeat !important;
 
     
+}
+
+.confine-switch {
+    border: solid black;
+   border-radius: 10px;
+   border-width: 1px;
+   margin: 0 auto;
+   display: flex;
+   justify-content: space-between;
+
+   margin: 0px 10px;
+   color: black;
+   font-weight: bold;
+   font-family: Lato, sans-serif;
 }
 
 
