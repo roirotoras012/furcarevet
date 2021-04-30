@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
 import { ToastController, NavParams, AlertController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
+import { PhotomodalPage } from '../../components/photomodal/photomodal.page';
+import { ViewphotopopPage } from '../../components/viewphotopop/viewphotopop.page';
+
 import { environment } from '../../../environments/environment';
 import { DatePipe } from '@angular/common'
 
@@ -13,6 +16,7 @@ const API_URL = environment.API_URL
   styleUrls: ['./service-modal.page.scss'],
 })
 export class ServiceModalPage implements OnInit {
+  link: any ;
   status = "on"
   date = new Date()
   patient: any = []
@@ -28,13 +32,13 @@ export class ServiceModalPage implements OnInit {
   allservices: any = []
   mobile: any
   confinement: any = []
-
+  photo: any ;
   estimated_cost: any
   deposit: any
   date_of_addmision: any
   date_of_release: any
   confinement_procedure: any
-  constructor(private alert: AlertController,public datepipe: DatePipe,private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) { 
+  constructor(private popover: PopoverController,private alert: AlertController,public datepipe: DatePipe,private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) { 
 
 
   }
@@ -57,7 +61,55 @@ export class ServiceModalPage implements OnInit {
     }
     console.log(this.mobile)
   }
+  async image(){
+    const modal = await this.popover.create({
+      component: PhotomodalPage,
+      cssClass: 'photo-popover',
+      componentProps: {
 
+       
+      }
+    
+  
+    });
+    
+    await modal.present();
+    await modal.onWillDismiss().then((res)=>{
+      if(res.data == null){
+          this.photo = '';
+
+      }
+      else{
+
+        this.photo = res.data
+        this.link = "assets/photos/"+this.photo+".jpg"
+      }
+     console.log(this.photo)
+
+
+  })
+
+    
+  
+  }
+
+  async viewphoto(photo){
+    const modal = await this.popover.create({
+      component: ViewphotopopPage,
+      cssClass: 'viewphoto-popover',
+      componentProps: {
+        photo: photo
+       
+      }
+    
+  
+    });
+    
+    await modal.present();
+
+
+
+  }
 confineserve(){
 
   if(this.estimated_cost && this.deposit && this.confinement_procedure && this.veterinarian){
@@ -157,6 +209,8 @@ console.log(this.x)
               this.weight= ''
               this.veterinarian= ''
               this.against= ''
+              this.link= ''
+              this.photo= ''
               this. getservice()
             }
             else{
@@ -198,6 +252,7 @@ console.log(this.x)
               formData.append('weight', this.weight)
               formData.append('veterinarian', this.veterinarian)
               formData.append('against', this.against)
+              formData.append('photo', this.photo)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
@@ -253,6 +308,8 @@ console.log(this.x)
                           this.weight = ''
                           this.against = ''
                           this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
                         }
                     
                   }, err => {
@@ -280,6 +337,7 @@ console.log(this.x)
               const formData: FormData = new FormData();
               formData.append('session', session.toString())
               formData.append('service', this.x.toLowerCase())
+              formData.append('photo', this.photo)
               formData.append('weight', this.weight)
               formData.append('veterinarian', this.veterinarian)
               formData.append('against', this.against)
@@ -341,6 +399,8 @@ console.log(this.x)
                           this.weight = ''
                           this.against = ''
                           this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
                         }
                     
                   }, err => {
@@ -365,6 +425,7 @@ console.log(this.x)
 
               const formData: FormData = new FormData();
               formData.append('session', session.toString())
+              formData.append('photo', this.photo)
               formData.append('service', this.x.toLowerCase())
               formData.append('weight', this.weight)
               formData.append('veterinarian', this.veterinarian)
@@ -426,6 +487,8 @@ console.log(this.x)
                           this.weight = ''
                           this.against = ''
                           this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
                         }
                     
                   }, err => {
@@ -448,6 +511,7 @@ console.log(this.x)
 
               const formData: FormData = new FormData();
               formData.append('session', session.toString())
+              formData.append('photo', this.photo)
               formData.append('service', this.x.toLowerCase())
               formData.append('weight', this.weight)
               formData.append('veterinarian', this.veterinarian)
@@ -508,6 +572,8 @@ console.log(this.x)
                           this.weight = ''
                           this.against = ''
                           this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
                         }
                     
                   }, err => {
@@ -529,6 +595,7 @@ console.log(this.x)
 
             const formData: FormData = new FormData();
             formData.append('service', this.x.toLowerCase())
+            formData.append('photo', this.photo)
             formData.append('weight', this.weight)
             formData.append('veterinarian', this.veterinarian)
             formData.append('against', this.against)
@@ -573,6 +640,7 @@ console.log(this.x)
     
               const formData: FormData = new FormData();
               formData.append('session', session.toString())
+              formData.append('photo', this.photo)
               formData.append('service', this.x.toLowerCase())
               formData.append('weight', this.weight)
               formData.append('veterinarian', this.veterinarian)
@@ -633,6 +701,8 @@ console.log(this.x)
                           this.weight = ''
                           this.against = ''
                           this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
                         }
                     
                   }, err => {

@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'service-modal',
     loadChildren: () => import('./components/service-modal/service-modal.module').then( m => m.ServiceModalPageModule)
   },
+  {
+    path: 'photomodal',
+    loadChildren: () => import('./components/photomodal/photomodal.module').then( m => m.PhotomodalPageModule)
+  },
+  {
+    path: 'viewphotopop',
+    loadChildren: () => import('./components/viewphotopop/viewphotopop.module').then( m => m.ViewphotopopPageModule)
+  },
  
   
   

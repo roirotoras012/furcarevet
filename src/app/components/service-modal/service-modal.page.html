@@ -28,6 +28,13 @@
         
       </select>
     </div>
+    <label>{{photo}}</label>
+    <img *ngIf="link" class="image" [src]="link" alt="Italian Trulli">
+    <div class="form-group">						
+      
+      <button type="button" class="btn btn-success" (click)="image()" aria-hidden="true">Choose Photo</button>
+      
+    </div>
     <div class="form-group">
       
       <label>Veterinarian</label>
@@ -212,11 +219,11 @@
     
     </div>
     <div class="col">
-      <label style="display: block; margin-bottom: 20px"><b>Date: </b>{{date | date}} </label>
+      <label style="display: block; margin-bottom: 20px"><b>Date: </b>{{data.date_added | date}} </label>
       <label style="display: block; margin-bottom: 20px"><b>Breed: </b>{{patient.breed}}</label>
       <label style="display: block; margin-bottom: 20px"><b>DOB: </b>{{patient.birth}} </label> 
     </div>
-  
+    <label class="slanted" *ngIf="data.released== 1" style="display: block; margin-bottom: 20px; float: right;"><b>RELEASED</b></label> 
     </div>
 
     <div class="form-group">
@@ -295,9 +302,11 @@
               <th >DATE</th>
               <th *ngIf="this.x =='others'" >SERVICE</th>
               <th >SESSION</th>
+              
               <th >WEIGHT (in kg.)</th>
+              <th style="width: 300px;"></th>
               <th>AGAINST</th>
-             
+              
           
               <th >VETERINARIAN</th>
               <th style="width: 160px; text-align: center;" >ACTION</th>
@@ -311,9 +320,10 @@
               <td style="text-align: center;"><b *ngIf="mobile">SESSION: </b>{{data.session}}</td>
               <td *ngIf="!data.isEdit"><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
               <td *ngIf="data.isEdit"><b *ngIf="mobile">WEIGHT: </b><input type="text" class="form-control" name="weight" [(ngModel)]="data.weight" style="width: 120px;"></td>
-              <td><b *ngIf="mobile">AGAINST: </b>{{data.against}}</td>
+              <td ><button (click)="viewphoto(data.photo)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" src="assets/photos/{{data.photo}}.jpg" alt="Italian Trulli"></button></td>
+              <td><b *ngIf="mobile">AGAINST: </b> {{data.against}}</td>
               
-        
+             
               <td *ngIf="!data.isEdit"><b *ngIf="mobile">VETERINARIAN: </b>{{data.veterinarian}}</td>
               <td *ngIf="data.isEdit"><b *ngIf="mobile">VETERINARIAN: </b><input type="text" class="form-control" name="veterinarian" [(ngModel)]="data.veterinarian" style="width: 120px;"></td>
               <td style="text-align: center;"><button *ngIf="!data.isEdit" (click)="edit(data)" style="background: none; display: inline;"><i class="fas fa-edit"></i></button><button *ngIf="data.isEdit" (click)="save(data)" style="background: none; display: inline;"><i class="fas fa-check-double"></i></button> <button (click)="markdelete(data)" style="background: none;display: inline;"><i class="far fa-trash-alt"></i></button><button (click)="markalert(data)" style="background: none;display: inline;"><i class="far fa-check-square"></i></button></td>
@@ -351,6 +361,7 @@
                     <th >SERVICE</th>
                     
                     <th >WEIGHT (in kg.)</th>
+                    <th style="width: 300px;"></th>
                     <th>AGAINST</th>
                    
                 
@@ -364,6 +375,7 @@
                     <td><b *ngIf="mobile">SERVICE: </b>{{data.service_type}}</td>
                    
                     <td><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
+                    <td ><button (click)="viewphoto(data.photo)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" src="assets/photos/{{data.photo}}.jpg" alt="Italian Trulli"></button></td>
                     <td><b *ngIf="mobile">AGAINST: </b>{{data.against}}</td>
                     
               

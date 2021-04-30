@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { NotificationPage } from '../components/notification/notification.page';
 import { ScheduleService } from '../services/schedule.service'
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { PopoverComponent } from './../components/popover/popover.component';
 import { Platform } from '@ionic/angular';
 import { ChartDataSets } from 'chart.js';
@@ -20,10 +20,32 @@ const API_URL = environment.API_URL
   styleUrls: ['./reports.page.scss'],
 })
 export class ReportsPage implements OnInit {
- 
+
+  confined: any = []
+
+  released: any = []
+  allconfinement: any = []
   page = 1;
   count = 0;
   tableSize = 5 ;
+  page1 = 1;
+  count1 = 0;
+  tableSize1 = 5 ;
+  page2 = 1;
+  count2 = 0;
+  tableSize2 = 5 ;
+  
+
+
+  page3 = 1;
+  count3 = 0;
+  tableSize3 = 5 ;
+  page4 = 1;
+  count4 = 0;
+  tableSize4 = 5 ;
+  page5 = 1;
+  count5 = 0;
+  tableSize5 = 5 ;
   status = "Clients"
   choice: any
   filteredservices: any = []
@@ -70,7 +92,7 @@ export class ReportsPage implements OnInit {
   // showLegend = false;
 
   
-  constructor(private datepipe: DatePipe,private platform:Platform,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private authService: AuthenticationService) { 
+  constructor(private alert: AlertController,private datepipe: DatePipe,private platform:Platform,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private authService: AuthenticationService) { 
     this.api.userinfo().then((data)=>{
       this.currentuser = data
       
@@ -81,17 +103,84 @@ export class ReportsPage implements OnInit {
       this.getclients()
       this.getpatients()
       this.getservices()
-
+      this.getconfinement()
       
   }
 
   ngOnInit() {
   }
 
+
+  getconfinement(){
+    this.confined = []
+    this.released = []
+  this.api.get(API_URL+"user/getallconfinement").subscribe((res)=>{
+
+    this.allconfinement = res
+   for(let i =0; i<this.allconfinement.length; i++){
+      if(this.allconfinement[i].released == 0){
+        this.confined.push(this.allconfinement[i]);
+
+      }
+    }
+      for(let i =0; i<this.allconfinement.length; i++){
+        if(this.allconfinement[i].released == 1){
+          this.released.push(this.allconfinement[i]);
+  
+        }
+
+
+   }
+   console.log(this.released)
+   console.log(this.confined)
+})
+
+
+
+  }
+  get sortreleased(){
+    return this.released.sort((a, b) => {
+      return <any>new Date(b.date_of_release) - <any>new Date(a.date_of_release);
+    });
+  }
+  get sortconfined(){
+    return this.confined.sort((a, b) => {
+      return <any>new Date(a.date_of_release) - <any>new Date(b.date_of_release);
+    });
+  }
+  get sortconfinement(){
+    return this.allconfinement.sort((a, b) => {
+      return <any>new Date(a.released) - <any>new Date(b.released);
+    });
+  }
+
   onTableDataChange(event){
     this.page = event;
-    this.getclients();
+
   } 
+  onTableDataChange1(event){
+    this.page1 = event;
+  
+  } 
+
+  onTableDataChange2(event){
+    this.page2 = event;
+    
+  } 
+  onTableDataChange3(event){
+    this.page3 = event;
+
+  } 
+  onTableDataChange4(event){
+    this.page4 = event;
+   
+  } 
+
+  onTableDataChange5(event){
+    this.page5  = event;
+  
+  } 
+
 
   get sortClients(){
     return this.filteredclients.sort((a, b) => {
@@ -110,6 +199,7 @@ export class ReportsPage implements OnInit {
       return <any>new Date(b.patientname) - <any>new Date(a.patientname);
     });
   }
+
   
 submit(){
 
@@ -571,5 +661,53 @@ async _popOver(ev:any){
 //   }
 
 // }
+async alertrelease(data){
+
+
+  const alert = await this.alert.create({
+   
+    header: "",
+    subHeader: "",
+    message: "Are you sure?", 
+    buttons: ['Cancel', {
+  
+      text: 'Release',
+      handler: ()=>{
+        
+        this.release(data)
+  
+      }
+  
+    }],
+  });
+  alert.present();
+  alert.onDidDismiss().then(()=>{
+  
+    this.getconfinement()
+  
+  })
+  }
+
+
+release(data){
+  let date = new Date()
+  const formData: FormData = new FormData();
+  formData.append('confinement_id', data.confinement_id)
+  
+  formData.append('date_of_release',this.datepipe.transform(date, 'yyyy-MM-dd HH:mm'))
+  this.api.add(API_URL+"user/release", formData).subscribe((res)=>{
+
+
+    if(res == "success"){
+        
+      this.getconfinement()
+    }
+
+
+
+  })
+
+
+}
 
 }
