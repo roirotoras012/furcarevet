@@ -16,7 +16,7 @@ export class ViewphotopopPage implements OnInit {
     this.photo = this.navParams.get('photo');
   
 
-    this.photolink = "assets/photos/"+this.photo+".jpg"
+    this.photolink = this.photo
   }
 
   dismissModal(){

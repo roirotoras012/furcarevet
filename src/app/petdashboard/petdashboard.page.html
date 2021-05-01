@@ -47,10 +47,11 @@
         <ion-list *ngFor="let data of patientsfilter">
           <ion-card class="patients">  
             <div style="text-align: left !important; margin: 5px;border-bottom: solid black; border-width: 1px;border-color: #555;">
-              
+             
               <button  class="patientname" style="justify-content: left;"><i *ngIf="data.species=='canine'" class="fas fa-dog"></i>
                 <i *ngIf="data.species=='feline'" class="fas fa-cat"></i>
                 &nbsp;{{data.name}}</button>
+              
                 <div class="micro">
                 <label class="micro" style="display: block; text-align: right; margin: 5px;"><b>Microchip:</b> &nbsp;{{data.microchip}}</label>
                 <label class="micro" style="display: block; text-align: right; margin: 5px;"><b>Date Implanted:</b>&nbsp;{{data.dateofimplant}}</label>
@@ -69,7 +70,10 @@
                 <label style="display: block;"><b>Species:</b> &nbsp;{{data.species}}</label>
                 <label style="display: block;"><b>Breed</b>: &nbsp;{{data.breed}}</label>
                 <label style="display: block;"><b>Color</b>: &nbsp;{{data.color}}</label>
-                
+                <div>
+                  <a (click)="markdeletepatient(data)" style="cursor: pointer;margin: 5px; "><i class="fas fa-trash-alt"></i></a>  
+                  <a (click)="opendit(data)" style="cursor: pointer;margin: 5px; "><i class="fas fa-edit"></i></a>
+                </div>
               </div>
             
            

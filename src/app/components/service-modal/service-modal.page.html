@@ -28,13 +28,13 @@
         
       </select>
     </div>
-    <label>{{photo}}</label>
+    <!-- <label>{{photo}}</label>
     <img *ngIf="link" class="image" [src]="link" alt="Italian Trulli">
-    <div class="form-group">						
+    <div class="form-group">						 -->
       
-      <button type="button" class="btn btn-success" (click)="image()" aria-hidden="true">Choose Photo</button>
+      <!-- <button type="button" class="btn btn-success" (click)="image()" aria-hidden="true">Choose Photo</button> -->
       
-    </div>
+    <!-- </div> -->
     <div class="form-group">
       
       <label>Veterinarian</label>
@@ -188,14 +188,14 @@
        time, the staff will dispose the cadaver and necessary fees will apply.
     8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges.
 
-    <input type="datetime-local" [(ngModel)]="date_of_addmision">
+    <input type="datetime-local" [(ngModel)]="date_of_addmision">                             
     Date/Time of admission
 
-    <input type="datetime-local" [(ngModel)]="date_of_release">
+    <input type="datetime-local" [(ngModel)]="date_of_release">                                               
     Date/Time of Release
 
-
-
+    <label><b>Photo of signature: </b></label>    
+    <input [(ngModel)]="signatureinput" (change)="selectedFile2($event)" type="file" name="file" size="2" accept="image/*" style="background-color:#fff; font-size: 12px;" required="required" />
 
 
       </pre>
@@ -206,7 +206,21 @@
 </div>
 
 <div [hidden]="status != 'up'">
-  <div *ngFor="let data of confinement" >
+  <ion-searchbar class="searchbar" placeholder="Search date (yyyy-mm-dd)" [(ngModel)]="filter"></ion-searchbar>
+  <div class="d-flex justify-content-center">
+    <pagination-controls 
+      responsive="true" 
+      previousLabel="Prev" 
+      nextLabel="Next" 
+      (pageChange)="onTableDataChange2($event)"
+      maxSize="5">
+    </pagination-controls>
+  </div>
+  <div *ngFor="let data of sortconfinement | filter: filter | paginate : {
+    itemsPerPage: 1,
+    currentPage: page2,
+    totalItems: count2
+  };">
     <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'MMM d, y, h:mm a'}}</label>
   <div class="modal-body" style="border: solid black; border-width: 1px; margin: 10px; border-radius: 5px;">
     					
@@ -219,6 +233,8 @@
     
     </div>
     <div class="col">
+      <button (click)="markdeleteconfinement(data)" style="background: none;display: inline; float: right;font-size: 25px;"><i class="far fa-trash-alt"></i></button>
+
       <label style="display: block; margin-bottom: 20px"><b>Date: </b>{{data.date_added | date}} </label>
       <label style="display: block; margin-bottom: 20px"><b>Breed: </b>{{patient.breed}}</label>
       <label style="display: block; margin-bottom: 20px"><b>DOB: </b>{{patient.birth}} </label> 
@@ -266,8 +282,9 @@
 
     <label><b><u>{{data.date_of_release | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of Release
-
-
+    
+    <label *ngIf="data.signature != ''"><b>Signature over printed name </b></label> 
+    <button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.signature != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button>
 
 
 
@@ -277,6 +294,7 @@
   
   </div>
 </div>
+
 </div>
 </ion-grid>
 
@@ -304,7 +322,7 @@
               <th >SESSION</th>
               
               <th >WEIGHT (in kg.)</th>
-              <th style="width: 300px;"></th>
+              <th style="width: 200px;"></th>
               <th>AGAINST</th>
               
           
@@ -314,13 +332,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of sortservice | filter : filter" [ngClass]="{'my_class': data.done == 1}">
+            <tr *ngFor="let data of sortservice | filter : filter | paginate : {
+              itemsPerPage: tableSize,
+              currentPage: page,
+              totalItems: count
+            };" [ngClass]="{'my_class': data.done == 1}">
               <td><b *ngIf="mobile">DATE: </b>{{data.service_date | date}}</td>
               <td *ngIf="this.x =='others'"><b *ngIf="mobile">SERVICE: </b>{{data.service_type}}</td>
               <td style="text-align: center;"><b *ngIf="mobile">SESSION: </b>{{data.session}}</td>
               <td *ngIf="!data.isEdit"><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
               <td *ngIf="data.isEdit"><b *ngIf="mobile">WEIGHT: </b><input type="text" class="form-control" name="weight" [(ngModel)]="data.weight" style="width: 120px;"></td>
-              <td ><button (click)="viewphoto(data.photo)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" src="assets/photos/{{data.photo}}.jpg" alt="Italian Trulli"></button></td>
+
+              <td *ngIf="data.isEdit"><input [(ngModel)]="photoinput" (change)="selectedFile($event)" type="file" name="file" size="2" accept="image/*" style="background-color:#fff; font-size: 12px; width: 170px;" required="required" /></td>
+              <td  *ngIf="!data.isEdit"><button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button></td>
               <td><b *ngIf="mobile">AGAINST: </b> {{data.against}}</td>
               
              
@@ -336,7 +360,15 @@
             
           </tbody>
         </table>
-        
+        <div class="d-flex justify-content-center">
+          <pagination-controls 
+            responsive="true" 
+            previousLabel="Prev" 
+            nextLabel="Next" 
+            (pageChange)="onTableDataChange($event)"
+            maxSize="7">
+          </pagination-controls>
+        </div>
       </div>
     </div>
     </div>
@@ -370,12 +402,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of sortallservice  | filter : filter" [ngClass]="{'my_class': data.done == 1}">
+                  <tr *ngFor="let data of sortallservice  | filter : filter | paginate : {
+                    itemsPerPage: tableSize1,
+                    currentPage: page1,
+                    totalItems: count1
+                  };" [ngClass]="{'my_class': data.done == 1}">
                     <td><b *ngIf="mobile">DATE: </b>{{data.service_date | date}}</td>
                     <td><b *ngIf="mobile">SERVICE: </b>{{data.service_type}}</td>
                    
                     <td><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
-                    <td ><button (click)="viewphoto(data.photo)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" src="assets/photos/{{data.photo}}.jpg" alt="Italian Trulli"></button></td>
+                    <td ><button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button></td>
                     <td><b *ngIf="mobile">AGAINST: </b>{{data.against}}</td>
                     
               
@@ -389,7 +425,15 @@
                   
                 </tbody>
               </table>
-              
+              <div class="d-flex justify-content-center">
+                <pagination-controls 
+                  responsive="true" 
+                  previousLabel="Prev" 
+                  nextLabel="Next" 
+                  (pageChange)="onTableDataChange1($event)"
+                  maxSize="7">
+                </pagination-controls>
+              </div>
             </div>
           </div>
           </div>

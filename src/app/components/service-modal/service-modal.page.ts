@@ -7,6 +7,7 @@ import { ViewphotopopPage } from '../../components/viewphotopop/viewphotopop.pag
 
 import { environment } from '../../../environments/environment';
 import { DatePipe } from '@angular/common'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 
 const API_URL = environment.API_URL
 
@@ -16,6 +17,17 @@ const API_URL = environment.API_URL
   styleUrls: ['./service-modal.page.scss'],
 })
 export class ServiceModalPage implements OnInit {
+  page = 1;
+  count = 0;
+  tableSize = 5 ;
+  page1 = 1;
+  count1 = 0;
+  tableSize1 = 5 ;
+  page2 = 1;
+  count2 = 0;
+  tableSize2 = 5 ;
+
+  photoinput: any
   link: any ;
   status = "on"
   date = new Date()
@@ -25,6 +37,7 @@ export class ServiceModalPage implements OnInit {
   client_id: any;
   patient_id: any;
   weight: any;
+
   service: any;
   veterinarian: any;
   against: any;
@@ -32,13 +45,16 @@ export class ServiceModalPage implements OnInit {
   allservices: any = []
   mobile: any
   confinement: any = []
+  signatureinput: any
+  selectedphoto: File
+  selectedsignature: File
   photo: any ;
   estimated_cost: any
   deposit: any
   date_of_addmision: any
   date_of_release: any
   confinement_procedure: any
-  constructor(private popover: PopoverController,private alert: AlertController,public datepipe: DatePipe,private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) { 
+  constructor(private DomSanitizer: DomSanitizer,private popover: PopoverController,private alert: AlertController,public datepipe: DatePipe,private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) { 
 
 
   }
@@ -61,6 +77,19 @@ export class ServiceModalPage implements OnInit {
     }
     console.log(this.mobile)
   }
+  onTableDataChange(event){
+    this.page = event;
+   
+  } 
+  onTableDataChange1(event){
+    this.page1 = event;
+
+  } 
+  onTableDataChange2(event){
+    this.page2 = event;
+
+  } 
+ 
   async image(){
     const modal = await this.popover.create({
       component: PhotomodalPage,
@@ -75,7 +104,7 @@ export class ServiceModalPage implements OnInit {
     
     await modal.present();
     await modal.onWillDismiss().then((res)=>{
-      if(res.data == null){
+      if(res.data == ''){
           this.photo = '';
 
       }
@@ -94,6 +123,7 @@ export class ServiceModalPage implements OnInit {
   }
 
   async viewphoto(photo){
+
     const modal = await this.popover.create({
       component: ViewphotopopPage,
       cssClass: 'viewphoto-popover',
@@ -118,6 +148,15 @@ confineserve(){
  let date2 = new Date(this.date_of_release)
   this.api.userinfo().then((user)=>{
   const formData: FormData = new FormData();
+
+  if(!this.selectedsignature){
+    formData.append('signature', '')
+
+  }
+  else if(this.selectedsignature){
+    formData.append('signature', this.selectedsignature, this.selectedsignature.name)
+
+  }
   formData.append('estimated_cost', this.estimated_cost)
   formData.append('veterinarian', this.veterinarian)
   formData.append('deposit', this.deposit)
@@ -160,6 +199,16 @@ getconfinement(){
   this.api.get(API_URL+"user/getconfinement?patient="+this.patient.patient_id).subscribe((res)=>{
         
     this.confinement = res
+
+    for(let i =0; i <this.confinement.length; i++){
+      if(this.confinement[i].signature != ''){
+        this.confinement[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/confinement/'+this.confinement[i].confinement_id+'/'+this.confinement[i].signature)
+
+      }
+
+
+    }
+
     console.log(this.confinement)
 
 })
@@ -168,7 +217,11 @@ getconfinement(){
 
 }
  
-
+get sortconfinement(){
+  return this.confinement.sort((a, b) => {
+    return <any>new Date(a.released) - <any>new Date(b.released);
+  });
+}
 
   get sortservice(){
     return this.services.sort((a, b) => {
@@ -179,6 +232,15 @@ getconfinement(){
     return this.allservices.sort((a, b) => {
       return <any>new Date(a.service_date) - <any>new Date(b.service_date);
     });
+  }
+
+  selectedFile(event){
+    this.selectedphoto = event.target.files[0];
+   
+  }
+  selectedFile2(event){
+    this.selectedsignature = event.target.files[0];
+   
   }
   async serve(){
   
@@ -194,6 +256,7 @@ console.log(this.x)
         this.api.userinfo().then((user)=>{
 
           const formData: FormData = new FormData();
+          formData.append('photo', this.photo)
           formData.append('service', this.service)
           formData.append('weight', this.weight)
           formData.append('veterinarian', this.veterinarian)
@@ -786,6 +849,15 @@ console.log(this.x)
 
       console.log(res)
       this.allservices = res
+
+      for(let i =0; i <this.allservices.length; i++){
+        if(this.allservices[i].photo != ''){
+          this.allservices[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.allservices[i].service_id+'/'+this.allservices[i].photo)
+
+        }
+
+
+      }
       })
 
 
@@ -798,6 +870,14 @@ console.log(this.x)
         
         this.services = res
         console.log(this.services)
+        for(let i =0; i <this.services.length; i++){
+          if(this.services[i].photo != ''){
+            this.services[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.services[i].service_id+'/'+this.services[i].photo)
+
+          }
+
+
+        }
 
   })
 
@@ -806,6 +886,14 @@ console.log(this.x)
       this.api.get(API_URL+"user/getservice?patient="+this.patient_id+"&service_type="+this.x.toLowerCase()).subscribe((res)=>{
         
         this.services = res
+        for(let i =0; i <this.services.length; i++){
+          if(this.services[i].photo != ''){
+            this.services[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.services[i].service_id+'/'+this.services[i].photo)
+
+          }
+
+
+        }
         console.log(this.services)
 
   })
@@ -827,6 +915,15 @@ console.log(this.x)
   save(data){
     
     const formData: FormData = new FormData();
+    if(!this.selectedphoto){
+      formData.append('photo', '')
+
+    }
+    else if(this.selectedphoto){
+      formData.append('photo', this.selectedphoto, this.selectedphoto.name)
+
+    }
+    
     formData.append('service_id', data.service_id)
     formData.append('weight', data.weight)
     formData.append('veterinarian', data.veterinarian)
@@ -834,9 +931,9 @@ console.log(this.x)
     
     
 
-    
-    
-    
+      this.photoinput = null
+      this.getservice()
+     
     })
 
 
@@ -877,15 +974,16 @@ console.log(this.x)
   }
 
   mark(data){
-
+ let date = new Date()
     const formData: FormData = new FormData();
         formData.append('service_id', data.service_id)
-        
+        formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
           this.api.add(API_URL+"user/markservice", formData).subscribe((res)=>{
 
               if(res == "success"){
 
                 data.done = 1;
+                data.service_date = this.datepipe.transform(date.toLocaleDateString())
 
               }
               if(res== "error"){
@@ -945,6 +1043,55 @@ console.log(this.x)
         this.getservice()
     
     })
+
+    
+  }
+
+  async markdeleteconfinement(data){
+    const alert = await this.alert.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Delete',
+        handler: ()=>{
+          
+          this.deleteconfinement(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+        this.getconfinement()
+    
+    })
+
+    
+  }
+
+  deleteconfinement(data){
+
+    const formData: FormData = new FormData();
+    formData.append('confinement_id', data.confinement_id)
+    
+      this.api.add(API_URL+"user/deleteconfinement", formData).subscribe((res)=>{
+
+          if(res == "success"){
+
+            
+
+          }
+          if(res== "error"){
+
+            console.log("failed")
+          }
+            
+      })
 
     
   }

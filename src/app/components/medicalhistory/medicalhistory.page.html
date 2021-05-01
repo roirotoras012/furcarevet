@@ -30,6 +30,7 @@
 
         <div *ngFor="let data of medicalhistory" class="row" style="margin: auto; overflow: auto; scroll-behavior: auto;border-bottom: solid black; border-width: 1px;">
           <ion-grid>
+            <button (click)="markdeletemedicalhistory(data)" style="background: none;display: inline; float: right;font-size: 20px;"><i class="far fa-trash-alt"></i></button>
           <ion-row >
            
             <div ><sup><b>{{data.date}}</b></sup></div>

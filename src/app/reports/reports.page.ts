@@ -10,6 +10,9 @@ import { Platform } from '@ionic/angular';
 import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { DatePipe } from '@angular/common'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { ViewphotopopPage } from './../components/viewphotopop/viewphotopop.page';
+
 
 import { environment } from '../../environments/environment';
 
@@ -92,7 +95,7 @@ export class ReportsPage implements OnInit {
   // showLegend = false;
 
   
-  constructor(private alert: AlertController,private datepipe: DatePipe,private platform:Platform,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private authService: AuthenticationService) { 
+  constructor(private DomSanitizer: DomSanitizer,private alert: AlertController,private datepipe: DatePipe,private platform:Platform,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private authService: AuthenticationService) { 
     this.api.userinfo().then((data)=>{
       this.currentuser = data
       
@@ -114,9 +117,19 @@ export class ReportsPage implements OnInit {
   getconfinement(){
     this.confined = []
     this.released = []
+    this.allconfinement = []
   this.api.get(API_URL+"user/getallconfinement").subscribe((res)=>{
 
     this.allconfinement = res
+
+    for(let i =0; i <this.allconfinement.length; i++){
+      if(this.allconfinement[i].signature != ''){
+        this.allconfinement[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/confinement/'+this.allconfinement[i].confinement_id+'/'+this.allconfinement[i].signature)
+
+      }
+
+
+    }
    for(let i =0; i<this.allconfinement.length; i++){
       if(this.allconfinement[i].released == 0){
         this.confined.push(this.allconfinement[i]);
@@ -444,6 +457,8 @@ getservices(){
   this.api.get(API_URL+"user/getallservice1").subscribe((res)=>{
     let allservice:any = []
     allservice = res
+
+    
     for(let i =0;i<allservice.length;i++){
       if(allservice[i].done == 1){
         this.allservices.push(allservice[i])
@@ -452,10 +467,36 @@ getservices(){
 
 
     }
+    for(let i =0; i <this.allservices.length; i++){
+      if(this.allservices[i].photo != ''){
+        this.allservices[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.allservices[i].service_id+'/'+this.allservices[i].photo)
 
+      }
+
+
+    }
     console.log(this.allservices)
     
 })
+
+
+}
+
+async viewphoto(photo){
+
+  const modal = await this.popover.create({
+    component: ViewphotopopPage,
+    cssClass: 'viewphoto-popover',
+    componentProps: {
+      photo: photo
+     
+    }
+  
+
+  });
+  
+  await modal.present();
+
 
 
 }
@@ -700,7 +741,7 @@ release(data){
 
     if(res == "success"){
         
-      this.getconfinement()
+   
     }
 
 

@@ -82,7 +82,11 @@
           <div style="text-align: left !important;">
             
             <button (click)="gotopet(data.client_id)" class="clientname" ><i class="fas fa-user"></i>&nbsp;{{data.name}}</button>
+                   <a (click)="markdeleteclient(data)" style="cursor: pointer;float: right;margin: 5px;"><i class="fas fa-trash-alt"></i></a>  
+                    <a (click)="opendit(data)" style="cursor: pointer; float: right;margin: 5px;"><i class="fas fa-edit"></i></a>
+                     
           </div>
+          
           <div style="vertical-align: middle; margin: 10px;">
             <label style="display: block;"><i class="fas fa-map-marker-alt"></i>&nbsp;{{data.address}}</label>
             <label style="display: block;"><i class="fas fa-at"></i>&nbsp;{{data.email}}</label>
@@ -102,7 +106,8 @@
     responsive="true" 
     previousLabel="Prev" 
     nextLabel="Next" 
-    (pageChange)="onTableDataChange($event)">
+    (pageChange)="onTableDataChange($event)"
+    maxSize="7">
   </pagination-controls>
 </div>
 </div>    

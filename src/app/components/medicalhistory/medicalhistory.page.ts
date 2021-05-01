@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
-import { ToastController, NavParams } from '@ionic/angular';
+import { ToastController, NavParams, AlertController} from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 const API_URL = environment.API_URL
 @Component({
@@ -16,7 +16,7 @@ export class MedicalhistoryPage implements OnInit {
   date = new Date().toISOString().slice(0,10)
   medicalhistory: any = []
   description: any;
-  constructor(private api: ApiService,private navParams: NavParams, private modalCtrl: ModalController, private toastController: ToastController) {
+  constructor(private alert: AlertController,private api: ApiService,private navParams: NavParams, private modalCtrl: ModalController, private toastController: ToastController) {
     this.patient = this.navParams.get('patient');
     this.client_id = this.navParams.get('client_id');
     this.getcurrclient();
@@ -131,6 +131,54 @@ if(this.description){
   }
 
 
+  async markdeletemedicalhistory(data){
+ 
+    const alert = await this.alert.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Delete',
+        handler: ()=>{
+          
+          this.deletemedhis(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+        this.getmedhis()
+    
+    })
 
+    
+  }
+
+  deletemedhis(data){
+    
+    const formData: FormData = new FormData();
+    formData.append('med_id', data.med_id )
+    
+      this.api.add(API_URL+"user/deletemedhis", formData).subscribe((res)=>{
+      
+          if(res == "success"){
+
+            
+
+          }
+          if(res== "error"){
+
+            console.log("failed")
+          }
+            
+      })
+
+    
+  }
 
 }

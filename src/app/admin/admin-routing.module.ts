@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: AdminPage
+  },
+  {
+    path: 'editclientmodal',
+    loadChildren: () => import('./editclientmodal/editclientmodal.module').then( m => m.EditclientmodalPageModule)
   }
 ];
 

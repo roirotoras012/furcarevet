@@ -3,9 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddpetmodalComponent } from './addpetmodal/addpetmodal.component';
+import { EditpetmodalPage } from './editpetmodal/editpetmodal.page';
+
 import { ApiService } from '../services/api.service';
 import { ServicepopComponent } from '../components/servicepop/servicepop.component';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
 import { TreatmentsheetPage } from '../components/treatmentsheet/treatmentsheet.page';
 import { MedicalhistoryPage } from '../components/medicalhistory/medicalhistory.page';
@@ -23,7 +25,7 @@ export class PetdashboardPage implements OnInit {
   client_id: any;
   patients: any = []
   patientsfilter: any = []
-  constructor(private popover: PopoverController,private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
+  constructor(private alertCtrl: AlertController,private popover: PopoverController,private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
 
     this.getpatients();
     console.log(this.client_id)
@@ -194,5 +196,78 @@ async treatment(data){
 
   
 }
+
+
+async markdeletepatient(data){
+ 
+  const alert = await this.alertCtrl.create({
+ 
+    header: "",
+    subHeader: "",
+    message: "Are you sure?", 
+    buttons: ['Cancel', {
+  
+      text: 'Delete',
+      handler: ()=>{
+        
+        this.deletepatient(data)
+  
+      }
+  
+    }],
+  });
+  alert.present();
+  alert.onDidDismiss().then(()=>{
+  
+      this.getpatients()
+  
+  })
+
+  
+}
+
+deletepatient(data){
+  
+  const formData: FormData = new FormData();
+  formData.append('patient_id', data.patient_id)
+  
+    this.api.add(API_URL+"user/deletepatient", formData).subscribe((res)=>{
+    
+        if(res == "success"){
+
+          
+
+        }
+        if(res== "error"){
+
+          console.log("failed")
+        }
+          
+    })
+
+  
+}
+
+
+
+
+async opendit(data){
+  const modal = await this.modalCtrl.create({
+    component: EditpetmodalPage,
+   componentProps: {
+
+    patient: data,
+    client_id: this.client_id
+   }
+  
+
+  });
+  
+  await modal.present();
+  await modal.onWillDismiss();
+  this.getpatients();
+  
+}
+
 
 }

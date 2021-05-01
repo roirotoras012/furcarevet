@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
-import { ToastController, NavParams } from '@ionic/angular';
+import { ToastController, NavParams, AlertController } from '@ionic/angular';
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
@@ -37,7 +37,7 @@ export class TreatmentsheetPage implements OnInit {
   client_id: any;
   @ViewChild('content', {static: false}) el!: ElementRef;
 
-  constructor(private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { 
+  constructor(private alert: AlertController,private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { 
 
     
     this.patient = this.navParams.get('patient');
@@ -245,6 +245,62 @@ this.getservices()
 
 
 
+  }
+
+  get sorttreatment(){
+    return this.treatment.sort((a, b) => {
+      return <any>new Date(b.date) - <any>new Date(a.date);
+    });
+  }
+
+
+  async markdeletetreatment(data){
+    const alert = await this.alert.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Delete',
+        handler: ()=>{
+          
+          this.deletetreatment(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+        this.getservices()
+    
+    })
+
+    
+  }
+
+  deletetreatment(data){
+
+    const formData: FormData = new FormData();
+    formData.append('treatment_id', data.treatment_id)
+    
+      this.api.add(API_URL+"user/deletetreatment", formData).subscribe((res)=>{
+
+          if(res == "success"){
+
+            
+
+          }
+          if(res== "error"){
+
+            console.log("failed")
+          }
+            
+      })
+
+    
   }
 
 }

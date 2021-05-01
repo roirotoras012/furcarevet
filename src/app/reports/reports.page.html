@@ -95,7 +95,7 @@
         <div class="table-wrapper" >
         
            
-            <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+            <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter3"></ion-searchbar>
               <table class="table" id="myTable" >
                 <thead>
                   <tr  style="text-align: center;">
@@ -113,7 +113,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of sortClients | filter : filter | paginate : {
+                  <tr *ngFor="let data of sortClients | filter : filter3 | paginate : {
                     itemsPerPage: tableSize,
                     currentPage: page,
                     totalItems: count,
@@ -157,7 +157,7 @@
         <div class="table-wrapper" >
         
            
-          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter4"></ion-searchbar>
             <table class="table" id="myTable" >
               <thead>
                 <tr  style="text-align: center;">
@@ -178,7 +178,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of sortPatients | filter : filter | paginate : {
+                <tr *ngFor="let data of sortPatients | filter : filter4 | paginate : {
                   itemsPerPage: tableSize1,
                   currentPage: page1,
                   totalItems: count1,
@@ -226,7 +226,7 @@
         <div class="table-wrapper" >
         
          
-          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter"></ion-searchbar>
+          <ion-searchbar class="searchbar" style="width: 400px; display: inline; float: left;" [(ngModel)]="filter5"></ion-searchbar>
             <table class="table" id="myTable" >
               <thead>
                 <tr  style="text-align: center;">
@@ -249,7 +249,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of sortService  | paginate : {
+                <tr *ngFor="let data of sortService  | filter: filter5 | paginate : {
                   itemsPerPage: tableSize2,
                   currentPage: page2,
                   totalItems: count2,
@@ -259,7 +259,7 @@
                   <td><b>{{data.patientname}}</b></td>
                   <td>{{data.service_type}}</td>
                   <td>{{data.weight}}</td>
-                  <td ><button (click)="viewphoto(data.photo)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" src="assets/photos/{{data.photo}}.jpg" alt="Italian Trulli"></button></td>
+                  <td ><button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button></td>
                   <td>{{data.against}}</td>
                   <td>{{data.veterinarian}}</td>
                   
@@ -321,6 +321,8 @@
 
 
 <div [hidden]="status1 != 'Confined'">
+  <label style="display: block;"><b>Items: </b>{{confined.length}}</label>
+  <ion-searchbar class="searchbar" style=" display: inline;" [(ngModel)]="filter"></ion-searchbar>
   <div *ngFor="let data of sortconfined | filter : filter | paginate : {
     itemsPerPage: 1,
     currentPage: page3,
@@ -328,7 +330,7 @@
     id: 'confined'
   };">
     <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'MMM d, y, h:mm a'}}</label>
-    <label style="display: block;"><b>Items: </b>{{confined.length}}</label>
+ 
     
   <div class="modal-body" style="border: solid black; border-width: 1px; margin: 10px; border-radius: 5px;">
     					
@@ -364,7 +366,7 @@
     <div class="form-group">
      
       <pre>
-                                              <b> CONSENT FOR TREATMENT</b>
+                                              <!-- <b> CONSENT FOR TREATMENT</b>
   I agree to have my pet treated and confined at FURCARE Veterinary Clinic subject to the following conditions:
     1. Confined pets can be visited from 10:00 am to 6:00 pm Mondays to Saturdays and 10:00am to 4:00 pm on
         Sundays.
@@ -382,7 +384,7 @@
     7. In case of death the owner will be immediately notifed and the account must be settled accordingly. The body
        must be claimed within 24 hours after being notified. If the owner fails to claim the body within specific
        time, the staff will dispose the cadaver and necessary fees will apply.
-    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges.
+    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges. -->
 
     <label><b><u>{{data.date_of_addmision | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of admission
@@ -390,8 +392,8 @@
     <label><b><u>{{data.date_of_release | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of Release
 
-
-
+    <label *ngIf="data.signature != ''"><b>Signature over printed name </b></label> 
+    <button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.signature != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button>
 
 
       </pre>
@@ -416,14 +418,16 @@
 </div>
 
 <div [hidden]="status1 != 'Released'">
-  <div *ngFor="let data of sortreleased | filter : filter | paginate : {
+  <label style="display: block;"><b>Items: </b>{{released.length}}</label>
+  <ion-searchbar class="searchbar" style=" display: inline;" [(ngModel)]="filter1"></ion-searchbar>
+  <div *ngFor="let data of sortreleased | filter : filter1 | paginate : {
     itemsPerPage: 1,
     currentPage: page4,
     totalItems: count4,
     id: 'released'
   };">
     <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'MMM d, y, h:mm a'}}</label>
-    <label style="display: block;"><b>Items: </b>{{released.length}}</label>
+ 
   
   <div class="modal-body" style="border: solid black; border-width: 1px; margin: 10px; border-radius: 5px;">
     
@@ -458,7 +462,7 @@
     <div class="form-group">
      
       <pre>
-                                              <b> CONSENT FOR TREATMENT</b>
+                                              <!-- <b> CONSENT FOR TREATMENT</b>
   I agree to have my pet treated and confined at FURCARE Veterinary Clinic subject to the following conditions:
     1. Confined pets can be visited from 10:00 am to 6:00 pm Mondays to Saturdays and 10:00am to 4:00 pm on
         Sundays.
@@ -476,7 +480,7 @@
     7. In case of death the owner will be immediately notifed and the account must be settled accordingly. The body
        must be claimed within 24 hours after being notified. If the owner fails to claim the body within specific
        time, the staff will dispose the cadaver and necessary fees will apply.
-    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges.
+    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges. -->
 
     <label><b><u>{{data.date_of_addmision | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of admission
@@ -484,7 +488,8 @@
     <label><b><u>{{data.date_of_release | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of Release
 
-
+    <label *ngIf="data.signature != ''"><b>Signature over printed name </b></label> 
+    <button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.signature != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button>
 
 
 
@@ -509,14 +514,16 @@
 </div>
 
 <div [hidden]="status1 != 'All'">
-  <div *ngFor="let data of sortconfinement | filter : filter | paginate : {
+  <label style="display: block;"><b>Items: </b>{{allconfinement.length}}</label>
+
+  <ion-searchbar class="searchbar" style=" display: inline;" [(ngModel)]="filter2"></ion-searchbar>
+  <div *ngFor="let data of sortconfinement | filter : filter2 | paginate : {
     itemsPerPage: 1,
     currentPage: page5,
     totalItems: count5,
     id: 'all'
   };">
     <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'MMM d, y, h:mm a'}}</label>
-    <label style="display: block;"><b>Items: </b>{{allconfinement.length}}</label>
   <div class="modal-body" style="border: solid black; border-width: 1px; margin: 10px; border-radius: 5px;">
     					
    <div class="row" style="border-bottom: solid black; border-width: 1px; margin-bottom: 10px;">
@@ -552,7 +559,7 @@
     <div class="form-group">
      
       <pre>
-                                              <b> CONSENT FOR TREATMENT</b>
+                                              <!-- <b> CONSENT FOR TREATMENT</b>
   I agree to have my pet treated and confined at FURCARE Veterinary Clinic subject to the following conditions:
     1. Confined pets can be visited from 10:00 am to 6:00 pm Mondays to Saturdays and 10:00am to 4:00 pm on
         Sundays.
@@ -570,7 +577,7 @@
     7. In case of death the owner will be immediately notifed and the account must be settled accordingly. The body
        must be claimed within 24 hours after being notified. If the owner fails to claim the body within specific
        time, the staff will dispose the cadaver and necessary fees will apply.
-    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges.
+    8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges. -->
 
     <label><b><u>{{data.date_of_addmision | date: 'MMM d, y, h:mm a'}}</u></b></label>
     Date/Time of admission
@@ -579,7 +586,8 @@
     Date/Time of Release
 
 
-
+    <label *ngIf="data.signature != ''"><b>Signature over printed name </b></label> 
+    <button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.signature != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="Italian Trulli"></button>
 
 
       </pre>

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: PetdashboardPage
+  },
+  {
+    path: 'editpetmodal',
+    loadChildren: () => import('./editpetmodal/editpetmodal.module').then( m => m.EditpetmodalPageModule)
   }
 ];
 

@@ -157,7 +157,8 @@
 
 
   <div [hidden]="status != 'up'">
-      <div *ngFor="let data of treatment" style="border: solid black; border-width: 1px; margin: 5px; border-radius: 5px;">
+      <div *ngFor="let data of sorttreatment" style="border: solid black; border-width: 1px; margin: 5px; border-radius: 5px;">
+        <button (click)="markdeletetreatment(data)" style="background: none;display: inline; float: right;font-size: 25px;"><i class="far fa-trash-alt"></i></button>
         <label>Date: {{data.date | date: 'MMM d, y, h:mm a'}}</label>
 
         <label style="display: block;"><b>Veterinarian: </b>{{data.veterinarian}}</label>

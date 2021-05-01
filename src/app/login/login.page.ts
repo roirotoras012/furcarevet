@@ -31,10 +31,10 @@ export class LoginPage implements OnInit {
     this.storage.get(TOKEN_KEY).then((res)=>{
       if(res){
         
-      if(res.usertype == "admin"){
+     
         this.router.navigate(['','admin'])
 
-      }
+      
      
 
       }
@@ -98,10 +98,10 @@ export class LoginPage implements OnInit {
                 this.storage.get(TOKEN_KEY).then((res)=>{
                   if(res){
                     
-                  if(res.usertype == "admin"){
+                 
                     this.router.navigate(['','admin'])
 
-                  }
+                  
                  
             
                   }

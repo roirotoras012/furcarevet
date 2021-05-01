@@ -6,6 +6,8 @@ import { AuthenticationService } from './../services/authentication.service';
 import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddclientmodalComponent } from './addclientmodal/addclientmodal.component';
+import { EditclientmodalPage } from './editclientmodal/editclientmodal.page';
+
 import { ApiService } from '../services/api.service';
 import { formatDate } from '@angular/common';
 import { AlertController } from '@ionic/angular';
@@ -376,6 +378,25 @@ getschedule(){
     
   }
 
+
+  
+  async opendit(data){
+    const modal = await this.modalCtrl.create({
+      component: EditclientmodalPage,
+     componentProps: {
+
+      client: data
+
+     }
+    
+
+    });
+    
+    await modal.present();
+    await modal.onWillDismiss();
+    this.getclients();
+    
+  }
   
   notif(){
     this.event = []
@@ -466,6 +487,61 @@ getschedule(){
 
     });
   
+    
+  }
+
+
+
+
+
+
+  async markdeleteclient(data){
+ 
+    const alert = await this.alertCtrl.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Delete',
+        handler: ()=>{
+          
+          this.deleteclient(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+        this.getclients()
+    
+    })
+
+    
+  }
+
+  deleteclient(data){
+    
+    const formData: FormData = new FormData();
+    formData.append('client_id', data.client_id)
+    
+      this.api.add(API_URL+"user/deleteclient", formData).subscribe((res)=>{
+      
+          if(res == "success"){
+
+            
+
+          }
+          if(res== "error"){
+
+            console.log("failed")
+          }
+            
+      })
+
     
   }
 }
