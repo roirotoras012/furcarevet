@@ -76,7 +76,7 @@ export class LoginPage implements OnInit {
 
     
     this.http.post(API_URL+"user/login",formData).subscribe((response: any) => {
-      console.log(response)
+     
       if(response == "error"){
         toast.present();
       }

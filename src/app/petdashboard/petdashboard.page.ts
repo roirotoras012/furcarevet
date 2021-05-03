@@ -28,7 +28,7 @@ export class PetdashboardPage implements OnInit {
   constructor(private alertCtrl: AlertController,private popover: PopoverController,private route:ActivatedRoute,private api: ApiService,private router:Router,private storage: Storage,private modalCtrl: ModalController) {
 
     this.getpatients();
-    console.log(this.client_id)
+    
   
    }
 
@@ -86,18 +86,18 @@ export class PetdashboardPage implements OnInit {
   
     }
     
-    console.log(this.patientsfilter)
+   
     // this.search.getInputElement().then(item => console.log(item))
   }
 
   getpatients(){
     this.client_id = this.route.snapshot.params['client_id']
     this.api.get(API_URL+"user/getpatients?client_id="+this.client_id).subscribe(res => {
-      console.log(res)
+    
      
         this.patients = res;
         this.patientsfilter = this.patients
-        console.log(res)
+     
       
       
     
@@ -117,7 +117,7 @@ getclient(){
   this.api.get(API_URL+"user/getcurrclient?client_id="+this.client_id).subscribe((res)=>{
 
               this.currclient = res[0]
-              console.log(this.currclient)
+            
 
 
   })

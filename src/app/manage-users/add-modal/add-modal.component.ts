@@ -74,7 +74,7 @@ export class AddModalComponent implements OnInit {
       this.http.post(API_URL+"user/add_account", formData) 
         .subscribe(res => {
          
-          console.log(res);
+        
 
           if(res == "username is already taken"){
            

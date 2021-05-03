@@ -75,8 +75,10 @@ export class ServiceModalPage implements OnInit {
       this.mobile = true;
      
     }
-    console.log(this.mobile)
+   
   }
+
+
   onTableDataChange(event){
     this.page = event;
    
@@ -209,7 +211,7 @@ getconfinement(){
 
     }
 
-    console.log(this.confinement)
+  
 
 })
 
@@ -264,7 +266,7 @@ console.log(this.x)
           formData.append('client_id', this.client_id)
           formData.append('patient_id', this.patient_id)
           formData.append('user', user.user_id)
-          formData.append('service_date',this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+          formData.append('service_date',this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
           this.api.add(API_URL+"user/serve", formData).subscribe((res)=>{
     
             if(res == "1"){
@@ -319,10 +321,10 @@ console.log(this.x)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
-              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
               this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                     if(res == "1"){
-                      console.log(date.toString())   
+                       
                      
                       
                   this.getservice()
@@ -341,47 +343,7 @@ console.log(this.x)
                 })
                 this.weight = ''
 
-                if(i != 0){
-                  const formData1: FormData = new FormData();
-                  formData1.append('title', this.x.toLowerCase())
-                  formData1.append('session', session.toString())
-                  formData1.append('veterinarian', this.veterinarian)
-                  formData1.append('description', this.against+','+this.veterinarian)
-                  formData1.append('client', this.client_id)
-                  formData1.append('patient', this.patient_id)
-                  formData1.append('allDay', '1')
-                  formData1.append('user', user.user_id)
-                  formData1.append('startTime', date.toString())
-                  formData1.append('endTime', date.toString())
-                  this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
-                        if(res == "1"){
-                          console.log(date.toString())   
-                         
-                          
-                      this.getservice()
-          
-                        }
-                        else{
-          
-                          console.log("error")
-                        }
-          
-                        if(i == 1){
-
-                          this.weight = ''
-                          this.against = ''
-                          this.veterinarian = ''
-                          this.link= ''
-                          this.photo= ''
-                        }
-                    
-                  }, err => {
-                
-                    console.log(err);
-                    })
-                    this.weight = ''
-                
-                }
+               
                
                 session ++;
                 date.setFullYear(date.getFullYear()+ 1) 
@@ -407,10 +369,10 @@ console.log(this.x)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
-              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
               this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                     if(res == "1"){
-                      console.log(date.toLocaleDateString())   
+                         
                      
                       
                   this.getservice()
@@ -430,48 +392,7 @@ console.log(this.x)
  this.weight = ''
 
 
-                if(i != 0){
-                  
-                  const formData1: FormData = new FormData();
-                  formData1.append('title', this.x.toLowerCase())
-                  formData1.append('session', session.toString())
-                  formData1.append('veterinarian', this.veterinarian)
-                  formData1.append('description', 'against: '+this.against+', veterinarian: '+this.veterinarian)
-                  formData1.append('client', this.client_id)
-                  formData1.append('patient', this.patient_id)
-                  formData1.append('allDay', '1')
-                  formData1.append('user', user.user_id)
-                  formData1.append('startTime', date.toString())
-                  formData1.append('endTime', date.toString())
-                  this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
-                        if(res == "1"){
-                          console.log(date.toString())   
-                         
-                          
-                      this.getservice()
-          
-                        }
-                        else{
-          
-                          console.log("error")
-                        }
-          
-            
-                        if(i == 3){
-
-                          this.weight = ''
-                          this.against = ''
-                          this.veterinarian = ''
-                          this.link= ''
-                          this.photo= ''
-                        }
-                    
-                  }, err => {
-                
-                    console.log(err);
-                    })
-          
-                }
+              
       
        session ++;
                 date.setDate(date.getDate()+ 14) 
@@ -496,10 +417,10 @@ console.log(this.x)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
-              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
               this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                     if(res == "1"){
-                      console.log(date.toString())   
+                       
                      
                       
                   this.getservice()
@@ -520,46 +441,6 @@ console.log(this.x)
 
                 this.weight = ''
               
-                if(i != 0){
-                  const formData1: FormData = new FormData();
-                  formData1.append('title', this.x.toLowerCase())
-                  formData1.append('session', session.toString())
-                  formData1.append('veterinarian', this.veterinarian)
-                  formData1.append('description', this.against+','+this.veterinarian)
-                  formData1.append('client', this.client_id)
-                  formData1.append('patient', this.patient_id)
-                  formData1.append('allDay', '1')
-                  formData1.append('user', user.user_id)
-                  formData1.append('startTime', date.toString())
-                  formData1.append('endTime', date.toString())
-                  this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
-                        if(res == "1"){
-                          console.log(date.toString())   
-                         
-                          
-                      this.getservice()
-          
-                        }
-                        else{
-          
-                          console.log("error")
-                        }
-          
-                        if(i == 1){
-
-                          this.weight = ''
-                          this.against = ''
-                          this.veterinarian = ''
-                          this.link= ''
-                          this.photo= ''
-                        }
-                    
-                  }, err => {
-                
-                    console.log(err);
-                    })
-          
-                }
                
         session ++;
                 date.setFullYear(date.getFullYear()+ 1) 
@@ -582,10 +463,10 @@ console.log(this.x)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
-              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
               this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                     if(res == "1"){
-                      console.log(date.toLocaleDateString())   
+                     
                      
                       
                   this.getservice()
@@ -619,7 +500,7 @@ console.log(this.x)
                   formData1.append('endTime', date.toString())
                   this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
                         if(res == "1"){
-                          console.log(date.toString())   
+                         
                          
                           
                       this.getservice()
@@ -665,10 +546,10 @@ console.log(this.x)
             formData.append('client_id', this.client_id)
             formData.append('patient_id', this.patient_id)
             formData.append('user', user.user_id)
-            formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+            formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
             this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                   if(res == "1"){
-                    console.log(date.toLocaleDateString())   
+                    
                    
                     
                 this.getservice()
@@ -711,10 +592,10 @@ console.log(this.x)
               formData.append('client_id', this.client_id)
               formData.append('patient_id', this.patient_id)
               formData.append('user', user.user_id)
-              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
               this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
                     if(res == "1"){
-                      console.log(date.toLocaleDateString())   
+                      
                      
                       
                   this.getservice()
@@ -734,46 +615,7 @@ console.log(this.x)
                 this.weight = ''
     
                
-                if(i != 0){
-                  const formData1: FormData = new FormData();
-                  formData1.append('title', this.x.toLowerCase())
-                  formData1.append('session', session.toString())
-                  formData1.append('veterinarian', this.veterinarian)
-                  formData1.append('description', 'against: '+this.against+', veterinarian: '+this.veterinarian)
-                  formData1.append('client', this.client_id)
-                  formData1.append('patient', this.patient_id)
-                  formData1.append('allDay', '1')
-                  formData1.append('user', user.user_id)
-                  formData1.append('startTime', date.toString())
-                  formData1.append('endTime', date.toString())
-                  this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
-                        if(res == "1"){
-                          console.log(date.toString())   
-                         
-                          
-                      this.getservice()
           
-                        }
-                        else{
-          
-                          console.log("error")
-                        }
-          
-                        if(i == 3){
-
-                          this.weight = ''
-                          this.against = ''
-                          this.veterinarian = ''
-                          this.link= ''
-                          this.photo= ''
-                        }
-                    
-                  }, err => {
-                
-                    console.log(err);
-                    })
-          
-                }
       
        session ++;
                 date.setDate(date.getDate()+ 14) 
@@ -847,7 +689,7 @@ console.log(this.x)
       this.api.get(API_URL+"user/getall?patient="+this.patient_id).subscribe((res)=>{
 
 
-      console.log(res)
+     
       this.allservices = res
 
       for(let i =0; i <this.allservices.length; i++){
@@ -869,7 +711,7 @@ console.log(this.x)
       this.api.get(API_URL+"user/getservice2?patient="+this.patient_id).subscribe((res)=>{
         
         this.services = res
-        console.log(this.services)
+        
         for(let i =0; i <this.services.length; i++){
           if(this.services[i].photo != ''){
             this.services[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.services[i].service_id+'/'+this.services[i].photo)
@@ -894,7 +736,7 @@ console.log(this.x)
 
 
         }
-        console.log(this.services)
+     
 
   })
 

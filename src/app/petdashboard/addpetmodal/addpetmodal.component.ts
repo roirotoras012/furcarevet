@@ -67,7 +67,7 @@ export class AddpetmodalComponent implements OnInit {
      formData.append('client_id', this.client_id)
  
      this.api.add(API_URL+"user/addpatient",formData).subscribe(res => {
-       console.log(res)
+     
       if(res == "success"){
        patientadded.present();
        this.modalCtrl.dismiss({

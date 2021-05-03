@@ -19,7 +19,7 @@ import { switchMap, map} from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import { ScheduleService } from '../services/schedule.service'
 import { NotificationPage } from '../components/notification/notification.page';
-
+import { DatePipe } from '@angular/common'
 import { ScheduleModalPage } from '../components/schedule-modal/schedule-modal.page';
 import { environment } from '../../environments/environment';
 const API_URL = environment.API_URL
@@ -48,6 +48,7 @@ event: any = [];
 eventSource = [];
 subscription: Subscription;
 event1 = {
+  service_id: '',
   schedule_id : '',
   title: '',
   desc: '',
@@ -55,7 +56,8 @@ event1 = {
   client: '',
   startTime: null,
   endTime: null,
-  allDay: true
+  allDay: true,
+  session: ''
 };
   viewTitle: string;
   calendar = {
@@ -70,12 +72,12 @@ event1 = {
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
  
-  constructor(private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
+  constructor(public datepipe: DatePipe,private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
     
 
     let asd: any = new Date
-   
-    
+    this.asd = new Date
+ 
   
     
   }
@@ -126,7 +128,7 @@ async qwe(event){
    
    header: event.title,
    subHeader: event.desc,
-   message: start.slice(0,12)+'<br>Patient: '+ this.schedpatient.name+'<br>Client: '+ this.schedclient.name, 
+   message: start.slice(0,12)+'<br>Patient: '+ this.schedpatient.name+'<br>Client: '+ this.schedclient.name+'<br>Session: '+this.schedclient.session, 
    // message: 'From: ' + start + '<br><br>To: ' + end,
    buttons: ['OK', {
 
@@ -140,6 +142,48 @@ async qwe(event){
    }],
  });
  alert.present();
+ }
+
+ else if(event.client && !event.service_id){
+  let start = formatDate(event.startTime, 'medium', this.locale);
+
+  let end = formatDate(event.endTime, 'medium', this.locale);
+ 
+  const alert = await this.alertCtrl.create({
+    
+    header: event.title,
+    subHeader: event.desc,
+    message: start.slice(0,12)+'<br>Patient: '+ event.patient+'<br>Client: '+ event.client+'<br>Session: '+event.session, 
+    // message: 'From: ' + start + '<br><br>To: ' + end,
+    buttons: ['OK', {
+ 
+      text: 'Delete',
+      handler: ()=>{
+        
+        this.deleteconfirm(event);
+ 
+      }
+ 
+    }],
+  });
+  alert.present();
+  
+ }
+ else if(event.client && event.service_id){
+  let start = formatDate(event.startTime, 'medium', this.locale);
+
+  let end = formatDate(event.endTime, 'medium', this.locale);
+ 
+  const alert = await this.alertCtrl.create({
+    
+    header: event.title,
+    subHeader: event.desc,
+    message: start.slice(0,12)+'<br>Patient: '+ event.patient+'<br>Client: '+ event.client+'<br>Session: '+event.session, 
+    // message: 'From: ' + start + '<br><br>To: ' + end,
+    buttons: ['OK'],
+  });
+  alert.present();
+  
  }
  else{
   let start = formatDate(event.startTime, 'medium', this.locale);
@@ -173,7 +217,7 @@ async qwe(event){
 }
   
   async onEventSelected(event) {
-    console.log(event)
+    
     this.api.get(API_URL+"user/getpatientsched?patient_id="+event.patient).subscribe((data)=>{
 
       this.schedpatient = data[0]
@@ -182,7 +226,7 @@ async qwe(event){
       this.api.get(API_URL+"user/getclientsched?client_id="+event.client).subscribe((data1)=>{
 
       this.schedclient = data1[0]
-      console.log(this.schedpatient)
+
       this.qwe(event)
 
     })
@@ -250,7 +294,7 @@ async qwe(event){
     this.platform.ready().then(()=>{
           
       this.authService.authenticationState.subscribe((state)=>{
-        console.log(state);
+       
         if(state){
           
           this.router.navigate(['','admin'])
@@ -260,7 +304,7 @@ async qwe(event){
 
       })
       this.authService.notloggedin.subscribe((state)=>{
-        console.log(state);
+       
         
 
       })
@@ -280,7 +324,7 @@ getschedule(){
 
   this.api.get(API_URL+"user/getschedule").subscribe((sched)=>{
    
-  console.log(sched)
+  
    
   for(let data of Object.values(sched)){
     this.event1.schedule_id = data.schedule_id
@@ -290,6 +334,7 @@ getschedule(){
     this.event1.client = data.client
     this.event1.startTime = new Date(data.startTime)
     this.event1.endTime = new Date(data.endTime)
+
     if(data.allDay == 1){
       this.event1.allDay = true
 
@@ -300,6 +345,8 @@ getschedule(){
     this.eventSource.push(this.event1)
     
     this.event1 = {
+      session: '',
+      service_id : '',
       schedule_id:'',
       title: '',
       desc: '',
@@ -324,6 +371,59 @@ getschedule(){
   })
 
 
+  this.api.get(API_URL+"user/getallservice1").subscribe((sched)=>{
+   
+  
+   
+    for(let data of Object.values(sched)){
+      if(data.done == 0){
+        this.event1.service_id = data.service_id
+        this.event1.title = data.service_type
+        this.event1.desc = data.against
+        this.event1.patient = data.patientname
+        this.event1.client = data.clientname
+        this.event1.startTime = new Date(data.service_date)
+        this.event1.endTime = new Date(data.service_date)
+        this.event1.session = data.session
+  
+          this.event1.allDay = true
+    
+     
+        
+        
+        this.eventSource.push(this.event1)
+        
+        this.event1 = {
+          session: '',
+          service_id : '',
+          schedule_id:'',
+          title: '',
+          desc: '',
+          patient: '',
+          client: '',
+          startTime: null,
+          endTime: null,
+          allDay: true
+        };
+
+
+      }
+    
+      this.myCal.loadEvents();
+  
+      
+    }
+      //--- compare date interval in days ---//
+    // let asd: any = new Date
+    // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
+    // console.log(zxc)
+     
+    
+      
+  
+    })
+
+console.log(this.eventSource)
 
 }
 
@@ -403,6 +503,7 @@ getschedule(){
     this.notifydata = []
     this.notifydata2 = []
     let asd = new Date
+ 
     // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
     // console.log(zxc)
     this.sched.notification().subscribe((res)=>{
@@ -418,21 +519,25 @@ getschedule(){
         //   this.notifydata.push(this.event[i])
 
         // }  
+          
+        if(asd.getFullYear()-startTime.getFullYear()==0 && asd.getMonth()- startTime.getMonth()== 0 ){
+            if(startTime.getDate()-asd.getDate()  <= 2 &&  startTime.getDate()-asd.getDate()  >= 0){
 
-        if(daysleft <= 2 && daysleft >= 0){
-
-          this.notifydata.push(this.event[i])
-        this.notifydata2.push({
-            'schedule_id': this.event[i].schedule_id,
-            'daysleft': daysleft
-
-        })
+              this.notifydata.push(this.event[i])
+              this.notifydata2.push({
+                  'schedule_id': this.event[i].schedule_id,
+                  'daysleft': startTime.getDate()-asd.getDate()
+      
+              })
+            
+            }
+        
          
         }
         
       
       }
-    
+      
       
        
 
@@ -492,6 +597,29 @@ getschedule(){
 
 
 
+  async marklogout(){
+ 
+    const alert = await this.alertCtrl.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Logout',
+        handler: ()=>{
+          
+          this.logout()
+    
+        }
+    
+      }],
+    });
+    alert.present();
+ 
+
+    
+  }
 
 
 

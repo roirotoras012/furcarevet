@@ -24,14 +24,14 @@ export class Delete1ModalComponent implements OnInit {
 
   async deleteUser() {
     this.tobedeleted = this.navParams.get('tobedeleted');
-    console.log(this.tobedeleted)
+   
     
 
 
     this.http.post(API_URL+"user/removeuser1", JSON.stringify(this.tobedeleted )) 
       .subscribe(res => {
        
-        console.log(res);
+        
         this.modalCtrl.dismiss();
         
         

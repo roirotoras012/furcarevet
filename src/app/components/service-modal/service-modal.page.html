@@ -85,6 +85,7 @@
         <option value="Heartworm Test">Heartworm Test</option>
         <option value="Feline Leukemia/FIV Test">Feline Leukemia/FIV Test</option>
         <option value="Grooming">Grooming</option>
+        <option value="Tick/Flea Treatment">Tick/Flea Treatment</option>
         
         
       </select>
@@ -221,7 +222,7 @@
     currentPage: page2,
     totalItems: count2
   };">
-    <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'MMM d, y, h:mm a'}}</label>
+    <label style="display: block;"><b>Date Added: </b>{{data.date_added | date: 'medium'}}</label>
   <div class="modal-body" style="border: solid black; border-width: 1px; margin: 10px; border-radius: 5px;">
     					
    <div class="row" style="border-bottom: solid black; border-width: 1px; margin-bottom: 10px;">
@@ -277,10 +278,10 @@
        time, the staff will dispose the cadaver and necessary fees will apply.
     8. Cut-off time is 12:00 noon. Patients taken beyond this time shall incur additional charges.
 
-    <label><b><u>{{data.date_of_addmision | date: 'MMM d, y, h:mm a'}}</u></b></label>
+    <label><b><u>{{data.date_of_addmision | date: 'medium'}}</u></b></label>
     Date/Time of admission
 
-    <label><b><u>{{data.date_of_release | date: 'MMM d, y, h:mm a'}}</u></b></label>
+    <label><b><u>{{data.date_of_release | date : 'medium' }}</u></b></label>
     Date/Time of Release
     
     <label *ngIf="data.signature != ''"><b>Signature over printed name </b></label> 

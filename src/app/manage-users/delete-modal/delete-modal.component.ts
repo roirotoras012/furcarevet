@@ -50,7 +50,7 @@ export class DeleteModalComponent implements OnInit {
       this.http.post(API_URL+"user/removeuser", JSON.stringify(this.postData )) 
         .subscribe(res => {
          
-          console.log(res);
+     
           this.modalCtrl.dismiss();
           
           

@@ -53,7 +53,7 @@ export class AuthenticationService {
     
   } 
   isnotAuthenticated(){
-    return this.notloggedin.value;
+    return this.notloggedin.value
     
   }
   
@@ -66,18 +66,16 @@ export class AuthenticationService {
         this.authenticationState.next(true);
         this.notloggedin.next(false);
        
-        // this.router.navigate(['admin'])
+        this.router.navigate(['admin'])
         
          
       }
       else{
-        // this.router.navigate(['login'])
+        this.router.navigate(['login'])
       }
 
 
-      // else if(this.router['routerState'].snapshot.url == "/admin"){
-      //   this.router.navigate([''])
-      // }
+   
 
     })
     

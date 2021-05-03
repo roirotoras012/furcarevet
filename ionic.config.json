@@ -1,5 +1,7 @@
 {
   "name": "furcarevet",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

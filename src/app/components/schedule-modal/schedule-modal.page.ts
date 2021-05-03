@@ -6,6 +6,7 @@ import { formatDate } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { ToastController, NavParams } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
+import { DatePipe } from '@angular/common'
 
 import { environment } from '../../../environments/environment';
 const API_URL = environment.API_URL
@@ -46,10 +47,11 @@ export class ScheduleModalPage implements OnInit {
     startTime: null,
     endTime: null,
     allDay: true,
-    session: ''
+    session: '',
+            service_id : '',
   };
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
-  constructor(public toastController: ToastController, private navParams: NavParams,private api: ApiService,private modalCtrl: ModalController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string) {
+  constructor(public datepipe: DatePipe,public toastController: ToastController, private navParams: NavParams,private api: ApiService,private modalCtrl: ModalController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string) {
    
     this.minDate = this.minDate.slice(0,16)
   
@@ -78,7 +80,7 @@ export class ScheduleModalPage implements OnInit {
   
     this.api.get(API_URL+"user/getschedule3?patient="+this.patient_id).subscribe((sched)=>{
      
-    console.log(sched)
+    
      
     for(let data of Object.values(sched)){
       this.event1.schedule_id = data.schedule_id
@@ -107,12 +109,71 @@ export class ScheduleModalPage implements OnInit {
         startTime: null,
         endTime: null,
         allDay: true,
-        session: ''
+        session: '',
+            service_id : '',
       };
+
+
+
+
+      
       this.myCal.loadEvents();
   
       
     }
+
+
+    this.api.get(API_URL+"user/getallservice1").subscribe((sched)=>{
+   
+  
+   
+      for(let data of Object.values(sched)){
+        if(data.done == 0){
+          this.event1.service_id = data.service_id
+          this.event1.title = data.service_type
+          this.event1.desc = data.against
+          this.event1.patient = data.patientname
+          this.event1.client = data.clientname
+          this.event1.startTime = new Date(data.service_date)
+          this.event1.endTime = new Date(data.service_date)
+          this.event1.session = data.session
+    
+            this.event1.allDay = true
+      
+       
+          
+          
+          this.eventSource.push(this.event1)
+          
+          this.event1 = {
+            session: '',
+            service_id : '',
+            schedule_id:'',
+            title: '',
+            desc: '',
+            patient: '',
+            client: '',
+            startTime: null,
+            endTime: null,
+            allDay: true
+          };
+  
+  
+        }
+      
+        this.myCal.loadEvents();
+    
+        
+      }
+        //--- compare date interval in days ---//
+      // let asd: any = new Date
+      // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
+      // console.log(zxc)
+       
+      
+        
+    
+      })
       //--- compare date interval in days ---//
     // let asd: any = new Date
     // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
@@ -139,8 +200,8 @@ export class ScheduleModalPage implements OnInit {
       const formData: FormData = new FormData();
     formData.append('title', this.event.title)
     formData.append('description', this.event.desc)
-    formData.append('startTime', this.event.startTime)
-    formData.append('endTime', this.event.endTime)
+    formData.append('startTime', this.datepipe.transform(this.event.startTime.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
+    formData.append('endTime', this.datepipe.transform(this.event.endTime.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
     formData.append('allDay', new Boolean(this.event.allDay).toString())
     formData.append('user', user.user_id)
     formData.append('patient', this.patient_id)
@@ -212,6 +273,7 @@ export class ScheduleModalPage implements OnInit {
 
   onTimeSelected(ev) { 
     this.event.startTime = new Date(ev.selectedTime); 
+  
     this.event.endTime = new Date(ev.selectedTime); 
 
   

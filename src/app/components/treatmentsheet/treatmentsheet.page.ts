@@ -179,14 +179,14 @@ this.getservices()
     
     
             if(res == 1){
-              console.log("yehey")
+            
               sheetadded.present();
               this.modalCtrl.dismiss({
                 'dismissed': true
               });;
     
             }else{
-              console.log("wew")
+             
               sheetnotadded.present()
     
             }
@@ -234,7 +234,7 @@ this.getservices()
   getservices(){
     this.api.get(API_URL+"user/gettreatmentsheet?patient="+this.patient.patient_id).subscribe((res)=>{
             this.treatment = res
-            console.log(this.treatment)
+            
            
          
 

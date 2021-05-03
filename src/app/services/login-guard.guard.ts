@@ -12,7 +12,7 @@ export class LoginGuardGuard implements CanActivate {
   
   canActivate(): boolean {
     
-    return this.authService.isnotAuthenticated();
+    return this.authService.isnotAuthenticated()
     
   }
   

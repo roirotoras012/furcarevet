@@ -41,9 +41,7 @@ export class NotificationPage implements OnInit {
     }
 
     this.notif.sort((a,b)=> a.days-b.days);
-    console.log(this.notif)
-
-    console.log(this.notify)
+    
 
 
     // this.notifydata2.sort((a,b)=> a.daysleft-b.daysleft);

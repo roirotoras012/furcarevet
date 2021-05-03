@@ -31,12 +31,12 @@
         
           </div>
         
-            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
+            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata2.length}}</span></a>
           
-          <button (click)="logout()" style="background: none;"> Sign out</button>
+          <button (click)="marklogout()" style="background: none;"> Sign out</button>
               <a style="margin: auto;"
               
-              (click)="logout()"
+              (click)="marklogout()"
               class="nav-link dropdown-toggle user-action"></a>
               <!-- (click)="acc_popover($event)" -->
           
@@ -118,7 +118,7 @@
   </div>
  
   
-    <div class="calendar" style="width: 40%; margin: 20px; margin-left: auto; margin-top: 40px; margin-right: auto;">
+    <div class="calendar" style="width: 30%; margin: 20px; margin-left: auto; margin-top: 40px; margin-right: auto;">
 <div style="text-align: center;"> <button style="border-radius: 4px;" (click)="schedule()" class="btn1 btn-success"  >Add Schedule</button></div>
       <button fill="clear" (click)="back()">
         <ion-icon name="arrow-back" slot="icon-only"></ion-icon>

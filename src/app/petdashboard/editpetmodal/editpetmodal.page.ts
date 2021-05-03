@@ -87,7 +87,7 @@ export class EditpetmodalPage implements OnInit {
      formData.append('client_id', this.client_id)
  
      this.api.add(API_URL+"user/editpatient",formData).subscribe(res => {
-       console.log(res)
+      
       if(res == "success"){
        patientadded.present();
        this.modalCtrl.dismiss({

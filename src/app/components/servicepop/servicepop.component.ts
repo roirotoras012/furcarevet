@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceModalPage } from '../../components/service-modal/service-modal.page';
+import { TestmodalPage } from '../../components/testmodal/testmodal.page';
+
 import { ModalController } from '@ionic/angular';
 import { ToastController, NavParams } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
@@ -52,6 +54,32 @@ export class ServicepopComponent implements OnInit {
 
   
   }
+
+  async test(){
+    const modal = await this.modalCtrl.create({
+      component: TestmodalPage,
+      cssClass: 'servicemodal',
+      componentProps: {
+
+       
+        client: this.client,
+        patient:  this.patient,
+      }
+    
+  
+    });
+    
+    await modal.present();
+    await modal.onWillDismiss().then(()=>{
+
+      this.popover.dismiss()
+
+
+  })
+
+
+  
+  }
   getpatient(){
    
    
@@ -59,7 +87,7 @@ export class ServicepopComponent implements OnInit {
 
       this.patient = res[0]
   
-        console.log(res)
+      
 })
 
 
@@ -80,7 +108,7 @@ getclient(){
 
     this.client = res[0]
 
-      console.log(res)
+
 })
 
 

@@ -34,6 +34,12 @@ const routes: Routes = [
     path: 'viewphotopop',
     loadChildren: () => import('./components/viewphotopop/viewphotopop.module').then( m => m.ViewphotopopPageModule)
   },
+  {
+    path: 'testmodal',
+    loadChildren: () => import('./components/testmodal/testmodal.module').then( m => m.TestmodalPageModule)
+  },
+
+
  
   
   

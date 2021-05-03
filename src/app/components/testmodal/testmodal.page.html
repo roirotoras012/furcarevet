@@ -1,0 +1,25 @@
+
+ 
+    <ion-content>
+      
+      <div class="modal-header">						
+        <h4 class="modal-title">Test</h4>
+        <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">					
+    
+        <label>Test Type</label>
+        <input type="text" class="form-control" [(ngModel)]="test" required>
+        <input [(ngModel)]="testinput" (change)="selectedFile($event)" type="file" name="file" size="2" accept="image/*" style="background-color:#fff; font-size: 12px;" required="required" />
+  
+      </div>
+      
+      
+    
+ 
+    
+    </ion-content>
+    <div class="modal-footer">
+ 
+      <input type="submit" class="btn btn-success" (click)="addtest()" value="Add">
+    </div>

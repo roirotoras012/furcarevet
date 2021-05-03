@@ -45,7 +45,7 @@ export class EditModalComponent implements OnInit {
     //   });
    
     this.usertobeedited = this.navParams.get('data');
-    console.log(this.usertobeedited)
+   
     this.username = this.usertobeedited.username;
   
     this.name = this.usertobeedited.name;

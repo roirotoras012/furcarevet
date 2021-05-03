@@ -144,8 +144,7 @@ export class ReportsPage implements OnInit {
 
 
    }
-   console.log(this.released)
-   console.log(this.confined)
+
 })
 
 
@@ -231,7 +230,7 @@ for(let i =0 ; i < this.allclients.length; i++){
 
 }
 this.filteredclients = filtered
-console.log(this.filteredclients)
+
 
 
 for(let i =0 ; i < this.allpatients.length; i++){
@@ -245,7 +244,7 @@ for(let i =0 ; i < this.allpatients.length; i++){
 
 }
 this.filteredpatients = filteredpatients
-console.log(this.filteredpatients)
+
 
 
 /////
@@ -264,7 +263,7 @@ for(let i =0 ; i < this.allservices.length; i++){
 
 }
 this.filteredservices = filteredservices
-console.log(this.filteredservices)
+
 
 
 }
@@ -322,7 +321,7 @@ else if(i == 0){
 
  }
   
- console.log(weekarray)
+
 for(let i =0;i< weekarray.length; i++){
   for(let z =0; z <this.allclients.length; z++){
     let date_added= this.datepipe.transform(this.allclients[z].date_added, 'yyyy-MM-dd')
@@ -340,7 +339,7 @@ for(let i =0;i< weekarray.length; i++){
 }
 
 this.filteredclients = filtered
-  console.log(this.filteredclients)
+  
 
 
 ////////
@@ -361,7 +360,7 @@ for(let i =0;i< weekarray.length; i++){
 }
 
 this.filteredpatients = filteredpatients
-  console.log(this.filteredpatients)
+
 
 
   /////
@@ -384,7 +383,7 @@ this.filteredpatients = filteredpatients
   }
   
   this.filteredservices = filteredservices
-    console.log(this.filteredservices)
+   
   
   }
 
@@ -408,8 +407,7 @@ else if(this.choice == 'monthly'){
 
   }
   this.filteredclients = filtered
-  console.log(this.filteredclients)
-
+  
   ////
   for(let i =0 ; i < this.allpatients.length; i++){
     let patient_date_added= this.datepipe.transform(this.allpatients[i].patient_date_added, 'yyyy-MM')
@@ -423,7 +421,7 @@ else if(this.choice == 'monthly'){
 
   }
   this.filteredpatients = filteredpatients
-  console.log(this.filteredpatients)
+
 
 
   ///
@@ -439,7 +437,7 @@ else if(this.choice == 'monthly'){
 
   }
   this.filteredservices = filteredservices
-  console.log(this.filteredservices)
+  
    
     }
 }
@@ -447,7 +445,7 @@ getpatients(){
   this.api.get(API_URL+"user/getallpatients").subscribe((res)=>{
 
     this.allpatients = res
-    console.log(this.allpatients)
+    
 })
 
 
@@ -475,7 +473,7 @@ getservices(){
 
 
     }
-    console.log(this.allservices)
+    
     
 })
 
@@ -587,7 +585,7 @@ getclients(){
 
       })
       this.authService.notloggedin.subscribe((state)=>{
-        console.log(state);
+       
         
 
       })
@@ -740,7 +738,7 @@ release(data){
 
 
     if(res == "success"){
-        
+       
    
     }
 
@@ -750,5 +748,26 @@ release(data){
 
 
 }
+async marklogout(){
+ 
+  const alert = await this.alert.create({
+ 
+    header: "",
+    subHeader: "",
+    message: "Are you sure?", 
+    buttons: ['Cancel', {
+  
+      text: 'Logout',
+      handler: ()=>{
+        
+        this.logout()
+  
+      }
+  
+    }],
+  });
+  alert.present();
 
+  
+}
 }

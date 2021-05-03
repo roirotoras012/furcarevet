@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { NotificationPage } from '../components/notification/notification.page';
 import { ScheduleService } from '../services/schedule.service'
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { Delete1ModalComponent } from './delete1-modal/delete1-modal.component';
@@ -33,7 +33,7 @@ export class ManageUsersPage implements OnInit {
   checkedUsers: any = [];
   sortDirection = 0 
   sortKey = null
-  constructor(private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private platform: Platform, private authService: AuthenticationService) { 
+  constructor(private alert: AlertController,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private platform: Platform, private authService: AuthenticationService) { 
 
     this.api.userinfo().then((data)=>{
       this.currentuser = data
@@ -53,7 +53,7 @@ export class ManageUsersPage implements OnInit {
     this.platform.ready().then(()=>{
           
       this.authService.authenticationState.subscribe((state)=>{
-        console.log(state);
+        
         if(state){
           
          
@@ -63,7 +63,7 @@ export class ManageUsersPage implements OnInit {
 
       })
       this.authService.notloggedin.subscribe((state)=>{
-        console.log(state);
+      
         
 
       })
@@ -279,9 +279,9 @@ sort(){
  
     this.api.get(API_URL+"user/getuser") 
       .subscribe(res => {
-        console.log(res);
+      
         this.datauser = res;
-    console.log(this.datauser);
+   
  
     
         }
@@ -345,6 +345,28 @@ sort(){
     }
   }
 
-
+  async marklogout(){
+ 
+    const alert = await this.alert.create({
+   
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Logout',
+        handler: ()=>{
+          
+          this.logout()
+    
+        }
+    
+      }],
+    });
+    alert.present();
+   
+  
+    
+  }
 
 }
