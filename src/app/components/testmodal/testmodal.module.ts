@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
+import { NgxPaginationModule } from 'ngx-pagination';
 import { TestmodalPageRoutingModule } from './testmodal-routing.module';
 
 import { TestmodalPage } from './testmodal.page';
@@ -13,7 +14,9 @@ import { TestmodalPage } from './testmodal.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    TestmodalPageRoutingModule
+    TestmodalPageRoutingModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   declarations: [TestmodalPage]
 })

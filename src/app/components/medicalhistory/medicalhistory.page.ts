@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
-import { ToastController, NavParams, AlertController} from '@ionic/angular';
+import { ToastController, NavParams, AlertController, PopoverController} from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { ViewphotopopPage } from '../../components/viewphotopop/viewphotopop.page';
+
 import { environment } from '../../../environments/environment';
 const API_URL = environment.API_URL
 @Component({
@@ -10,17 +13,40 @@ const API_URL = environment.API_URL
   styleUrls: ['./medicalhistory.page.scss'],
 })
 export class MedicalhistoryPage implements OnInit {
+  patientconfinement: any = []
+  patienttreatment: any = []  
+  patientservice: any = []
   patient: any = []
   client_id: any;
   client: any = []
   date = new Date().toISOString().slice(0,10)
   medicalhistory: any = []
   description: any;
-  constructor(private alert: AlertController,private api: ApiService,private navParams: NavParams, private modalCtrl: ModalController, private toastController: ToastController) {
+  page1 = 1;
+  count1 = 0;
+  tableSize1 = 5 ;
+  page2 = 1;
+  count2 = 0;
+  tableSize2 = 5 ;
+  status= 'Service'
+  page = 1;
+  count = 0;
+  tableSize = 5 ;
+  mobile: boolean
+  constructor(private popover: PopoverController,private DomSanitizer: DomSanitizer,private alert: AlertController,private api: ApiService,private navParams: NavParams, private modalCtrl: ModalController, private toastController: ToastController) {
     this.patient = this.navParams.get('patient');
     this.client_id = this.navParams.get('client_id');
     this.getcurrclient();
     this.getmedhis()
+    this.getpatientservice()
+    this.getpatienttreatment()
+    this.getpatientconfinement()
+    if (window.screen.width < 600) { // 768px portrait
+      this.mobile = true;
+
+     
+    }
+
    }
    @ViewChild(IonContent) content: IonContent;
 
@@ -34,7 +60,104 @@ export class MedicalhistoryPage implements OnInit {
    
   }
 
+  onTableDataChange1(event){
+    this.page1 = event;
 
+  } 
+
+  
+  onTableDataChange(event){
+    this.page = event;
+
+  } 
+  onTableDataChange2(event){
+    this.page2 = event;
+
+  } 
+  async viewphoto(photo){
+
+    const modal = await this.popover.create({
+      component: ViewphotopopPage,
+      cssClass: 'viewphoto-popover',
+      componentProps: {
+        photo: photo
+       
+      }
+    
+  
+    });
+    
+    await modal.present();
+
+
+
+  }
+
+  get sortservice(){
+    return this.patientservice.sort((a, b) => {
+      return <any>new Date(b.service_date) - <any>new Date(a.service_date);
+    });
+  }
+
+  get sortconfinement(){
+    return this.patientconfinement.sort((a, b) => {
+      return <any>new Date(b.date_of_release) - <any>new Date(a.date_of_release);
+    });
+  }
+  get sorttreatment(){
+    return this.patienttreatment.sort((a, b) => {
+      return <any>new Date(b.date) - <any>new Date(a.date);
+    });
+  }
+getpatientservice(){
+  this.api.get(API_URL+"user/getpatientservice?patient_id="+this.patient.patient_id).subscribe((res)=>{
+
+    this.patientservice = res
+    for(let i =0; i <this.patientservice.length; i++){
+      if(this.patientservice[i].photo != ''){
+        this.patientservice[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/service/'+this.patientservice[i].service_id+'/'+this.patientservice[i].photo)
+
+      }
+
+
+    }
+
+
+  })
+
+
+}
+
+getpatientconfinement(){
+  this.api.get(API_URL+"user/getconfinement?patient="+this.patient.patient_id).subscribe((res)=>{
+
+    this.patientconfinement = res
+    for(let i =0; i <this.patientconfinement.length; i++){
+      if(this.patientconfinement[i].signature != ''){
+        this.patientconfinement[i].photolink = this.DomSanitizer.bypassSecurityTrustResourceUrl(API_URL+'uploads/confinement/'+this.patientconfinement[i].confinement_id+'/'+this.patientconfinement[i].signature)
+
+      }
+
+
+    }
+
+
+
+  })
+
+
+}
+getpatienttreatment(){
+  this.api.get(API_URL+"user/gettreatmentsheet?patient="+this.patient.patient_id).subscribe((res)=>{
+
+    this.patienttreatment = res
+ 
+    console.log(this.patienttreatment)
+
+  })
+
+
+}
 
 
   getcurrclient(){

@@ -150,7 +150,7 @@ async schedule(patient_id){
 async medhistory(data){
   const modal = await this.modalCtrl.create({
     component: MedicalhistoryPage,
-    cssClass: 'med-modal',
+    cssClass: 'servicemodal',
     componentProps: {
       client_id : this.client_id,
       patient: data

@@ -71,7 +71,7 @@ export class ServiceModalPage implements OnInit {
     this.client_id = this.navParams.get('client_id');
     this.patient_id = this.navParams.get('patient_id');
 
-    if (window.screen.width < 400) { // 768px portrait
+    if (window.screen.width < 600) { // 768px portrait
       this.mobile = true;
      
     }
@@ -328,6 +328,11 @@ console.log(this.x)
                      
                       
                   this.getservice()
+                      this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
       
                     }
                     else{
@@ -376,6 +381,11 @@ console.log(this.x)
                      
                       
                   this.getservice()
+                  this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
       
                     }
                     else{
@@ -424,6 +434,11 @@ console.log(this.x)
                      
                       
                   this.getservice()
+                  this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
       
                     }
                     else{
@@ -470,6 +485,11 @@ console.log(this.x)
                      
                       
                   this.getservice()
+                  this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
       
                     }
                     else{
@@ -486,46 +506,7 @@ console.log(this.x)
 
                 this.weight = ''
                 
-                if(i != 0){
-                  const formData1: FormData = new FormData();
-                  formData1.append('title', this.x.toLowerCase())
-                  formData1.append('session', session.toString())
-                  formData1.append('veterinarian', this.veterinarian)
-                  formData1.append('description', 'against: '+this.against+', veterinarian: '+this.veterinarian)
-                  formData1.append('client', this.client_id)
-                  formData1.append('patient', this.patient_id)
-                  formData1.append('allDay', '1')
-                  formData1.append('user', user.user_id)
-                  formData1.append('startTime', date.toString())
-                  formData1.append('endTime', date.toString())
-                  this.api.add(API_URL+"user/addsched", formData1).subscribe((res)=>{
-                        if(res == "1"){
-                         
-                         
-                          
-                      this.getservice()
-          
-                        }
-                        else{
-          
-                          console.log("error")
-                        }
-          
-                        if(i == 3){
-
-                          this.weight = ''
-                          this.against = ''
-                          this.veterinarian = ''
-                          this.link= ''
-                          this.photo= ''
-                        }
-                    
-                  }, err => {
-                
-                    console.log(err);
-                    })
-          
-                }
+               
       
       session ++;
                 date.setDate(date.getDate()+ 14) 
@@ -553,6 +534,11 @@ console.log(this.x)
                    
                     
                 this.getservice()
+                this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
     
                   }
                   else{
@@ -599,6 +585,11 @@ console.log(this.x)
                      
                       
                   this.getservice()
+                  this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
       
                     }
                     else{
@@ -753,9 +744,14 @@ console.log(this.x)
 
 
   }
+  cancel(data){
+    data.isEdit = false;
+
+
+}
 
   save(data){
-    
+    let date = new Date(data.service_date)
     const formData: FormData = new FormData();
     if(!this.selectedphoto){
       formData.append('photo', '')
@@ -765,7 +761,7 @@ console.log(this.x)
       formData.append('photo', this.selectedphoto, this.selectedphoto.name)
 
     }
-    
+    formData.append('service_date', this.datepipe.transform(date.toISOString(), 'yyyy-MM-dd HH:mm'))
     formData.append('service_id', data.service_id)
     formData.append('weight', data.weight)
     formData.append('veterinarian', data.veterinarian)
@@ -817,9 +813,10 @@ console.log(this.x)
 
   mark(data){
  let date = new Date()
+
     const formData: FormData = new FormData();
         formData.append('service_id', data.service_id)
-        formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd'))
+        formData.append('service_date', this.datepipe.transform(date.toISOString(), 'yyyy-MM-dd HH:mm'))
           this.api.add(API_URL+"user/markservice", formData).subscribe((res)=>{
 
               if(res == "success"){

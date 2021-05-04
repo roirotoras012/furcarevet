@@ -337,8 +337,10 @@
               itemsPerPage: tableSize,
               currentPage: page,
               totalItems: count
-            };" [ngClass]="{'my_class': data.done == 1}">
-              <td><b *ngIf="mobile">DATE: </b>{{data.service_date | date}}</td>
+            };" [ngClass]="{'my_class': data.done == 1}" >
+              <td *ngIf="!data.isEdit"><b *ngIf="mobile">DATE: </b>{{data.service_date | date}}</td>
+              <td *ngIf="data.isEdit"><b *ngIf="mobile"></b><input style="width: 150px;" type="datetime-local" [(ngModel)]="data.service_date"></td>
+
               <td *ngIf="this.x =='others'"><b *ngIf="mobile">SERVICE: </b>{{data.service_type}}</td>
               <td style="text-align: center;"><b *ngIf="mobile">SESSION: </b>{{data.session}}</td>
               <td *ngIf="!data.isEdit"><b *ngIf="mobile">WEIGHT: </b>{{data.weight}}</td>
@@ -351,7 +353,9 @@
              
               <td *ngIf="!data.isEdit"><b *ngIf="mobile">VETERINARIAN: </b>{{data.veterinarian}}</td>
               <td *ngIf="data.isEdit"><b *ngIf="mobile">VETERINARIAN: </b><input type="text" class="form-control" name="veterinarian" [(ngModel)]="data.veterinarian" style="width: 120px;"></td>
-              <td style="text-align: center;"><button *ngIf="!data.isEdit" (click)="edit(data)" style="background: none; display: inline;"><i class="fas fa-edit"></i></button><button *ngIf="data.isEdit" (click)="save(data)" style="background: none; display: inline;"><i class="fas fa-check-double"></i></button> <button (click)="markdelete(data)" style="background: none;display: inline;"><i class="far fa-trash-alt"></i></button><button (click)="markalert(data)" style="background: none;display: inline;"><i class="far fa-check-square"></i></button></td>
+              <td style="text-align: center;"><button *ngIf="!data.isEdit" (click)="edit(data)" style="background: none; display: inline;"><i class="fas fa-edit"></i></button><button *ngIf="data.isEdit" (click)="save(data)" style="background: none; display: inline;"><i class="fas fa-check-double"></i></button>
+             <button *ngIf="data.isEdit" (click)="cancel(data)" style="background: none; display: inline;">Cancel</button>
+                <button *ngIf="!data.isEdit" (click)="markdelete(data)" style="background: none;display: inline;"><i class="far fa-trash-alt"></i></button><button *ngIf="!data.isEdit" (click)="markalert(data)" style="background: none;display: inline;"><i class="far fa-check-square"></i></button></td>
               
               
             </tr>

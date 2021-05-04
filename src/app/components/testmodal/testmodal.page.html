@@ -9,17 +9,73 @@
       <div class="modal-body">					
     
         <label>Test Type</label>
-        <input type="text" class="form-control" [(ngModel)]="test" required>
+        <input type="text" class="form-control" [(ngModel)]="test_type" required>
         <input [(ngModel)]="testinput" (change)="selectedFile($event)" type="file" name="file" size="2" accept="image/*" style="background-color:#fff; font-size: 12px;" required="required" />
   
       </div>
       
-      
+      <div class="row" style="margin: auto; overflow: auto; scroll-behavior: auto; font-size: 17px;">
+        <ion-searchbar class="searchbar" style=" display: inline; float: left;" [(ngModel)]="filter2"></ion-searchbar>
+        <div class="table-wrapper" >
+          <div class="table-responsive">
+           
+             
+              <table class="table" id="myTable">
+                <thead>
+                  <tr  style="text-align: center;">
+                    <th>Test Type</th>
+                    <th>Photo</th>
+                    
+                    <th style="width: auto;">Test Date</th>
+
+                    
+                
+                    
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of sorttest  | filter : filter | paginate : {
+                    itemsPerPage: tableSize2,
+                    currentPage: page2,
+                    totalItems: count2,
+                    id: 'test'
+                  };" [ngClass]="{'my_class': data.released == 1}">
+                    <td><b *ngIf="mobile" style="float: left;">Test Type: </b>{{data.test_type }}</td>
+                    
+                    <td ><button (click)="viewphoto(data.photolink)" style="background: none;"><img *ngIf="data.photo != ''" style="width: 150px; height: 80px;" [src]='data.photolink' alt="no image"></button></td>
+                   <td><b *ngIf="mobile" style="float: left;">Test Date: </b>{{data.test_date | date : 'medium'}}</td>
+                   
+                    
+                   <td style="text-align: center;"><button (click)="markdelete(data)" style="background: none;display: inline;"><i class="far fa-trash-alt"></i></button></td>
+                   
+                    
+                    
+                  </tr>
+                
+                 
+                  
+                  
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center">
+                <pagination-controls 
+                  responsive="true" 
+                  previousLabel="Prev" 
+                  nextLabel="Next" 
+                  (pageChange)="onTableDataChange2($event)"
+                  id="test"
+                  maxSize="7">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          </div>
     
  
     
     </ion-content>
     <div class="modal-footer">
  
-      <input type="submit" class="btn btn-success" (click)="addtest()" value="Add">
+      <input type="submit" class="btn btn-success" (click)="addpatienttest()" value="Add">
     </div>

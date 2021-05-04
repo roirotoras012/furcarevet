@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
+import { NgxPaginationModule } from 'ngx-pagination';
 import { IonicModule } from '@ionic/angular';
 
 import { MedicalhistoryPageRoutingModule } from './medicalhistory-routing.module';
@@ -13,7 +14,9 @@ import { MedicalhistoryPage } from './medicalhistory.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MedicalhistoryPageRoutingModule
+    MedicalhistoryPageRoutingModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   declarations: [MedicalhistoryPage]
 })
