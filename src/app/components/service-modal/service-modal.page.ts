@@ -144,7 +144,7 @@ export class ServiceModalPage implements OnInit {
   }
 confineserve(){
 
-  if(this.estimated_cost && this.deposit && this.confinement_procedure && this.veterinarian){
+  if(this.confinement_procedure && this.veterinarian){
  let date1 = new Date(this.date_of_addmision)
 
  let date2 = new Date(this.date_of_release)
@@ -194,8 +194,99 @@ confineserve(){
 
   }
 }
+async alertrelease(data){
 
 
+  const alert = await this.alert.create({
+   
+    header: "",
+    subHeader: "",
+    message: "Are you sure?", 
+    buttons: ['Cancel', {
+  
+      text: 'Release',
+      handler: ()=>{
+        
+        this.release(data)
+  
+      }
+  
+    }],
+  });
+  alert.present();
+  alert.onDidDismiss().then(()=>{
+  
+    this.getconfinement()
+  
+  })
+  }
+  async alertrelease1(data){
+
+
+    const alert = await this.alert.create({
+     
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Release',
+        handler: ()=>{
+          
+          this.release1(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+      this.getconfinement()
+    
+    })
+    }
+release(data){
+  let date = new Date()
+  const formData: FormData = new FormData();
+  formData.append('confinement_id', data.confinement_id)
+  
+  formData.append('date_of_release',this.datepipe.transform(date, 'yyyy-MM-dd HH:mm'))
+  this.api.add(API_URL+"user/release", formData).subscribe((res)=>{
+
+
+    if(res == "success"){
+       
+   
+    }
+
+
+
+  })
+
+
+}
+
+release1(data){
+  let date = new Date()
+  const formData: FormData = new FormData();
+  formData.append('confinement_id', data.confinement_id)
+  
+  
+  this.api.add(API_URL+"user/release1", formData).subscribe((res)=>{
+
+
+    if(res == "success"){
+       
+   
+    }
+
+
+
+  })
+
+
+}
 getconfinement(){
 
   this.api.get(API_URL+"user/getconfinement?patient="+this.patient.patient_id).subscribe((res)=>{
@@ -613,6 +704,60 @@ console.log(this.x)
             })
            
           }
+    
+        }
+
+
+        else if(this.against == "Heartworm"){
+          let date = new Date()
+          
+            this.api.userinfo().then((user)=>{
+    
+              const formData: FormData = new FormData();
+              formData.append('session', session.toString())
+              formData.append('photo', this.photo)
+              formData.append('service', this.x.toLowerCase())
+              formData.append('weight', this.weight)
+              formData.append('veterinarian', this.veterinarian)
+              formData.append('against', this.against)
+              formData.append('client_id', this.client_id)
+              formData.append('patient_id', this.patient_id)
+              formData.append('user', user.user_id)
+              formData.append('service_date', this.datepipe.transform(date.toLocaleDateString(), 'yyyy-MM-dd hh:mm'))
+              this.api.add(API_URL+"user/serve2", formData).subscribe((res)=>{
+                    if(res == "1"){
+                      
+                     
+                      
+                  this.getservice()
+                  this.weight = ''
+                          this.against = ''
+                          this.veterinarian = ''
+                          this.link= ''
+                          this.photo= ''
+      
+                    }
+                    else{
+      
+                      console.log("error")
+                    }
+      
+        
+                
+              }, err => {
+            
+                console.log(err);
+                })
+                this.weight = ''
+    
+               
+          
+      
+       session ++;
+                date.setDate(date.getDate()+ 14) 
+            })
+           
+          
     
         }
           // this.api.userinfo().then((user)=>{

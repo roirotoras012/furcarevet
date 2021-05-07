@@ -7,6 +7,7 @@ import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddclientmodalComponent } from './addclientmodal/addclientmodal.component';
 import { EditclientmodalPage } from './editclientmodal/editclientmodal.page';
+import { AddclientPage } from './addclient/addclient.page';
 
 import { ApiService } from '../services/api.service';
 import { formatDate } from '@angular/common';
@@ -30,6 +31,7 @@ declare var myFunction;
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  allservice: any = []
   page = 1;
   count = 0;
   tableSize = 5 ;
@@ -40,6 +42,8 @@ export class AdminPage implements OnInit {
   schedclient: any = []
   notifydata2: any = []
   notifydata: any = []
+  notifydata3: any = []
+  notifydata4: any = []
 clients: any = []
 currentuser: any = []
 
@@ -73,8 +77,8 @@ event1 = {
 
  
   constructor(public datepipe: DatePipe,private sched: ScheduleService,private loading: LoadingController,private popover: PopoverController,private alertCtrl: AlertController,@Inject(LOCALE_ID) private locale: string,private api: ApiService,private router:Router, private platform: Platform,private storage: Storage,private authService: AuthenticationService,private modalCtrl: ModalController) { 
-    
-
+   
+   
     let asd: any = new Date
     this.asd = new Date
  
@@ -84,7 +88,7 @@ event1 = {
   ionViewWillEnter() {
     this.getclients()
     this.getschedule()
-    this.notif()
+    
     this.api.userinfo().then((data)=>{
 
       this.currentuser = data;
@@ -373,8 +377,8 @@ getschedule(){
 
   this.api.get(API_URL+"user/getallservice1").subscribe((sched)=>{
    
-  
-   
+    this.allservice = sched
+    this.notif()
     for(let data of Object.values(sched)){
       if(data.done == 0){
         this.event1.service_id = data.service_id
@@ -466,7 +470,7 @@ console.log(this.eventSource)
 
   async openadd(){
     const modal = await this.modalCtrl.create({
-      component: AddclientmodalComponent,
+      component: AddclientPage,
      
     
 
@@ -502,6 +506,8 @@ console.log(this.eventSource)
     this.event = []
     this.notifydata = []
     this.notifydata2 = []
+    this.notifydata3 = []
+    this.notifydata4 = []
     let asd = new Date
  
     // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
@@ -537,6 +543,35 @@ console.log(this.eventSource)
         
       
       }
+      for(let i = 0 ; i < this.allservice.length; i++){
+
+        if(this.allservice[i].done == 0){
+        let startTime = new Date(this.allservice[i].service_date)
+       
+       let daysleft = (Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))
+        // if((Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))>=3){
+
+        //   this.notifydata.push(this.allservice[i])
+
+        // }  
+          
+        if(asd.getFullYear()-startTime.getFullYear()==0 && asd.getMonth()- startTime.getMonth()== 0 ){
+            if(startTime.getDate()-asd.getDate()  <= 2 &&  startTime.getDate()-asd.getDate()  >= 0){
+
+              this.notifydata3.push(this.allservice[i])
+              this.notifydata4.push({
+                  'service_id': this.allservice[i].service_id,
+                  'daysleft': startTime.getDate()-asd.getDate()
+      
+              })
+            
+            }
+        
+         
+        }
+      }
+      
+      }
       
       
        
@@ -555,7 +590,9 @@ console.log(this.eventSource)
       cssClass: 'notify-popover',
       componentProps: {
         notify: this.notifydata,
-        notify2: this.notifydata2
+        notify2: this.notifydata2,
+        notify3: this.notifydata3,
+        notify4: this.notifydata4
 
 
       }
@@ -587,7 +624,7 @@ console.log(this.eventSource)
     await modal.present();
     await modal.onDidDismiss().then(()=>{
       this.getschedule()
-      this.notif();
+      
       
 
     });

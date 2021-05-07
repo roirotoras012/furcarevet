@@ -7,7 +7,10 @@
         <button type="button" class="close" (click)="dismissModal()" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">					
-    
+        <div class="form-group">
+          <label>Date</label>
+          <input type="datetime-local" class="form-control" [(ngModel)]="test_date" required>
+        </div>
         <label>Test Type</label>
         <input type="text" class="form-control" [(ngModel)]="test_type" required>
         <input [(ngModel)]="testinput" (change)="selectedFile($event)" type="file" name="file" size="2" accept="image/*" style="background-color:#fff; font-size: 12px;" required="required" />
@@ -35,7 +38,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of sorttest  | filter : filter | paginate : {
+                  <tr *ngFor="let data of sorttest  | filter : filter2 | paginate : {
                     itemsPerPage: tableSize2,
                     currentPage: page2,
                     totalItems: count2,

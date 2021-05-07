@@ -1,6 +1,6 @@
 
  
-    
+    <ion-content>
       
         <div class="modal-header">						
           <h4 class="modal-title">Add Client</h4>
@@ -26,9 +26,13 @@
             <input type="email" class="form-control"(input)="email = $event.target.value;" required>
           </div>
           		
-         		
+          <div class="form-group">
+            <label>Date</label>
+            <input type="datetime-local" class="form-control"(input)="date= $event.target.value;" [(ngModel)]="date" required>
+          </div>
+          		
         </div>
-        
+      </ion-content>  
         <div class="modal-footer">
           <input type="button" class="btn btn-default" (click)="dismissModal()"  value="Cancel">
           <input type="submit" class="btn btn-success" (click)="add_client()" value="Add">

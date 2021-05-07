@@ -10,6 +10,10 @@
           <b>Title: </b>{{data.title}}<br>
           <b>Description: </b>{{data.desc}}<br>
           <b>Schedule Date: </b>{{data.startTime | date}}
+          <b *ngIf="data.clientname">Client: </b>{{data.clientname}}<br>
+          <b *ngIf="data.patientname">Patient: </b>{{data.patientname}}<br>
+          <b *ngIf="data.session">Session: </b>{{data.session}}
+
 
         </p>
 

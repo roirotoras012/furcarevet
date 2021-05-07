@@ -31,6 +31,7 @@
   
   <div class="w3-container">
     <label style="display: block; font-size: 25px;"><b>Client:</b> &nbsp;{{currclient.name}}</label>
+    <label style="display: block; font-size: 25px;"><b>Pet:</b> &nbsp;{{patients.length}}</label>
   <ion-grid>
     <ion-row>
       <ion-col size="1.5"></ion-col>
@@ -44,7 +45,7 @@
       </div>
       <div class="information">
       <ion-list>
-        <ion-list *ngFor="let data of patientsfilter">
+        <ion-list *ngFor="let data of sortPatients">
           <ion-card class="patients">  
             <div style="text-align: left !important; margin: 5px;border-bottom: solid black; border-width: 1px;border-color: #555;">
              
@@ -81,7 +82,7 @@
             <div class="zxczxc" style="text-align: right; margin-right: auto;">
               <label style="display: block;"><b>Birth:</b> &nbsp;{{data.birth}}</label>
               <label style="display: block;"><b>Gender</b>: &nbsp;{{data.gender}}</label>
-              
+              <label style="display: block;"><b>Date Added</b>: &nbsp;{{data.patient_date_added | date}}</label>
             </div>
             
             </div>

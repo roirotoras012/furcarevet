@@ -6,6 +6,8 @@ import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 import { ParsedVariable } from '@angular/compiler';
+import { DatePipe } from '@angular/common'
+
 import { environment } from '../../../environments/environment';
 const API_URL = environment.API_URL
 @Component({
@@ -14,34 +16,37 @@ const API_URL = environment.API_URL
   styleUrls: ['./treatmentsheet.page.scss'],
 })
 export class TreatmentsheetPage implements OnInit {
-  veterinarian: any;
+  veterinarian: any  = ''
   treatment: any = []
   patient: any = []
   title = 'SADASDASD'
-  diagnosis: any;
-  bw: any;
-  hr: any;
-  mm: any;
-  pr: any;
-  temp: any;
-  rr: any;
-  crt: any;
-  bcs: any;
-  fluid: any;
-  medication: any;
-  comments: any;
+  diagnosis: any  = ''
+  bw: any = ''
+  hr: any  = ''
+  mm: any  = ''
+  pr: any  = ''
+  temp: any  = ''
+  rr: any = '' 
+  crt: any = ''
+  bcs: any  = ''
+  fluid: any  = ''
+  medication: any  = ''
+  comments: any  = ''
   status = "on"
   am: any;
   pm: any;
   user_Id: any;
   client_id: any;
+  date: any;
   @ViewChild('content', {static: false}) el!: ElementRef;
 
-  constructor(private alert: AlertController,private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { 
+  constructor(public datepipe: DatePipe,private alert: AlertController,private modalCtrl: ModalController, private api: ApiService,public toastController: ToastController, private navParams: NavParams) { 
 
     
     this.patient = this.navParams.get('patient');
     this.client_id =  this.navParams.get('client_id');
+    let date = new Date()
+    this.date = this.datepipe.transform(date.toISOString(), 'yyyy-MM-ddTHH:mm')
 this.getservices()
   
 
@@ -129,10 +134,7 @@ this.getservices()
 
 
 
-    if(this.diagnosis && this.bw && this.hr && 
-      this.mm && this.pr && this.temp && 
-      this.rr && this.crt && this.bcs && 
-      this.fluid && this.medication && this.comments
+    if(this.diagnosis
       ){
 
 
@@ -173,7 +175,7 @@ this.getservices()
             formData.append('user', user.user_id)
             formData.append('client', this.client_id)
             formData.append('veterinarian', this.veterinarian)
-    
+            formData.append('date',  this.datepipe.transform(this.date, 'yyyy-MM-dd HH:mm'))
             this.api.add(API_URL+"user/addsheet",formData).subscribe((res)=>{
     
     

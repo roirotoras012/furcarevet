@@ -29,7 +29,7 @@
         
           </div>
         
-            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length}}</span></a>
+            <a (click)="notifypop($event)" class="nav-item nav-link notifications" style="margin: auto; color: black;cursor:pointer"><i class="fa fa-bell-o"></i><span class="badge">{{notifydata.length+ notifydata4.length}}</span></a>
           
             <button (click)="marklogout()" style="background: none;"> Sign out</button>
               <a style="margin: auto;"
@@ -186,7 +186,8 @@
                 };" >
                   <td><b>{{data.name}}</b></td>
                   <td>{{data.species}}</td>
-                  <td>{{data.birth | date}}</td>
+                  <td *ngIf="data.birth != 'undefined'">{{data.birth | date}}</td>
+                  <td *ngIf="data.birth == 'undefined'">{{data.birth}}</td>
                   <td>{{data.color}}</td>
                   <td>{{data.breed}}</td>
                   <td>{{data.gender}}</td>
@@ -352,7 +353,7 @@
 
     <div class="form-group">
       <input type="button" class="btn btn-success" (click)="alertrelease(data)"  value="RELEASE" style="margin: 20px; float:right">
-      
+      <input *ngIf="data.released == 0" type="button" class="btn btn-success" (click)="alertrelease1(data)"  value="RELEASE and RETAIN RELEASE DATE" style="margin: 20px; float:right;width: auto;">
       <label><b>Procedure: <u>{{data.confinement_procedure}}</u></b></label>
       
     </div>

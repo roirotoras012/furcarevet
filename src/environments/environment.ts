@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://localhost/furcare/',
-  // API_URL: '../',
+  // API_URL: 'https://localhost/furcare/',
+  API_URL: '../',
 };
 
 /*

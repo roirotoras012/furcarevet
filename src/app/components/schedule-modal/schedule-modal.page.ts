@@ -128,7 +128,7 @@ export class ScheduleModalPage implements OnInit {
   
    
       for(let data of Object.values(sched)){
-        if(data.done == 0){
+        if(data.done == 0 && data.patient == this.patient_id){
           this.event1.service_id = data.service_id
           this.event1.title = data.service_type
           this.event1.desc = data.against

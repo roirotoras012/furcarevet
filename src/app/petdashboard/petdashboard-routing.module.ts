@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'editpetmodal',
     loadChildren: () => import('./editpetmodal/editpetmodal.module').then( m => m.EditpetmodalPageModule)
+  },
+  {
+    path: 'addpet',
+    loadChildren: () => import('./addpet/addpet.module').then( m => m.AddpetPageModule)
   }
 ];
 

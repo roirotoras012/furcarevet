@@ -26,6 +26,7 @@ export class TestmodalPage implements OnInit {
   selectedtest: File
   testinput: any;
   mobile: boolean
+  test_date: any;
   constructor(private DomSanitizer: DomSanitizer,private popover: PopoverController,private alert: AlertController,public datepipe: DatePipe,private navParams: NavParams, private api: ApiService, private modalCtrl: ModalController) {
 
     this.patient = this.navParams.get('patient');
@@ -36,7 +37,8 @@ export class TestmodalPage implements OnInit {
 
      
     }
-
+    let date = new Date()
+    this.test_date = this.datepipe.transform(date.toISOString(), 'yyyy-MM-ddTHH:mm')
    
    }
 
@@ -137,15 +139,18 @@ export class TestmodalPage implements OnInit {
    
     formData.append('test_type', this.test_type)
     formData.append('patient', this.patient.patient_id)
+    formData.append('test_date', this.datepipe.transform(this.test_date, 'yyyy-MM-dd HH:mm'))
  
    
     this.api.add(API_URL+"user/addtest", formData).subscribe((res)=>{ 
 
 
 
-
+      this.selectedtest = null
       this.test_type = ''
       this.testinput = ''
+      let date = new Date()
+    this.test_date = this.datepipe.transform(date.toISOString(), 'yyyy-MM-ddTHH:mm')
       this.getpatienttest()
      })
 

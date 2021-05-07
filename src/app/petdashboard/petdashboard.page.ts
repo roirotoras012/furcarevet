@@ -4,6 +4,7 @@ import { Storage } from '@ionic/Storage'
 import { ModalController } from '@ionic/angular';
 import { AddpetmodalComponent } from './addpetmodal/addpetmodal.component';
 import { EditpetmodalPage } from './editpetmodal/editpetmodal.page';
+import { AddpetPage } from './addpet/addpet.page';
 
 import { ApiService } from '../services/api.service';
 import { ServicepopComponent } from '../components/servicepop/servicepop.component';
@@ -42,7 +43,7 @@ export class PetdashboardPage implements OnInit {
   async openadd(){
     this.client_id = this.route.snapshot.params['client_id']
     const modal = await this.modalCtrl.create({
-      component: AddpetmodalComponent,
+      component: AddpetPage,
       componentProps:{ client_id: this.client_id
 
         
@@ -88,6 +89,12 @@ export class PetdashboardPage implements OnInit {
     
    
     // this.search.getInputElement().then(item => console.log(item))
+  }
+
+  get sortPatients(){
+    return this.patientsfilter.sort((a, b) => {
+      return <any>new Date(b.patient_date_added) - <any>new Date(a.patient_date_added);
+    });
   }
 
   getpatients(){

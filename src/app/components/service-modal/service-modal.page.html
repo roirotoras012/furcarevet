@@ -24,6 +24,7 @@
         <option value="Bordetella">Bordetella</option>
         <option value="FVRCP">FVRCP</option>
         <option value="Feline Leukemia">Feline Leukemia</option>
+        <option value="Heartworm">Heartworm</option>
         
         
       </select>
@@ -244,7 +245,8 @@
     </div>
 
     <div class="form-group">
-      
+      <input *ngIf="data.released == 0" type="button" class="btn btn-success" (click)="alertrelease(data)"  value="RELEASE and UPDATE" style="margin: 20px; float:right">
+      <input *ngIf="data.released == 0" type="button" class="btn btn-success" (click)="alertrelease1(data)"  value="RELEASE and RETAIN RELEASE DATE" style="margin: 20px; float:right;">
       <label><b>Procedure: <u>{{data.confinement_procedure}}</u></b></label>
       
     </div>

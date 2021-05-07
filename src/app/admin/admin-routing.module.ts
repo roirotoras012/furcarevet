@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'editclientmodal',
     loadChildren: () => import('./editclientmodal/editclientmodal.module').then( m => m.EditclientmodalPageModule)
+  },
+  {
+    path: 'addclient',
+    loadChildren: () => import('./addclient/addclient.module').then( m => m.AddclientPageModule)
   }
 ];
 

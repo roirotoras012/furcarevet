@@ -39,7 +39,7 @@ export class ReportsPage implements OnInit {
   tableSize2 = 5 ;
   
 
-
+  allservice: any = []
   page3 = 1;
   count3 = 0;
   tableSize3 = 5 ;
@@ -66,6 +66,8 @@ export class ReportsPage implements OnInit {
   currentuser: any = []
   notifydata2: any = []
   notifydata: any = []
+  notifydata3: any = []
+  notifydata4: any = []
  
   event: any = [];
   // chartData: ChartDataSets[] = [
@@ -453,10 +455,11 @@ getpatients(){
 
 getservices(){
   this.api.get(API_URL+"user/getallservice1").subscribe((res)=>{
+    this.allservice = res
     let allservice:any = []
     allservice = res
 
-    
+    this.notif()
     for(let i =0;i<allservice.length;i++){
       if(allservice[i].done == 1){
         this.allservices.push(allservice[i])
@@ -511,7 +514,7 @@ getclients(){
 }
   ionViewWillEnter() {
     
-    this.notif()
+    
    
   }
 
@@ -633,8 +636,36 @@ getclients(){
       }
     
       
-       
+      for(let i = 0 ; i < this.allservice.length; i++){
 
+        if(this.allservice[i].done == 0){
+        let startTime = new Date(this.allservice[i].service_date)
+       
+       let daysleft = (Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))
+        // if((Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))>=3){
+
+        //   this.notifydata.push(this.allservice[i])
+
+        // }  
+          
+        if(asd.getFullYear()-startTime.getFullYear()==0 && asd.getMonth()- startTime.getMonth()== 0 ){
+            if(startTime.getDate()-asd.getDate()  <= 2 &&  startTime.getDate()-asd.getDate()  >= 0){
+
+              this.notifydata3.push(this.allservice[i])
+              this.notifydata4.push({
+                  'service_id': this.allservice[i].service_id,
+                  'daysleft': startTime.getDate()-asd.getDate()
+      
+              })
+            
+            }
+        
+         
+        }
+      }
+      
+      }
+      
 
       
     
@@ -649,7 +680,9 @@ getclients(){
       cssClass: 'notify-popover',
       componentProps: {
         notify: this.notifydata,
-        notify2: this.notifydata2
+        notify2: this.notifydata2,
+        notify3: this.notifydata3,
+        notify4: this.notifydata4
 
 
       }
@@ -726,8 +759,52 @@ async alertrelease(data){
   
   })
   }
+  async alertrelease1(data){
 
 
+    const alert = await this.alert.create({
+     
+      header: "",
+      subHeader: "",
+      message: "Are you sure?", 
+      buttons: ['Cancel', {
+    
+        text: 'Release',
+        handler: ()=>{
+          
+          this.release1(data)
+    
+        }
+    
+      }],
+    });
+    alert.present();
+    alert.onDidDismiss().then(()=>{
+    
+      this.getconfinement()
+    
+    })
+    }
+    release1(data){
+      let date = new Date()
+      const formData: FormData = new FormData();
+      formData.append('confinement_id', data.confinement_id)
+      
+      
+      this.api.add(API_URL+"user/release1", formData).subscribe((res)=>{
+    
+    
+        if(res == "success"){
+           
+       
+        }
+    
+    
+    
+      })
+    
+    
+    }
 release(data){
   let date = new Date()
   const formData: FormData = new FormData();

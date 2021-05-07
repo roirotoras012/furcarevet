@@ -25,8 +25,10 @@ export class ManageUsersPage implements OnInit {
   currentuser: any = []
   notifydata2: any = []
   notifydata: any = []
+  notifydata3: any = []
+  notifydata4: any = []
   event: any = [];
- 
+  allservice: any = []
   datauser: any = [];
   isIndeterminate:boolean;
   masterCheck:boolean;
@@ -34,15 +36,15 @@ export class ManageUsersPage implements OnInit {
   sortDirection = 0 
   sortKey = null
   constructor(private alert: AlertController,private popover: PopoverController,private modalCtrl: ModalController, private api: ApiService, private sched: ScheduleService, private router: Router, private platform: Platform, private authService: AuthenticationService) { 
-
+   
     this.api.userinfo().then((data)=>{
       this.currentuser = data
 
     })
   }
   ionViewWillEnter() {
-    
-    this.notif()
+    this.getallservice()
+   
     this.getUsers();
   }
   ngOnInit() {
@@ -74,11 +76,26 @@ export class ManageUsersPage implements OnInit {
   }
 
 
+  getallservice(){
+
+    this.api.get(API_URL+"user/getallservice1").subscribe((sched)=>{ 
+
+        this.allservice = sched
+console.log(this.allservice)
+this.notif()
+    })
+
+
+  }
+
+
 
   notif(){
     this.event = []
     this.notifydata = []
     this.notifydata2 = []
+    this.notifydata3 = []
+    this.notifydata4 = []
     let asd = new Date
     // let zxc= Math.floor((Date.UTC(this.eventSource[10].startTime.getFullYear(), this.eventSource[10].startTime.getMonth(), this.eventSource[10].startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24));
     // console.log(zxc)
@@ -111,8 +128,36 @@ export class ManageUsersPage implements OnInit {
       }
     
       
-       
+      for(let i = 0 ; i < this.allservice.length; i++){
 
+        if(this.allservice[i].done == 0){
+        let startTime = new Date(this.allservice[i].service_date)
+       
+       let daysleft = (Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))
+        // if((Math.floor((Date.UTC(startTime.getFullYear(), startTime.getMonth(), startTime.getDate())-Date.UTC(asd.getFullYear(), asd.getMonth(), asd.getDate())) /(1000 * 60 * 60 * 24)))>=3){
+
+        //   this.notifydata.push(this.allservice[i])
+
+        // }  
+          
+        if(asd.getFullYear()-startTime.getFullYear()==0 && asd.getMonth()- startTime.getMonth()== 0 ){
+            if(startTime.getDate()-asd.getDate()  <= 2 &&  startTime.getDate()-asd.getDate()  >= 0){
+
+              this.notifydata3.push(this.allservice[i])
+              this.notifydata4.push({
+                  'service_id': this.allservice[i].service_id,
+                  'daysleft': startTime.getDate()-asd.getDate()
+      
+              })
+            
+            }
+        
+         
+        }
+      }
+      
+      }
+    
 
       
     
@@ -127,7 +172,9 @@ export class ManageUsersPage implements OnInit {
       cssClass: 'notify-popover',
       componentProps: {
         notify: this.notifydata,
-        notify2: this.notifydata2
+        notify2: this.notifydata2,
+        notify3: this.notifydata3,
+        notify4: this.notifydata4
 
 
       }

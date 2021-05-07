@@ -22,7 +22,12 @@
     </div>
 
     <div [hidden]="status != 'on'">
-      <div class="modal-body">					
+      
+      <div class="modal-body">	
+        <div class="form-group">
+          <label>Date</label>
+          <input type="datetime-local" class="form-control" [(ngModel)]="date" required>
+        </div>				
         <div class="form-group">
          
 
